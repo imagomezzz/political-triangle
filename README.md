@@ -2,7 +2,7 @@
 
 Sitio web interactivo para explorar el modelo analítico de posiciones y trayectorias de regímenes políticos, basado en el **Codebook V3.2**.
 
-🔗 **[Ver sitio](https://tu-usuario.github.io/nombre-repo)** ← reemplazar con la URL real
+🔗 **[Ver sitio](https://imagomezzz.github.io/political-triangle/)**
 
 ---
 
@@ -110,4 +110,4 @@ Versión consolidada con validación retrospectiva sobre colapsos democráticos,
 
 ## Cómo citar
 
-> *El Triángulo Político* (Codebook V3.2). Imanol Gomez Cataldi. Disponible en: [URL del sitio].
+> *El Triángulo Político* (Codebook V3.2). Imanol Gomez Cataldi. Disponible en: https://imagomezzz.github.io/political-triangle/.
