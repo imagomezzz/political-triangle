@@ -110,4 +110,4 @@ Versión consolidada con validación retrospectiva sobre colapsos democráticos,
 
 ## Cómo citar
 
-> *El Triángulo Político* (Codebook V3.2). [añadir autor/institución]. Disponible en: [URL del sitio].
+> *El Triángulo Político* (Codebook V3.2). Imanol Gomez Cataldi. Disponible en: [URL del sitio].
