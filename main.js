@@ -1525,12 +1525,6 @@ function initHeroTriangle() {
       </linearGradient>
     </defs>
 
-    <!-- Eje IAE (izquierda) -->
-    <text x="36" y="38" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#6B6A65">IAE=0</text>
-    <text x="36" y="390" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#6B6A65">IAE=100</text>
-    <rect x="44" y="34" width="5" height="354" fill="url(#iaeBarGrad)" rx="2.5"/>
-    <text x="22" y="215" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#A8A7A2" transform="rotate(-90,22,215)">Índice de Alcance Estatal</text>
-
     <!-- Triángulo base -->
     <polygon points="270,34 80,388 460,388" fill="#F0EDE6" stroke="#C8C5BC" stroke-width="1.5"/>
     <!-- Gradientes izquierda/derecha -->
@@ -1538,18 +1532,18 @@ function initHeroTriangle() {
     <polygon points="270,34 80,388 460,388" fill="url(#hGradRight)"/>
 
     <!-- Zona democrática — diamante con vértices lat. en perímetro -->
-    <polygon points="270,130 210,210 270,290 330,210"
+    <polygon points="270,130 145,210 270,290 395,210"
       fill="rgba(74,144,217,0.07)" stroke="rgba(74,144,217,0.40)"
       stroke-width="1" stroke-dasharray="5 3"/>
 
     <!-- Labels internos -->
-    <text x="270" y="104" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
-    <text x="270" y="330" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
-    <text x="270" y="240" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(74,144,217,0.75)">Zona de Estados Democráticos</text>
+    <text x="270" y="134" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
+    <text x="270" y="310" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
+    <text x="270" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(74,144,217,0.75)">Zona de Estados Democráticos</text>
 
     <!-- Izquierda / Derecha labels -->
-    <text x="195" y="214" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Izquierda</text>
-    <text x="345" y="214" text-anchor="start" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Derecha</text>
+    <text x="175" y="214" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Izquierda</text>
+    <text x="365" y="214" text-anchor="start" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Derecha</text>
 
     <!-- Puntos de muestra -->
     <circle cx="255" cy="137" r="5" fill="#1B5C9E" fill-opacity="0.9"/>
@@ -1568,23 +1562,16 @@ function initHeroTriangle() {
 
     <!-- Caja Anarquía -->
     <rect x="198" y="10" width="144" height="20" rx="5" fill="#4A90D9"/>
-    <text x="270" y="24" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="white" font-weight="600">Anarquía · IAE=0 · IUE=0</text>
+    <text x="270" y="24" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="white" font-weight="600">Anarquía</text>
 
     <!-- Caja Comunismo -->
     <rect x="56" y="396" width="118" height="20" rx="5" fill="#888"/>
-    <text x="115" y="410" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Comunismo · IAE=100</text>
+    <text x="115" y="410" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Comunismo</text>
 
     <!-- Caja Fascismo/Teocracia -->
     <rect x="364" y="396" width="126" height="20" rx="5" fill="#8B1A1A"/>
-    <text x="427" y="410" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Fascismo · IAE=100</text>
+    <text x="427" y="410" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Fascismo</text>
 
-    <!-- Eje IUE inferior con barra de gradiente -->
-    <rect x="80" y="428" width="380" height="7" fill="url(#iueBarGrad)" rx="3.5"/>
-    <text x="80"  y="444" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#6B6A65">IUE=−100</text>
-    <text x="270" y="444" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#6B6A65">IUE=0</text>
-    <text x="460" y="444" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#6B6A65">IUE=+100</text>
-    <text x="80"  y="458" text-anchor="start"  font-family="DM Sans,sans-serif" font-size="7.5" fill="#A8A7A2">← Polo Progresista Universalista</text>
-    <text x="460" y="458" text-anchor="end"    font-family="DM Sans,sans-serif" font-size="7.5" fill="#A8A7A2">Polo Conservador Particularista →</text>
   </svg>`;
 }
 
