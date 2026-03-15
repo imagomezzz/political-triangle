@@ -1532,18 +1532,18 @@ function initHeroTriangle() {
     <polygon points="270,34 80,388 460,388" fill="url(#hGradRight)"/>
 
     <!-- Zona democrática — diamante con vértices lat. en perímetro -->
-    <polygon points="270,130 145,210 270,290 395,210"
+    <polygon points="270,130 175,210 270,290 375,210"
       fill="rgba(74,144,217,0.07)" stroke="rgba(74,144,217,0.40)"
       stroke-width="1" stroke-dasharray="5 3"/>
 
     <!-- Labels internos -->
-    <text x="270" y="134" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
+    <text x="270" y="130" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
     <text x="270" y="310" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
-    <text x="270" y="230" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(74,144,217,0.75)">Zona de Estados Democráticos</text>
+    <text x="270" y="225" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(74,144,217,0.75)">Zona de Estados Democráticos</text>
 
     <!-- Izquierda / Derecha labels -->
-    <text x="175" y="214" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Izquierda</text>
-    <text x="365" y="214" text-anchor="start" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Derecha</text>
+    <text x="165" y="214" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Izquierda</text>
+    <text x="375" y="214" text-anchor="start" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6A65">Derecha</text>
 
     <!-- Puntos de muestra -->
     <circle cx="255" cy="137" r="5" fill="#1B5C9E" fill-opacity="0.9"/>
@@ -1561,15 +1561,15 @@ function initHeroTriangle() {
     <circle cx="460" cy="388" r="6" fill="#8B1A1A"/>
 
     <!-- Caja Anarquía -->
-    <rect x="198" y="10" width="144" height="20" rx="5" fill="#4A90D9"/>
+    <rect x="198" y="10" width="88" height="20" rx="5" fill="#4A90D9"/>
     <text x="270" y="24" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="white" font-weight="600">Anarquía</text>
 
     <!-- Caja Comunismo -->
-    <rect x="56" y="396" width="118" height="20" rx="5" fill="#888"/>
+    <rect x="56" y="396" width="88" height="20" rx="5" fill="#888"/>
     <text x="115" y="410" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Comunismo</text>
 
     <!-- Caja Fascismo/Teocracia -->
-    <rect x="364" y="396" width="126" height="20" rx="5" fill="#8B1A1A"/>
+    <rect x="364" y="396" width="88" height="20" rx="5" fill="#8B1A1A"/>
     <text x="427" y="410" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Fascismo</text>
 
   </svg>`;
