@@ -1537,8 +1537,8 @@ function initHeroTriangle() {
       stroke-width="1" stroke-dasharray="5 3"/>
 
     <!-- Labels internos -->
-    <text x="270" y="110" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
-    <text x="270" y="330" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
+    <text x="270" y="114" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
+    <text x="270" y="326" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
     <text x="270" y="214" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(74,144,217,0.75)">Zona de Estados Democráticos</text>
 
     <!-- Izquierda / Derecha labels -->
@@ -1565,8 +1565,8 @@ function initHeroTriangle() {
     <text x="270" y="20" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="white" font-weight="600">Anarquía</text>
 
     <!-- Caja Comunismo -->
-    <rect x="36" y="396" width="88" height="20" rx="5" fill="#888"/>
-    <text x="76" y="408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Comunismo</text>
+    <rect x="34" y="396" width="88" height="20" rx="5" fill="#888"/>
+    <text x="78" y="408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="white" font-weight="600">Comunismo</text>
 
     <!-- Caja Fascismo -->
     <rect x="414" y="396" width="88" height="20" rx="5" fill="#8B1A1A"/>
