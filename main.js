@@ -51,16 +51,18 @@ const VERTICES = {
     iae: 100,
     iue: -100,
     color: '#C0392B',
-    desc: 'Estado total con orientación universalista-progresista. IAE = 100, IUE = −100: máximo alcance estatal, uso orientado a eliminar diferencias económicas.',
-    detail: 'IUE_efectivo = −100. El Estado es omnipresente y su proyecto es la homogeneización económica por vía coercitiva.',
+    desc: 'Estado total con orientación universalista-progresista. IAE = 100, IUE = −100: máximo alcance estatal orientado a eliminar diferencias económicas por vía coercitiva. Los regímenes históricos que se acercaron a este vértice documentan terror sistemático y crímenes de lesa humanidad.',
+    detail: 'IUE_efectivo = −100. El Estado es omnipresente y su proyecto es la homogeneización económica total. Protocolo de coerción extrema aplicable: ningún régimen histórico con IAE > 85 e IUE < −70 opera sin supresión violenta documentada de la disidencia.',
+    highCoercion: true,
   },
   fascismo: {
     label: 'Fascismo · Teocracia · Homogeneidad cultural',
     iae: 100,
     iue: 100,
     color: '#8B1A1A',
-    desc: 'Estado total con orientación particularista. IAE = 100, IUE = +100: máximo alcance estatal orientado a imponer un orden cultural, nacional o religioso.',
-    detail: 'IUE_efectivo = +100. La coerción se dirige a eliminar la diversidad en nombre de una identidad particular.',
+    desc: 'Estado total con orientación particularista. IAE = 100, IUE = +100: máximo alcance estatal orientado a imponer un orden cultural, nacional o religioso. Los regímenes históricos que se acercaron a este vértice documentan terror sistemático y crímenes de lesa humanidad.',
+    detail: 'IUE_efectivo = +100. La coerción se dirige a eliminar la diversidad en nombre de una identidad particular. Protocolo de coerción extrema aplicable: ningún régimen histórico con IAE > 85 e IUE > 70 opera sin supresión violenta documentada de la disidencia.',
+    highCoercion: true,
   },
 };
 
@@ -97,9 +99,9 @@ const ZONAS = [
   {
     id: 'intervencionismo',
     label: 'Intervencionismo',
-    labelTech: 'IAE 45–70 · IUE −20 a +20',
+    labelTech: 'IAE 38–58 · IUE −20 a +20',
     desc: 'Estado muy activo en la economía y la regulación, sin orientación ideológica clara. Común en economías mixtas.',
-    iae_min: 45, iae_max: 70, iue_min: -20, iue_max: 20,
+    iae_min: 38, iae_max: 58, iue_min: -20, iue_max: 20,
   },
   {
     id: 'autoritarismo_mercado',
@@ -110,9 +112,9 @@ const ZONAS = [
   {
     id: 'democratico',
     label: 'Zona de estados democráticos',
-    labelTech: 'IAE 20–65, pluralismo real',
+    labelTech: 'IAE 25–55, pluralismo real',
     desc: 'Espacio interior del triángulo donde coexisten proyectos políticos opuestos y el poder está distribuido.',
-    iae_min: 20, iae_max: 65,
+    iae_min: 25, iae_max: 55,
   },
 ];
 
@@ -122,58 +124,105 @@ const CASOS = [
     id: 'noruega',
     label: 'Noruega',
     periodo: 'actual',
-    iae: 55,
+    iae: 40,
     iue: -40,
     color: '#1B5C9E',
     zona: 'Social democracia',
     filter: 'democratico',
-    desc: 'Estado de bienestar fuerte con orientación redistributiva y alta legitimidad institucional.',
-    indices: { iac: 18, iaee: 52 },
+    desc: 'Estado de bienestar fuerte con orientación redistributiva y alta legitimidad institucional. IAEc muy bajo (libertades sólidas), IAEe elevado por gasto público y carga tributaria.',
+    indices: { iaec: 32, iaee: 49 },
+    iaec: 32,
+    iaee_val: 49,
+  },
+  {
+    id: 'suiza',
+    label: 'Suiza',
+    periodo: 'actual',
+    iae: 32,
+    iue: 8,
+    color: '#2874A6',
+    zona: 'Liberalismo moderado',
+    filter: 'democratico',
+    desc: 'Alcance estatal bajo-moderado con leve sesgo conservador. IAEc y IAEe casi equilibrados (~33/30). Estado mínimo en lo económico, Estado de derecho muy sólido.',
+    indices: { iaec: 33, iaee: 30 },
+    iaec: 33,
+    iaee_val: 30,
   },
   {
     id: 'eeuu',
     label: 'EE.UU.',
     periodo: '2000s',
-    iae: 40,
+    iae: 34,
     iue: 20,
-    color: '#2874A6',
-    zona: 'Liberalismo-conservador',
+    color: '#1A4A7A',
+    zona: 'Liberalismo conservador',
     filter: 'democratico',
-    desc: 'Alcance estatal moderado con orientación conservadora en lo cultural, liberal en lo económico.',
-    indices: { iac: 25, iaee: 35 },
+    desc: 'Alcance estatal moderado-bajo con orientación conservadora en lo cultural y liberal en lo económico. CE moderado por captura corporativa.',
+    indices: { iaec: 40, iaee: 27 },
+    iaec: 40,
+    iaee_val: 27,
+  },
+  {
+    id: 'hungria',
+    label: 'Hungría',
+    periodo: '2022',
+    iae: 43,
+    iue: 55,
+    color: '#7B3F00',
+    zona: 'Autoritarismo electoral',
+    filter: 'autoritario',
+    desc: 'Autoritarismo electoral con proyecto nacionalista-conservador. CE alto reduce IAEe efectivo. IAEc elevado por captura informacional y debilitamiento institucional progresivo.',
+    indices: { iaec: 44, iaee: 42 },
+    iaec: 44,
+    iaee_val: 42,
+  },
+  {
+    id: 'singapur',
+    label: 'Singapur',
+    periodo: '2020',
+    iae: 32,
+    iue: 15,
+    color: '#8B6914',
+    zona: 'Autoritarismo por desempeño',
+    filter: 'autoritario',
+    desc: 'Autoritarismo por desempeño. Asimetría R1 marcada: IAEc (44) muy superior a IAEe (21). Control político con economía muy libre. Legitimidad basada en resultados, no en pluralismo.',
+    indices: { iaec: 44, iaee: 21 },
+    iaec: 44,
+    iaee_val: 21,
   },
   {
     id: 'china',
     label: 'China',
     periodo: 'actual',
-    iae: 80,
+    iae: 51,
     iue: -15,
     color: '#C0392B',
     zona: 'Autoritarismo de mercado',
     filter: 'autoritario',
-    desc: 'Alto control civil (IAEc elevado) con economía parcialmente liberalizada (IAEe moderado). Asimetría estructural.',
-    indices: { iac: 78, iaee: 55 },
-    iaec: 88,
-    iaee_val: 55,
+    desc: 'Alto control civil (IAEc=58) con economía parcialmente liberalizada (IAEe=44). Asimetría R1 estructural: el Estado controla la sociedad pero no la economía en igual medida.',
+    indices: { iaec: 58, iaee: 44 },
+    iaec: 58,
+    iaee_val: 44,
     highCoercion: true,
   },
   {
     id: 'venezuela',
     label: 'Venezuela',
     periodo: '2010s',
-    iae: 72,
+    iae: 51,
     iue: -65,
     color: '#E07B20',
     zona: 'Autoritarismo izquierdista',
     filter: 'autoritario',
-    desc: 'Expansión estatal con proyecto homogeneizador económico. Alta presencia del aparato civil y económico.',
-    indices: { iac: 65, iaee: 70 },
-    iaec: 72,
-    iaee_val: 58,
+    desc: 'Expansión estatal con proyecto homogeneizador económico. CE alto por captura de élites del partido reduce el IAEe efectivo. Coerción documentada sobre disidencia.',
+    indices: { iaec: 58, iaee: 43 },
+    iaec: 58,
+    iaee_val: 43,
+    highCoercion: true,
     trayectoria: {
       label: 'Venezuela 1999',
-      iae: 42,
-      iue: -30,
+      iae: 40,
+      iue: -28,
       color: '#E07B20',
       desc: 'Inicio del gobierno de Chávez: alcance estatal moderado, orientación redistributiva incipiente.',
     },
@@ -182,19 +231,19 @@ const CASOS = [
     id: 'iran',
     label: 'Irán',
     periodo: 'actual',
-    iae: 75,
+    iae: 49,
     iue: 80,
     color: '#8B1A1A',
     zona: 'Teocracia autoritaria',
     filter: 'autoritario',
-    desc: 'Estado con fuerte orientación religiosa particularista. Alto control civil con legitimación teológica.',
-    indices: { iac: 78, iaee: 50 },
-    iaec: 82,
-    iaee_val: 48,
+    desc: 'Estado con fuerte orientación religiosa particularista. IAEc muy alto (61) por control civil y represión. IAEe moderado (37) con CE por captura de Guardia Revolucionaria.',
+    indices: { iaec: 61, iaee: 37 },
+    iaec: 61,
+    iaee_val: 37,
     highCoercion: true,
     trayectoria: {
       label: 'Irán 1979',
-      iae: 55,
+      iae: 44,
       iue: 55,
       color: '#8B1A1A',
       desc: 'Revolución Islámica: expansión inicial del aparato estatal con fuerte proyecto teocrático en construcción.',
@@ -204,54 +253,84 @@ const CASOS = [
     id: 'somalia',
     label: 'Somalia',
     periodo: '1990s',
-    iae: 8,
+    iae: 9,
     iue: 0,
     color: '#888',
     zona: 'Estado fallido',
     filter: 'extremo',
-    desc: 'Colapso del Estado. IAE cercano a 0: el monopolio de la violencia se fragmenta entre actores no estatales.',
-    indices: { iac: 10, iaee: 5 },
-    iaec: 10,
-    iaee_val: 5,
+    desc: 'Colapso del Estado. FTE = 0.80: el monopolio de la violencia se fragmenta entre actores armados no estatales. IAEc formal (39) colapsado a efectivo (8) por fragmentación territorial.',
+    indices: { iaec: 8, iaee: 9 },
+    iaec: 8,
+    iaee_val: 9,
   },
   {
     id: 'suecia_80',
     label: 'Suecia',
     periodo: '1980s',
-    iae: 62,
+    iae: 45,
     iue: -55,
     color: '#0F6E5A',
     zona: 'Social democracia plena',
     filter: 'democratico',
-    desc: 'Modelo de Estado de bienestar en su punto de mayor expansión. Alto alcance con orientación redistributiva.',
-    indices: { iac: 22, iaee: 68 },
-    iaec: 22,
-    iaee_val: 70,
+    desc: 'Modelo de Estado de bienestar en su punto de mayor expansión. IAEc muy bajo (33), IAEe elevado (57) por gasto público ~62% del PIB, alta carga tributaria y regulación laboral.',
+    indices: { iaec: 33, iaee: 57 },
+    iaec: 33,
+    iaee_val: 57,
     trayectoria: {
       label: 'Suecia 2020s',
-      iae: 52,
-      iue: -30,
+      iae: 40,
+      iue: -28,
       color: '#0F6E5A',
-      desc: 'Retroceso moderado del Estado de bienestar y desplazamiento hacia el centro en uso estatal.',
+      desc: 'Retroceso moderado del Estado de bienestar: gasto/PIB cae a ~49%, regulación laboral más flexible.',
     },
+  },
+  {
+    id: 'chile_pinochet',
+    label: 'Chile',
+    periodo: 'Pinochet tardío ~1985',
+    iae: 40,
+    iue: 50,
+    color: '#5C4A1A',
+    zona: 'Autoritarismo moderado de derecha',
+    filter: 'autoritario',
+    desc: 'Autoritarismo de derecha con liberalización económica. IAEc elevado (53) por represión política y control de FF.AA. IAEe bajo (27) por desregulación y apertura de mercados.',
+    indices: { iaec: 53, iaee: 27 },
+    iaec: 53,
+    iaee_val: 27,
+    highCoercion: true,
+  },
+  {
+    id: 'urss_stalin',
+    label: 'URSS',
+    periodo: 'estalinista ~1950',
+    iae: 73,
+    iue: -90,
+    color: '#7A0000',
+    zona: 'Totalitarismo de izquierda',
+    filter: 'extremo',
+    desc: 'Estado totalitario con proyecto de homogeneización económica absoluta. IAEc máximo (69) por terror sistemático y control total. IAEe muy alto (76) por economía planificada centralmente.',
+    indices: { iaec: 69, iaee: 76 },
+    iaec: 69,
+    iaee_val: 76,
+    highCoercion: true,
   },
   {
     id: 'alemania_nazi',
     label: 'Alemania Nazi',
     periodo: '1938',
-    iae: 88,
+    iae: 60,
     iue: 85,
     color: '#4A1A1A',
     zona: 'Fascismo histórico',
     filter: 'extremo',
-    desc: 'Expansión total del aparato estatal con proyecto homogeneizador cultural de carácter genocida.',
-    indices: { iac: 92, iaee: 72 },
-    iaec: 92,
-    iaee_val: 72,
+    desc: 'Expansión total del aparato estatal con proyecto homogeneizador cultural de carácter genocida. IAEc máximo (68) por terror de Estado. IAEe elevado (52) por economía de guerra dirigida.',
+    indices: { iaec: 68, iaee: 52 },
+    iaec: 68,
+    iaee_val: 52,
     highCoercion: true,
     trayectoria: {
       label: 'Alemania 1933',
-      iae: 58,
+      iae: 46,
       iue: 50,
       color: '#4A1A1A',
       desc: 'Toma del poder: alcance estatal moderado en expansión, uso del Estado virando hacia la homogeneización cultural.',
@@ -369,11 +448,11 @@ function initNav() {
 
 const TRI = {
   // Vértice superior (Anarquía)
-  A: { x: 300, y: 40,  iae: 0,   iue: 0 },
+  A: { x: 320, y: 36,  iae: 0,   iue: 0 },
   // Vértice inferior izquierdo (Comunismo)
-  C: { x: 80,  y: 490, iae: 100, iue: -100 },
+  C: { x: 100,  y: 466, iae: 100, iue: -100 },
   // Vértice inferior derecho (Fascismo)
-  F: { x: 520, y: 490, iae: 100, iue: 100 },
+  F: { x: 540, y: 466, iae: 100, iue: 100 },
 };
 
 /**
@@ -642,19 +721,19 @@ function renderUserPoint() {
 ══════════════════════════════════════════════════ */
 function calcZone(iae, iue) {
   if (iae < 12) return 'Estado mínimo / Colapso';
-  if (iae < 40) {
+  if (iae < 35) {
     if (iue < -30)      return 'Liberalismo de izquierda';
     if (iue > 30)       return 'Liberalismo conservador';
     return 'Liberalismo';
   }
-  if (iae < 65) {
+  if (iae < 58) {
     if (iue < -50)      return 'Social democracia';
     if (iue < -20)      return 'Centro-izquierda';
     if (iue > 50)       return 'Conservadurismo';
     if (iue > 20)       return 'Centro-derecha';
     return 'Centro democrático';
   }
-  // IAE >= 65
+  // IAE >= 58
   if (iue < -60)        return 'Autoritarismo de izquierda';
   if (iue > 60)         return 'Autoritarismo de derecha';
   return 'Autoritarismo pragmático';
@@ -678,66 +757,66 @@ const CONTEXT_DB = [
   },
   // Liberalismo clásico
   {
-    test: (iae, iue) => iae >= 12 && iae < 40 && iue >= -30 && iue <= 30,
+    test: (iae, iue) => iae >= 12 && iae < 35 && iue >= -30 && iue <= 30,
     public: 'Estado presente pero limitado, sin orientación ideológica fuerte. Protege derechos individuales sin imponer un proyecto cultural uniforme.',
     student: 'Esta zona es la que los pensadores liberales clásicos consideraban óptima: Estado como árbitro, no como actor transformador. El bajo IAE implica que el Estado tiene capacidad limitada para imponer cualquier agenda, sea de izquierda o de derecha.',
-    expert: 'Zona liberal clásica: IAE 12–40, IUE ±30. IUEe bajo en valor absoluto. Alta sensibilidad al IC2 negativo (crisis puede empujar hacia autoritarismo con IAE bajo).',
+    expert: 'Zona liberal clásica: IAE 12–35, IUE ±30. IUEe bajo en valor absoluto. Alta sensibilidad al IC2 negativo (crisis puede empujar hacia autoritarismo con IAE bajo).',
   },
   // Liberalismo de izquierda
   {
-    test: (iae, iue) => iae >= 12 && iae < 45 && iue < -30,
+    test: (iae, iue) => iae >= 12 && iae < 38 && iue < -30,
     public: 'Estado relativamente pequeño con orientación progresista: protege libertades individuales y promueve derechos civiles universales, pero con capacidad limitada para redistribuir recursos.',
     student: 'El bajo IAE es la restricción clave: aunque el Estado quiere redistribuir (IUE negativo), tiene poca capacidad real para hacerlo. La intención universalista no se traduce necesariamente en impacto efectivo.',
     expert: 'IUEe negativo moderado. Asimetría intención/capacidad. Vulnerable a captura por élites si IAEc < IAEe.',
   },
   // Liberalismo conservador
   {
-    test: (iae, iue) => iae >= 12 && iae < 45 && iue > 30,
+    test: (iae, iue) => iae >= 12 && iae < 38 && iue > 30,
     public: 'Estado pequeño con orientación conservadora: defiende el orden cultural y social establecido, pero con capacidad limitada de intervención.',
     student: 'Un Estado liberal-conservador puede ser culturalmente restrictivo (IUE alto) pero sin los instrumentos para imponerlo masivamente. Es la diferencia entre una sociedad conservadora y un régimen autoritario conservador.',
     expert: 'IUEe positivo bajo. Baja capacidad coercitiva limita el alcance del proyecto particularista. II1 relativamente alto contiene el IVR.',
   },
   // Social democracia
   {
-    test: (iae, iue) => iae >= 40 && iae < 68 && iue < -20,
+    test: (iae, iue) => iae >= 35 && iae < 58 && iue < -20,
     public: 'Estado de bienestar con orientación redistributiva. Interviene activamente para reducir desigualdades económicas y garantizar derechos sociales universales.',
-    student: 'La combinación de IAE moderado-alto con IUE negativo define el espacio socialdemócrata: el Estado tiene capacidad real de redistribuir y elige usarla hacia la igualdad. Es la zona donde se ubican los países nórdicos actuales.',
-    expert: 'Zona de equilibrio estable. IAEc moderado preserva pluralismo político. IAEe elevado financia redistribución. II1 alto actúa como freno al IVR. Riesgo de desplazamiento si IC2 negativo sostenido.',
+    student: 'La combinación de IAE moderado con IUE negativo define el espacio socialdemócrata: el Estado tiene capacidad real de redistribuir y elige usarla hacia la igualdad. Es la zona donde se ubican los países nórdicos actuales.',
+    expert: 'Zona de equilibrio estable. IAEc bajo preserva pluralismo político. IAEe elevado financia redistribución. II1 alto actúa como freno al IVR. Riesgo de desplazamiento si IC2 negativo sostenido.',
   },
   // Centro democrático
   {
-    test: (iae, iue) => iae >= 40 && iae < 68 && iue >= -20 && iue <= 20,
+    test: (iae, iue) => iae >= 35 && iae < 58 && iue >= -20 && iue <= 20,
     public: 'Estado activo en la economía y la regulación, sin orientación ideológica fuerte hacia ningún polo. Zona de alta negociación política y pluralismo.',
     student: 'El centro no es ausencia de política: es la zona donde las fuerzas opuestas se neutralizan mutuamente. Un Estado puede llegar aquí por pragmatismo o porque las coaliciones políticas bloquean movimientos en cualquier dirección.',
     expert: 'IUEe próximo a cero. Equilibrio dinámico, no estático. Sensible a polarización: IC1 elevado puede desplazar rápidamente hacia los extremos del IUE.',
   },
   // Conservadurismo democrático
   {
-    test: (iae, iue) => iae >= 40 && iae < 68 && iue > 20,
+    test: (iae, iue) => iae >= 35 && iae < 58 && iue > 20,
     public: 'Estado con capacidad real de intervención, orientado a preservar el orden cultural y social establecido. Tiene contrapesos democráticos que limitan el proyecto particularista.',
     student: 'A diferencia del autoritarismo conservador, aquí existen instituciones que moderan el uso del poder. El Estado puede favorecer a grupos particulares, pero no puede eliminar la competencia política.',
     expert: 'Zona de conservadurismo institucionalizado. IAEc moderado preserva mecanismos de accountability. Riesgo de captura si IAEc sube sin aumento de II1.',
   },
   // Autoritarismo izquierdista
   {
-    test: (iae, iue) => iae >= 68 && iue < -40,
-    public: 'Estado muy poderoso orientado a un proyecto homogeneizador económico. El aparato estatal tiene alcance real sobre la economía y la vida civil, y lo usa para eliminar diferencias de clase o propiedad.',
-    student: 'Alta coerción + orientación universalista = el Estado puede realmente redistribuir, pero también puede suprimir disidencia. La homogeneización forzada tiene costos: destruye los mecanismos de información que hacen funcionar la economía.',
-    expert: 'IUEe negativo elevado. IC2 negativo (crisis económica) típicamente invierte el IVR en estos regímenes. CE elevado si las élites del partido capturan el aparato redistribuidor.',
+    test: (iae, iue) => iae >= 58 && iue < -40,
+    public: 'Estado muy poderoso orientado a un proyecto de homogeneización económica. El aparato estatal tiene alcance real sobre la economía y la vida civil, y lo usa para eliminar diferencias de clase o propiedad. A esta escala de coerción, la supresión violenta de la disidencia es estructural, no excepcional.',
+    student: 'Alta coerción + orientación universalista: el Estado puede realmente redistribuir, pero también suprime disidencia por medios violentos. Los regímenes históricos en esta zona —URSS estalinista, Camboya bajo los Jemeres Rojos, Corea del Norte— documentan terror sistemático como instrumento de homogeneización. El modelo describe la estructura de poder; no captura la distinción moral entre tipos de coerción.',
+    expert: 'IUEe negativo elevado. Protocolo de coerción extrema obligatorio si hay evidencia documentada de crímenes de lesa humanidad. IC2 negativo (crisis económica) típicamente invierte el IVR en estos regímenes. CE elevado si las élites del partido capturan el aparato redistribuidor.',
   },
   // Autoritarismo pragmático
   {
-    test: (iae, iue) => iae >= 68 && iue >= -40 && iue <= 40,
+    test: (iae, iue) => iae >= 58 && iue >= -40 && iue <= 40,
     public: 'Estado muy poderoso sin proyecto ideológico claro. El control es el objetivo en sí mismo. Característico de regímenes que priorizan la supervivencia sobre la ideología.',
     student: 'El "autoritarismo pragmático" es inestable por definición: sin legitimidad ideológica, depende casi exclusivamente de la coerción y del IC1 (liderazgo personal). Cuando el liderazgo falla, estos regímenes colapsan o se transforman rápidamente.',
     expert: 'IUEe bajo en valor absoluto pese a IAE alto. Alta dependencia del IC1. II1 mínimo. Vulnerable a IC2 negativo sin recursos redistributivos ni identitarios para compensar.',
   },
   // Autoritarismo de derecha / teocracia
   {
-    test: (iae, iue) => iae >= 68 && iue > 40,
-    public: 'Estado muy poderoso orientado a imponer un orden cultural, nacional o religioso particular. La coerción se dirige a eliminar la diversidad en nombre de una identidad o fe.',
-    student: 'La distinción entre fascismo, teocracia y nacionalismo extremo no es el nivel de coerción (todos tienen IAE muy alto), sino el contenido del proyecto particularista (nación, raza, religión). El modelo los agrupa porque comparten la estructura de poder, aunque sus fundamentos sean distintos.',
-    expert: 'IUEe positivo elevado. Máxima presión homogeneizadora. Protocolo de coerción extrema obligatorio si hay evidencia de crímenes de lesa humanidad documentados.',
+    test: (iae, iue) => iae >= 58 && iue > 40,
+    public: 'Estado muy poderoso orientado a imponer un orden cultural, nacional o religioso particular. La coerción se dirige a eliminar la diversidad en nombre de una identidad o fe. A esta escala de coerción, la supresión violenta de la disidencia es estructural, no excepcional.',
+    student: 'La distinción entre fascismo, teocracia y nacionalismo extremo no es el nivel de coerción (todos tienen IAE muy alto), sino el contenido del proyecto particularista (nación, raza, religión). Los regímenes históricos en esta zona —Alemania Nazi, Irán teocrático, regímenes de apartheid— documentan terror sistemático como instrumento de homogeneización cultural. El modelo describe la estructura de poder; no captura la distinción moral entre tipos de coerción.',
+    expert: 'IUEe positivo elevado. Protocolo de coerción extrema obligatorio si hay evidencia documentada de crímenes de lesa humanidad. Máxima presión homogeneizadora. IAEc dominante sobre IAEe en la mayoría de los casos históricos de esta zona.',
   },
 ];
 
@@ -814,7 +893,7 @@ function updatePositionPanel() {
     zonaNoteEl.className = 'pos-zone-note';
     zoneEl.parentElement.insertAdjacentElement('afterend', zonaNoteEl);
   }
-  if (state.iae >= 20 && state.iae <= 65) {
+  if (state.iae >= 25 && state.iae <= 55) {
     zonaNoteEl.textContent = 'Zona de alta heterogeneidad: dos regímenes próximos aquí pueden diferir en mecanismo de sostenimiento, IUE_tipo y trayectoria futura. Complementar con el IVR.';
     zonaNoteEl.hidden = false;
   } else {
@@ -879,8 +958,8 @@ function updatePositionPanel() {
 
 function calcIAELabel(iae) {
   if (iae < 12) return 'Estado mínimo o colapso';
-  if (iae < 40) return 'alcance limitado';
-  if (iae < 65) return 'alcance moderado';
+  if (iae < 35) return 'alcance limitado';
+  if (iae < 58) return 'alcance moderado';
   if (iae < 80) return 'alcance alto';
   return 'alcance máximo';
 }
@@ -908,6 +987,19 @@ function showVertexTooltip(key, el) {
   ttName.textContent = v.label;
   ttDesc.textContent = state.expertMode ? v.detail : v.desc;
 
+  // Nota de coerción extrema para vértices con highCoercion
+  let ttCoercion = tooltip.querySelector('.tt-coercion');
+  if (v.highCoercion) {
+    if (!ttCoercion) {
+      ttCoercion = document.createElement('p');
+      ttCoercion.className = 'tt-coercion';
+      ttIndices.insertAdjacentElement('beforebegin', ttCoercion);
+    }
+    ttCoercion.innerHTML = `<strong>⚑ Nota:</strong> Los regímenes históricos próximos a este vértice involucran evidencia documentada de coerción extrema y crímenes de lesa humanidad.`;
+  } else {
+    if (ttCoercion) ttCoercion.remove();
+  }
+
   ttIndices.innerHTML = `
     <span class="tt-index-pill">IAE=${v.iae}</span>
     <span class="tt-index-pill">IUE=${v.iue}</span>
@@ -919,8 +1011,8 @@ function showVertexTooltip(key, el) {
   const svgEl = document.getElementById('mainTriangle');
   const svgRect = svgEl.getBoundingClientRect();
   const { x: vx, y: vy } = indicesToXY(v.iae, v.iue);
-  const scaleX = svgRect.width / 600;
-  const scaleY = svgRect.height / 560;
+  const scaleX = svgRect.width / 620;
+  const scaleY = svgRect.height / 530;
 
   let left = (vx * scaleX) + svgRect.left - containerRect.left + 16;
   let top  = (vy * scaleY) + svgRect.top  - containerRect.top  - 16;
@@ -935,7 +1027,181 @@ function showVertexTooltip(key, el) {
 }
 
 /* ══════════════════════════════════════════════════
-   8. CASOS ILUSTRATIVOS
+   8. IDEOLOGÍAS EN EL TRIÁNGULO
+══════════════════════════════════════════════════ */
+
+const IDEOLOGIAS = [
+  {
+    id: 'anarquismo',
+    label: 'Anarquismo',
+    color: '#4A90D9',
+    desc: 'Rechazo de toda autoridad estatal coercitiva. Ocupa la zona superior del triángulo (IAE bajo), abarcando desde el anarcocomunismo (IUE negativo) hasta el anarcocapitalismo (IUE positivo). Ningún régimen histórico real ha llegado a este extremo.',
+    // Polígono que representa la zona: IAE 0-15, IUE -100 a +100
+    // En el SVG de 700x600 (vértices A=350,40  C=80,520  F=620,520)
+    zone: '350,40 205,130 350,130 495,130',
+    iaeRange: '0–15', iueRange: '−100 a +100',
+    filter: 'libertario',
+  },
+  {
+    id: 'libertarianismo',
+    label: 'Libertarianismo',
+    color: '#2874A6',
+    desc: 'Estado mínimo con orientación conservadora o neutral. Baja carga tributaria, libre mercado, libertades civiles amplias pero sin redistribución activa. Ejemplos: Hong Kong económico, propuestas del Partido Libertario de EE.UU.',
+    zone: '427,130 350,130 350,220 403,220',
+    iaeRange: '8–25', iueRange: '0 a +40',
+    filter: 'libertario',
+  },
+  {
+    id: 'liberalismo',
+    label: 'Liberalismo clásico',
+    color: '#1B5C9E',
+    desc: 'Estado limitado como árbitro neutral. Protege derechos individuales sin imponer un proyecto cultural uniforme. Incluye democracias anglosajonas de bajo gasto estatal como Australia o Nueva Zelanda post-1984.',
+    zone: '350,130 274,220 350,220 427,220',
+    iaeRange: '15–30', iueRange: '−25 a +25',
+    filter: 'democratico',
+  },
+  {
+    id: 'socialdemocracia',
+    label: 'Socialdemocracia',
+    color: '#0F6E5A',
+    desc: 'Estado de bienestar con orientación redistributiva. Interviene activamente para reducir desigualdades y garantizar derechos sociales universales. Ejemplos: países nórdicos, Alemania occidental post-guerra.',
+    zone: '274,220 190,340 264,340 350,220',
+    iaeRange: '30–50', iueRange: '−55 a −15',
+    filter: 'democratico',
+  },
+  {
+    id: 'liberalismo_social',
+    label: 'Liberalismo social',
+    color: '#3B6FA0',
+    desc: 'Estado moderado con orientación progresista: protege libertades civiles y promueve derechos universales, con redistribución moderada. Ejemplos: Canadá, gran parte de Europa occidental.',
+    zone: '350,220 264,340 350,340 427,220',
+    iaeRange: '28–45', iueRange: '−20 a +10',
+    filter: 'democratico',
+  },
+  {
+    id: 'conservadurismo',
+    label: 'Conservadurismo democrático',
+    color: '#7B4F00',
+    desc: 'Estado moderado con orientación hacia el orden cultural y social establecido. Tiene contrapesos democráticos reales. Ejemplos: democristianos europeos, conservadores británicos históricos.',
+    zone: '427,220 350,340 436,340 480,260',
+    iaeRange: '30–50', iueRange: '+15 a +55',
+    filter: 'democratico',
+  },
+  {
+    id: 'socialismo_autoritario',
+    label: 'Socialismo autoritario',
+    color: '#C0392B',
+    desc: 'Estado poderoso con proyecto redistributivo y homogeneizador económico. Incluye desde el socialismo real soviético hasta variantes latinoamericanas como Venezuela o Cuba. IAE alto, IUE negativo.',
+    zone: '190,340 80,520 264,520 264,340',
+    iaeRange: '55–90', iueRange: '−90 a −40',
+    filter: 'autoritario',
+  },
+  {
+    id: 'autoritarismo_pragmatico',
+    label: 'Autoritarismo pragmático',
+    color: '#5C5C5C',
+    desc: 'Estado poderoso sin proyecto ideológico claro. El control como fin en sí mismo. Incluye regímenes militares latinoamericanos de los 70, Bielorrusia, Kazajistán.',
+    zone: '264,340 264,520 436,520 436,340',
+    iaeRange: '55–85', iueRange: '−35 a +35',
+    filter: 'autoritario',
+  },
+  {
+    id: 'nacionalismo_autoritario',
+    label: 'Nacionalismo autoritario',
+    color: '#8B3A1A',
+    desc: 'Estado poderoso con proyecto identitario-nacionalista. Incluye el fascismo histórico, teocracias, y variantes contemporáneas como Irán o la Rusia de Putin. IAE alto, IUE positivo.',
+    zone: '436,340 436,520 620,520 480,260',
+    iaeRange: '50–90', iueRange: '+35 a +90',
+    filter: 'autoritario',
+  },
+];
+
+function initIdeologias() {
+  const list = document.getElementById('ideologiasList');
+  const zonesGroup = document.getElementById('ideologiasZones');
+  if (!list || !zonesGroup) return;
+
+  // Triángulo de ideologías usa viewBox 700x600
+  // Vértices: A(350,40) C(80,520) F(620,520)
+  function toXY_id(iae, iue) {
+    const iaeN = iae / 100;
+    const iueN = (iue + 100) / 200;
+    const wA = 1 - iaeN, wC = iaeN * (1 - iueN), wF = iaeN * iueN;
+    return {
+      x: wA * 350 + wC * 80 + wF * 620,
+      y: wA * 40  + wC * 520 + wF * 520,
+    };
+  }
+
+  let activeId = null;
+
+  IDEOLOGIAS.forEach(ideo => {
+    // Card
+    const item = document.createElement('div');
+    item.className = 'caso-item reveal';
+    item.dataset.id = ideo.id;
+    item.innerHTML = `
+      <span class="caso-dot" style="background:${ideo.color}"></span>
+      <div class="caso-info">
+        <div class="caso-name">${ideo.label}</div>
+        <div class="caso-desc">${ideo.desc}</div>
+      </div>
+      <div class="caso-indices">
+        <span class="caso-pill">IAE ${ideo.iaeRange}</span>
+        <span class="caso-pill">IUE ${ideo.iueRange}</span>
+      </div>`;
+    item.addEventListener('click', () => {
+      activeId = activeId === ideo.id ? null : ideo.id;
+      document.querySelectorAll('#ideologiasList .caso-item').forEach(el =>
+        el.classList.toggle('active', el.dataset.id === activeId));
+      document.querySelectorAll('#ideologiasZones .ideo-zone').forEach(el =>
+        el.setAttribute('opacity', el.dataset.id === activeId ? '1' : '0.5'));
+    });
+    list.appendChild(item);
+
+    // Zona en SVG
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'ideo-zone');
+    g.setAttribute('data-id', ideo.id);
+    g.style.cursor = 'pointer';
+
+    const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    poly.setAttribute('points', ideo.zone);
+    poly.setAttribute('fill', ideo.color);
+    poly.setAttribute('fill-opacity', '0.18');
+    poly.setAttribute('stroke', ideo.color);
+    poly.setAttribute('stroke-width', '1.5');
+    poly.setAttribute('stroke-opacity', '0.5');
+
+    // Label centrado en el polígono
+    const pts = ideo.zone.split(' ').map(p => p.split(',').map(Number));
+    const cx = Math.round(pts.reduce((s, p) => s + p[0], 0) / pts.length);
+    const cy = Math.round(pts.reduce((s, p) => s + p[1], 0) / pts.length);
+    const lbl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    lbl.setAttribute('x', cx); lbl.setAttribute('y', cy);
+    lbl.setAttribute('text-anchor', 'middle');
+    lbl.setAttribute('dominant-baseline', 'central');
+    lbl.setAttribute('font-family', 'DM Sans, sans-serif');
+    lbl.setAttribute('font-size', '10');
+    lbl.setAttribute('fill', ideo.color);
+    lbl.setAttribute('font-weight', '500');
+    lbl.textContent = ideo.label;
+
+    g.appendChild(poly);
+    g.appendChild(lbl);
+    g.addEventListener('click', () => {
+      activeId = activeId === ideo.id ? null : ideo.id;
+      document.querySelectorAll('#ideologiasList .caso-item').forEach(el =>
+        el.classList.toggle('active', el.dataset.id === activeId));
+      document.querySelectorAll('#ideologiasZones .ideo-zone').forEach(el =>
+        el.setAttribute('opacity', activeId === null || el.dataset.id === activeId ? '1' : '0.4'));
+    });
+    zonesGroup.appendChild(g);
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   8b. CASOS ILUSTRATIVOS
 ══════════════════════════════════════════════════ */
 function initCasos() {
   const list = document.getElementById('casosList');
@@ -1293,34 +1559,39 @@ function initHeroExplainer() {
   if (!animContainer) return;
 
   const steps = [
-    // Step 0: eje horizontal 1D
+    // Step 0: eje horizontal 1D con label IUE
     () => `<svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg">
       <line x1="40" y1="100" x2="340" y2="100" stroke="#C8C5BC" stroke-width="1.5"/>
       <circle cx="40" cy="100" r="6" fill="#1B5C9E"/>
       <circle cx="340" cy="100" r="6" fill="#8B1A1A"/>
-      <text x="40" y="122" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#6B6A65">Izquierda</text>
-      <text x="340" y="122" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#6B6A65">Derecha</text>
-      <circle cx="190" cy="100" r="8" fill="#E07B20" stroke="white" stroke-width="2"/>
-      <text x="190" y="86" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">régimen X</text>
-      <text x="190" y="160" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.06em">EJE ÚNICO: IUE</text>
+      <text x="40" y="122" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#6B6A65">IUE = −100</text>
+      <text x="340" y="122" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#6B6A65">IUE = +100</text>
+      <text x="190" y="82" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2">IUE = 0</text>
+      <line x1="190" y1="88" x2="190" y2="94" stroke="#C8C5BC" stroke-width="1"/>
+      <circle cx="240" cy="100" r="8" fill="#E07B20" stroke="white" stroke-width="2"/>
+      <text x="240" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">régimen X</text>
+      <text x="240" y="78" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#A8A7A2">¿pero cuánto poder tiene?</text>
+      <text x="190" y="160" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.06em">EJE IUE — dirección del Estado</text>
     </svg>`,
 
-    // Step 1: añadir eje vertical IAE, espacio 2D
+    // Step 1: añadir eje vertical IAE con escala
     () => `<svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg">
       <line x1="40" y1="190" x2="340" y2="190" stroke="#C8C5BC" stroke-width="1.5"/>
-      <line x1="190" y1="20" x2="190" y2="190" stroke="#C8C5BC" stroke-width="1.5" stroke-dasharray="4 3"/>
+      <line x1="190" y1="20" x2="190" y2="190" stroke="#1B5C9E" stroke-width="1.5" stroke-dasharray="4 3"/>
       <circle cx="40" cy="190" r="5" fill="#1B5C9E"/>
       <circle cx="340" cy="190" r="5" fill="#8B1A1A"/>
-      <text x="40" y="208" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">Izquierda</text>
-      <text x="340" y="208" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">Derecha</text>
-      <text x="178" y="28" text-anchor="end" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2">IAE alto</text>
-      <text x="178" y="188" text-anchor="end" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2">IAE=0</text>
-      <circle cx="220" cy="120" r="8" fill="#E07B20" stroke="white" stroke-width="2"/>
-      <text x="232" y="116" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">régimen X</text>
-      <text x="190" y="228" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.06em">ESPACIO 2D: IUE + IAE</text>
+      <text x="40" y="208" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">IUE=−100</text>
+      <text x="340" y="208" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">IUE=+100</text>
+      <text x="174" y="26" text-anchor="end" font-family="DM Sans,sans-serif" font-size="10" fill="#1B5C9E">IAE=100</text>
+      <text x="174" y="194" text-anchor="end" font-family="DM Sans,sans-serif" font-size="10" fill="#1B5C9E">IAE=0</text>
+      <rect x="160" y="105" width="60" height="14" rx="3" fill="#1B5C9E" fill-opacity="0.1"/>
+      <text x="175" y="115" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#1B5C9E">IAE</text>
+      <circle cx="240" cy="110" r="8" fill="#E07B20" stroke="white" stroke-width="2"/>
+      <text x="252" y="107" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">régimen X</text>
+      <text x="190" y="228" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.06em">IAE (alcance) + IUE (dirección)</text>
     </svg>`,
 
-    // Step 2: triángulo completo con los 3 vértices
+    // Step 2: triángulo completo con ejemplos reales
     () => `<svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg">
       <polygon points="190,20 40,250 340,250" fill="#F0EDE6" stroke="#C8C5BC" stroke-width="1.5"/>
       <polygon points="190,20 40,250 115,250 145,145" fill="#4A90D9" fill-opacity="0.07"/>
@@ -1328,15 +1599,15 @@ function initHeroExplainer() {
       <circle cx="190" cy="20" r="5" fill="#4A90D9"/>
       <circle cx="40" cy="250" r="5" fill="#C0392B"/>
       <circle cx="340" cy="250" r="5" fill="#8B1A1A"/>
-      <text x="190" y="13" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">Anarquía</text>
-      <text x="24" y="264" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">Comunismo</text>
-      <text x="356" y="264" text-anchor="end" font-family="DM Sans,sans-serif" font-size="10" fill="#6B6A65">Fascismo</text>
-      <circle cx="190" cy="105" r="6" fill="#1B5C9E" fill-opacity="0.85"/>
-      <text x="200" y="109" font-family="DM Sans,sans-serif" font-size="9" fill="#3D3C38">Noruega</text>
-      <circle cx="200" cy="140" r="6" fill="#2874A6" fill-opacity="0.85"/>
-      <text x="210" y="144" font-family="DM Sans,sans-serif" font-size="9" fill="#3D3C38">EE.UU.</text>
-      <circle cx="175" cy="185" r="6" fill="#C0392B" fill-opacity="0.85"/>
-      <text x="185" y="189" font-family="DM Sans,sans-serif" font-size="9" fill="#3D3C38">China</text>
+      <text x="190" y="13" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#4A90D9">Anarquía IAE=0</text>
+      <text x="22" y="264" font-family="DM Sans,sans-serif" font-size="9" fill="#C0392B">Comunismo</text>
+      <text x="358" y="264" text-anchor="end" font-family="DM Sans,sans-serif" font-size="9" fill="#8B1A1A">Fascismo</text>
+      <circle cx="178" cy="108" r="5" fill="#1B5C9E" fill-opacity="0.9"/>
+      <text x="187" y="111" font-family="DM Sans,sans-serif" font-size="9" fill="#3D3C38">Noruega IAE=40</text>
+      <circle cx="196" cy="132" r="5" fill="#2874A6" fill-opacity="0.9"/>
+      <text x="205" y="135" font-family="DM Sans,sans-serif" font-size="9" fill="#3D3C38">EE.UU. IAE=34</text>
+      <circle cx="185" cy="172" r="5" fill="#C0392B" fill-opacity="0.9"/>
+      <text x="194" y="175" font-family="DM Sans,sans-serif" font-size="9" fill="#3D3C38">China IAE=51</text>
       <text x="190" y="272" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.06em">EL TRIÁNGULO POLÍTICO</text>
     </svg>`,
   ];
@@ -1495,9 +1766,9 @@ function quizGetZone(iae, iue) {
   if (iae > 60 && Math.abs(iue) < 30) return { name:"Autocracia pragmática", desc:"Alto alcance estatal sin proyecto ideológico fuerte." };
   if (iae > 55 && iue > 20)  return { name:"Autoritarismo electoral", desc:"Instituciones formales con erosión de libertades civiles." };
   if (iae > 55 && iue < -20) return { name:"Intervencionismo de izquierda", desc:"Estado de alcance alto con orientación redistributiva." };
-  if (iae > 35 && iae < 65 && Math.abs(iuee) < 20) return { name:"Zona democrática", desc:"Coexistencia de proyectos políticos distintos con poder distribuido." };
-  if (iae > 35 && iae < 65 && iue > 15) return { name:"Derecha democrática", desc:"Estado moderado con orientación conservadora-particularista." };
-  if (iae > 35 && iae < 65 && iue < -15) return { name:"Izquierda democrática", desc:"Estado moderado con orientación universalista-igualitarista." };
+  if (iae > 25 && iae < 55 && Math.abs(iuee) < 20) return { name:"Zona democrática", desc:"Coexistencia de proyectos políticos distintos con poder distribuido." };
+  if (iae > 25 && iae < 55 && iue > 15) return { name:"Derecha democrática", desc:"Estado moderado con orientación conservadora-particularista." };
+  if (iae > 25 && iae < 55 && iue < -15) return { name:"Izquierda democrática", desc:"Estado moderado con orientación universalista-igualitarista." };
   if (iae <= 35 && iue > 15) return { name:"Liberalismo conservador", desc:"Estado pequeño con orientación cultural particularista." };
   if (iae <= 35 && iue < -15) return { name:"Liberalismo progresista", desc:"Estado pequeño con orientación universalista." };
   return { name:"Zona central", desc:"Posición central: alcance moderado y orientación pragmática." };
@@ -1571,7 +1842,7 @@ function quizRenderResult() {
   const iaeLbl = iae < 20 ? "Muy reducido" : iae < 40 ? "Limitado" : iae < 60 ? "Moderado" : iae < 80 ? "Alto" : "Máximo";
 
   // Nota de zona democrática
-  const zonaDemNote = (iae >= 20 && iae <= 65)
+  const zonaDemNote = (iae >= 25 && iae <= 55)
     ? `<div class="quiz-zone-hetero-note">
         <strong>Zona de alta heterogeneidad:</strong> Esta región concentra regímenes muy distintos entre sí.
         La posición en el triángulo describe tu orientación declarada, no una trayectoria ni un tipo de régimen único.
@@ -1851,10 +2122,10 @@ function init() {
   updateContextReading();
   updateIUEAxis();
   initIndexCards();
+  initIdeologias();
   initCasos();
   initQuiz();
   initCasosCompare();
-  initCodebookExpand();
   initTriangleHint();
   initScrollReveal();
 

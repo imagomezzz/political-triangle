@@ -408,9 +408,9 @@ function getZone(iae, iue) {
   if (iae > 60 && Math.abs(iue) < 30)     return {name:"Autocracia pragmática",      desc:"Alto alcance estatal sin proyecto ideológico fuerte. Predomina la lógica de control y mantenimiento del poder."};
   if (iae > 55 && iue > 20)               return {name:"Autoritarismo electoral",    desc:"Instituciones formalmente democráticas con erosión de libertades civiles y proyecto identitario-nacionalista."};
   if (iae > 55 && iue < -20)              return {name:"Intervencionismo de izquierda", desc:"Estado de alcance alto con orientación redistributiva e igualitarista. Fuerte intervención económica."};
-  if (iae > 35 && iae < 65 && Math.abs(iuee) < 20) return {name:"Zona democrática",  desc:"Interior del triángulo: coexistencia de proyectos políticos distintos con poder distribuido. Alta heterogeneidad interna."};
-  if (iae > 35 && iae < 65 && iue > 15)   return {name:"Derecha democrática",        desc:"Estado moderado con orientación conservadora-particularista. Énfasis en identidad, tradición y valores comunitarios."};
-  if (iae > 35 && iae < 65 && iue < -15)  return {name:"Izquierda democrática",      desc:"Estado moderado con orientación universalista-igualitarista. Énfasis en derechos universales y redistribución."};
+  if (iae > 25 && iae < 55 && Math.abs(iuee) < 20) return {name:"Zona democrática",  desc:"Interior del triángulo: coexistencia de proyectos políticos distintos con poder distribuido. Alta heterogeneidad interna."};
+  if (iae > 25 && iae < 55 && iue > 15)   return {name:"Derecha democrática",        desc:"Estado moderado con orientación conservadora-particularista. Énfasis en identidad, tradición y valores comunitarios."};
+  if (iae > 25 && iae < 55 && iue < -15)  return {name:"Izquierda democrática",      desc:"Estado moderado con orientación universalista-igualitarista. Énfasis en derechos universales y redistribución."};
   if (iae <= 35 && iue > 15)              return {name:"Liberalismo conservador",     desc:"Estado pequeño con orientación cultural particularista. Libertad económica combinada con énfasis en identidad y tradición."};
   if (iae <= 35 && iue < -15)             return {name:"Liberalismo progresista",     desc:"Estado pequeño con orientación universalista. Libertad económica combinada con énfasis en derechos individuales."};
   return {name:"Zona central", desc:"Posición central del espectro: alcance moderado y orientación pragmática. Combina elementos de diferentes tradiciones."};

@@ -542,6 +542,16 @@ body.expert-mode .nav-toggle {
 
 .tt-desc { color: rgba(255,255,255,0.75); margin-bottom: var(--gap-sm); }
 
+.tt-coercion {
+  font-size: 0.72rem;
+  color: rgba(255, 200, 100, 0.9);
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: var(--gap-sm);
+  margin-bottom: var(--gap-sm);
+  line-height: 1.5;
+}
+.tt-coercion strong { color: rgba(255, 200, 100, 1); }
+
 .tt-indices {
   display: flex;
   gap: var(--gap-sm);
