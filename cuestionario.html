@@ -5,338 +5,171 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cuestionario — El Triángulo Político</title>
 <style>
+  /*
+   * cuestionario.html — V3.3
+   * Tokens alineados con style.css del sitio principal.
+   * Nombres: --white, --ink-*, --surface-*, iguales al sistema principal.
+   */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:        #FAFAF8;
-    --bg2:       #F3F1EC;
-    --bg3:       #E8E5DF;
-    --text:      #1A1916;
-    --text2:     #3D3C38;
-    --text3:     #6B6A65;
-    --border:    rgba(26,25,22,0.10);
-    --border2:   rgba(26,25,22,0.18);
-    --blue:      #1B5C9E;
-    --blue-bg:   #D6E7F7;
-    --blue-text: #0c3a6e;
-    --amber:     #B5600A;
-    --amber-bg:  #FAE8CC;
-    --amber-text:#7a3a00;
-    --green:     #0F6E5A;
-    --green-bg:  #D0EFE7;
-    --green-text:#0a4035;
-    --radius:    8px;
-    --radius-lg: 16px;
+    --white:        #FAFAF8;
+    --ink:          #1A1916;
+    --ink-2:        #3D3C38;
+    --ink-3:        #6B6A65;
+    --ink-4:        #A8A7A2;
+    --surface:      #F3F1EC;
+    --surface-2:    #E8E5DF;
+    --blue:         #1B5C9E;
+    --blue-light:   #D6E7F7;
+    --blue-dark:    #0c3a6e;
+    --amber:        #B5600A;
+    --amber-light:  #FAE8CC;
+    --amber-dark:   #7a3a00;
+    --teal:         #0F6E5A;
+    --teal-light:   #D0EFE7;
+    --teal-dark:    #0a4035;
+    --c-iaec-bg:    #0F6E5A;
+    --c-iaee-bg:    #5E3FA0;
+    --radius:       8px;
+    --radius-lg:    16px;
+    --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg:        #1C1B18;
-      --bg2:       #252420;
-      --bg3:       #2E2D29;
-      --text:      #F0EDE6;
-      --text2:     #D4D1CA;
-      --text3:     #9C9A93;
-      --border:    rgba(255,255,255,0.10);
-      --border2:   rgba(255,255,255,0.18);
-      --blue:      #85b7eb;
-      --blue-bg:   #0c3060;
-      --blue-text: #b5d4f4;
-      --amber:     #e8a04a;
-      --amber-bg:  #4a2e04;
-      --amber-text:#fac775;
-      --green:     #4db89a;
-      --green-bg:  #0a2e25;
-      --green-text:#a0ddd0;
+      --white:        #1C1B18;
+      --ink:          #F0EDE6;
+      --ink-2:        #D4D1CA;
+      --ink-3:        #9C9A93;
+      --ink-4:        #5C5B57;
+      --surface:      #252420;
+      --surface-2:    #2E2D29;
+      --blue:         #85b7eb;
+      --blue-light:   #0c3060;
+      --blue-dark:    #b5d4f4;
+      --amber:        #e8a04a;
+      --amber-light:  #4a2e04;
+      --amber-dark:   #fac775;
+      --teal:         #4db89a;
+      --teal-light:   #0a2e25;
+      --teal-dark:    #a0ddd0;
+      --c-iaec-bg:    #2a9e7a;
+      --c-iaee-bg:    #8a67c8;
     }
   }
 
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
+  html, body { background: var(--white); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; min-height: 100vh; }
   body { padding: 1.5rem 1.25rem 2.5rem; }
 
-  /* ── PROGRESS ── */
-  .progress-track {
-    height: 3px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 2rem;
-  }
-  .progress-fill {
-    height: 3px;
-    background: var(--blue);
-    border-radius: 2px;
-    transition: width 0.35s ease;
-  }
+  .progress-track { height: 3px; background: var(--surface-2); border-radius: 2px; margin-bottom: 2rem; }
+  .progress-fill  { height: 3px; background: var(--blue); border-radius: 2px; transition: width 0.35s ease; }
 
-  /* ── QUESTION ── */
-  .q-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0.75rem;
-  }
-  .q-counter {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
-  .badge {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 2px 7px;
-    border-radius: 4px;
-  }
-  .badge-iae  { background: var(--blue-bg);  color: var(--blue-text); }
-  .badge-iue  { background: var(--amber-bg); color: var(--amber-text); }
+  .q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 0.75rem; }
+  .q-counter { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .badge-iae { background: var(--blue-light);  color: var(--blue-dark); }
+  .badge-iue { background: var(--amber-light); color: var(--amber-dark); }
 
-  .q-text {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.65;
-    margin-bottom: 1.75rem;
-    color: var(--text);
-  }
+  .q-text { font-size: 16px; line-height: 1.65; margin-bottom: 1.75rem; color: var(--ink); }
 
-  /* ── OPTIONS ── */
   .options { display: flex; flex-direction: column; gap: 4px; }
-
-  .option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 13px;
-    border-radius: var(--radius);
-    border: 0.5px solid transparent;
-    cursor: pointer;
-    transition: background 0.12s, border-color 0.12s;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .option:hover   { background: var(--bg2); border-color: var(--border2); }
-  .option.selected {
-    background: var(--blue-bg);
-    border-color: var(--blue);
-  }
-
-  .radio {
-    width: 17px; height: 17px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border2);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.12s, background 0.12s;
-  }
-  .option.selected .radio {
-    background: var(--blue);
-    border-color: var(--blue);
-  }
-  .radio-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: white;
-    opacity: 0;
-    transition: opacity 0.12s;
-  }
+  .option { display: flex; align-items: center; gap: 12px; padding: 9px 13px; border-radius: var(--radius); border: 0.5px solid transparent; cursor: pointer; transition: background 0.12s, border-color 0.12s; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .option:hover { background: var(--surface); border-color: var(--surface-2); }
+  .option.selected { background: var(--blue-light); border-color: var(--blue); }
+  .radio { width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--surface-2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: border-color 0.12s, background 0.12s; }
+  .option.selected .radio { background: var(--blue); border-color: var(--blue); }
+  .radio-dot { width: 6px; height: 6px; border-radius: 50%; background: white; opacity: 0; transition: opacity 0.12s; }
   .option.selected .radio-dot { opacity: 1; }
+  .option-label { font-size: 14px; color: var(--ink-2); transition: color 0.12s; }
+  .option.selected .option-label { color: var(--blue-dark); font-weight: 500; }
 
-  .option-label {
-    font-size: 14px;
-    color: var(--text2);
-    transition: color 0.12s;
-  }
-  .option.selected .option-label {
-    color: var(--blue-text);
-    font-weight: 500;
-  }
-
-  /* ── NAV ── */
-  .nav {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
-    margin-top: 1.5rem;
-  }
-  button {
-    background: transparent;
-    border: 0.5px solid var(--border2);
-    color: var(--text);
-    padding: 8px 18px;
-    border-radius: var(--radius);
-    font-size: 13px;
-    cursor: pointer;
-    transition: background 0.12s, transform 0.1s;
-    font-family: inherit;
-  }
-  button:hover   { background: var(--bg2); }
-  button:active  { transform: scale(0.97); }
+  .nav { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 1.5rem; }
+  button { background: transparent; border: 1px solid var(--surface-2); color: var(--ink); padding: 8px 18px; border-radius: var(--radius); font-size: 13px; cursor: pointer; transition: background 0.12s, transform 0.1s; font-family: var(--font-body); }
+  button:hover { background: var(--surface); }
+  button:active { transform: scale(0.97); }
   button:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
-  button.primary {
-    background: var(--blue);
-    color: white;
-    border-color: var(--blue);
-  }
-  button.primary:hover { opacity: 0.88; background: var(--blue); }
+  button.primary { background: var(--blue); color: white; border-color: var(--blue); }
+  button.primary:hover { opacity: 0.88; }
 
-  /* ── RESULT ── */
   .result { animation: fadeUp 0.4s ease; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .result-title {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 0.2rem;
-  }
-  .result-sub {
-    font-size: 13px;
-    color: var(--text3);
-    margin-bottom: 1.5rem;
-  }
+  .result-title { font-size: 20px; font-weight: 500; margin-bottom: 0.2rem; }
+  .result-sub   { font-size: 13px; color: var(--ink-3); margin-bottom: 1.5rem; }
 
-  /* Score cards */
-  .scores {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 1.5rem;
-  }
-  @media (max-width: 480px) {
-    .scores { grid-template-columns: 1fr 1fr; }
-    .scores .score-card:last-child { grid-column: span 2; }
-  }
-  .score-card {
-    background: var(--bg2);
-    border-radius: var(--radius);
-    padding: 11px 14px;
-  }
-  .score-label {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text3);
-    margin-bottom: 3px;
-  }
-  .score-val {
-    font-size: 26px;
-    font-weight: 500;
-    line-height: 1;
-    margin-bottom: 2px;
-  }
-  .score-desc { font-size: 11px; color: var(--text3); }
-  .c-blue   { color: var(--blue); }
-  .c-amber  { color: var(--amber); }
-  .c-green  { color: var(--green); }
+  .scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 1rem; }
+  @media (max-width: 480px) { .scores { grid-template-columns: 1fr 1fr; } .scores .score-card:last-child { grid-column: span 2; } }
+  .score-card  { background: var(--surface); border-radius: var(--radius); padding: 11px 14px; }
+  .score-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 3px; }
+  .score-val   { font-size: 26px; font-weight: 500; line-height: 1; margin-bottom: 2px; }
+  .score-desc  { font-size: 11px; color: var(--ink-3); }
+  .c-blue  { color: var(--blue); }
+  .c-amber { color: var(--amber); }
+  .c-teal  { color: var(--teal); }
 
-  /* Triangle + info layout */
-  .viz-row {
-    display: flex;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
+  /* Breakdown IAEc/IAEe V3.3 */
+  .breakdown { margin: 10px 0 14px; padding: 12px 14px; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--surface-2); }
+  .breakdown-title { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 10px; }
+  .breakdown-row { display: grid; grid-template-columns: 155px 1fr 32px; align-items: center; gap: 8px; margin-bottom: 7px; }
+  @media (max-width: 380px) { .breakdown-row { grid-template-columns: 110px 1fr 28px; } }
+  .breakdown-label { font-size: 12px; color: var(--ink-3); }
+  .breakdown-bar-wrap { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .breakdown-bar { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+  .breakdown-bar-c { background: var(--c-iaec-bg); }
+  .breakdown-bar-e { background: var(--c-iaee-bg); }
+  .breakdown-val { font-size: 12px; font-weight: 600; text-align: right; color: var(--ink-2); }
+  .breakdown-caption { font-size: 11px; color: var(--ink-4); margin-top: 6px; line-height: 1.5; }
+  .asym-note { margin-top: 8px; padding: 7px 10px; background: var(--amber-light); color: var(--amber-dark); border-radius: 5px; font-size: 12px; line-height: 1.5; }
+
+  .viz-row { display: flex; gap: 1.25rem; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: flex-start; }
   .viz-row svg { flex-shrink: 0; display: block; }
   .viz-info    { flex: 1; min-width: 180px; }
 
-  .zone-card {
-    background: var(--bg2);
-    border-radius: var(--radius);
-    padding: 13px 15px;
-    margin-bottom: 10px;
-  }
-  .zone-tag {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text3);
-    margin-bottom: 3px;
-  }
+  .zone-card { background: var(--surface); border-radius: var(--radius); padding: 13px 15px; margin-bottom: 10px; }
+  .zone-tag  { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--amber); margin-bottom: 3px; }
   .zone-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
-  .zone-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .zone-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .hetero-note { margin-top: 8px; padding: 7px 10px; background: var(--blue-light); color: var(--blue-dark); border-radius: 5px; font-size: 12px; line-height: 1.5; }
 
-  .comp-title { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+  .comp-title { font-size: 12px; font-weight: 500; color: var(--ink-2); margin-bottom: 6px; }
   .comp-list  { display: flex; flex-direction: column; gap: 5px; }
-  .comp-item  {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 7px 10px;
-    background: var(--bg2);
-    border-radius: var(--radius);
-    font-size: 13px;
-  }
-  .comp-dot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .comp-name { flex: 1; font-weight: 500; }
-  .comp-dist { font-size: 11px; color: var(--text3); }
+  .comp-item  { display: flex; align-items: center; gap: 9px; padding: 7px 10px; background: var(--surface); border-radius: var(--radius); font-size: 13px; }
+  .comp-dot   { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .comp-name  { flex: 1; font-weight: 500; }
+  .comp-dist  { font-size: 11px; color: var(--ink-3); }
 
-  .note {
-    background: var(--bg2);
-    border-left: 2.5px solid var(--border2);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    padding: 10px 14px;
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
-  }
-  .note strong { font-weight: 500; color: var(--text); }
+  .note { background: var(--surface); border-left: 2.5px solid var(--surface-2); border-radius: 0 var(--radius) var(--radius) 0; padding: 10px 14px; font-size: 12px; color: var(--ink-2); line-height: 1.6; margin-bottom: 1.25rem; }
+  .note strong { font-weight: 500; color: var(--ink); }
 
   .result-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-  /* Legend */
-  .legend {
-    display: flex;
-    gap: 14px;
-    font-size: 11px;
-    color: var(--text3);
-    margin-top: 6px;
-    justify-content: center;
-  }
+  .legend { display: flex; gap: 14px; font-size: 11px; color: var(--ink-3); margin-top: 6px; justify-content: center; }
   .legend-item { display: flex; align-items: center; gap: 5px; }
-  .legend-swatch {
-    width: 9px; height: 9px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .legend-swatch { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 </style>
 </head>
 <body>
-
 <div id="app"></div>
-
 <script>
+// cuestionario.html — Codebook V3.3
+// calcScores() con fórmula IAE 60/40 y desglose IAEc/IAEe
+// REGIMES sincronizados con CASOS de main.js V3.3
+
 const QUESTIONS = [
-  { text: "El Estado debería garantizar servicios básicos como salud y educación para toda la población.", axis: "IAE", dir: 1 },
-  { text: "Las personas deberían poder resolver la mayoría de sus necesidades sin depender del gobierno central.", axis: "IAE", dir: -1 },
-  { text: "Un gobierno fuerte y centralizado es necesario para garantizar el orden social.", axis: "IAE", dir: 1 },
-  { text: "Las regulaciones estatales sobre la economía son principalmente un obstáculo para la libertad individual.", axis: "IAE", dir: -1 },
-  { text: "El Estado debería ser el principal proveedor de bienestar social, no el mercado ni la caridad privada.", axis: "IAE", dir: 1 },
-  { text: "El poder debería estar distribuido en comunidades y gobiernos locales, lejos del Estado central.", axis: "IAE", dir: -1 },
-  { text: "Las fuerzas de seguridad necesitan amplias facultades para mantener el orden público.", axis: "IAE", dir: 1 },
-  { text: "La propiedad privada y la libertad económica son derechos que el Estado no debería limitar activamente.", axis: "IAE", dir: -1 },
-  { text: "El Estado debería regular activamente los mercados para evitar abusos y concentraciones de poder económico.", axis: "IAE", dir: 1 },
-  { text: "Los medios de comunicación deberían operar con total independencia del Estado, sin regulación oficial.", axis: "IAE", dir: -1 },
-  { text: "Los derechos y beneficios sociales deberían aplicarse por igual a todas las personas, independientemente de su origen o nacionalidad.", axis: "IUE", dir: -1 },
+  { text: "El Estado debería garantizar servicios básicos como salud y educación para toda la población.", axis: "IAE", subaxis: "IAEe", dir: 1 },
+  { text: "Las personas deberían poder resolver la mayoría de sus necesidades sin depender del gobierno central.", axis: "IAE", subaxis: "IAEe", dir: -1 },
+  { text: "Un gobierno fuerte y centralizado es necesario para garantizar el orden social.", axis: "IAE", subaxis: "IAEc", dir: 1 },
+  { text: "Las regulaciones estatales sobre la economía son principalmente un obstáculo para la libertad individual.", axis: "IAE", subaxis: "IAEe", dir: -1 },
+  { text: "El Estado debería ser el principal proveedor de bienestar social, no el mercado ni la caridad privada.", axis: "IAE", subaxis: "IAEe", dir: 1 },
+  { text: "El poder debería estar distribuido en comunidades y gobiernos locales, lejos del Estado central.", axis: "IAE", subaxis: "IAEc", dir: -1 },
+  { text: "Las fuerzas de seguridad necesitan amplias facultades para mantener el orden público.", axis: "IAE", subaxis: "IAEc", dir: 1 },
+  { text: "La propiedad privada y la libertad económica son derechos que el Estado no debería limitar activamente.", axis: "IAE", subaxis: "IAEe", dir: -1 },
+  { text: "El Estado debería regular activamente los mercados para evitar abusos y concentraciones de poder.", axis: "IAE", subaxis: "IAEe", dir: 1 },
+  { text: "Los medios de comunicación deberían operar con total independencia del Estado, sin regulación oficial.", axis: "IAE", subaxis: "IAEc", dir: -1 },
+  { text: "Los derechos y beneficios sociales deberían aplicarse por igual a todas las personas, independientemente de su origen.", axis: "IUE", dir: -1 },
   { text: "La identidad nacional y cultural es un valor fundamental que el Estado debe preservar activamente.", axis: "IUE", dir: 1 },
-  { text: "Las políticas públicas deberían reflejar y proteger las tradiciones y valores culturales establecidos en la sociedad.", axis: "IUE", dir: 1 },
+  { text: "Las políticas públicas deberían reflejar y proteger las tradiciones y valores culturales establecidos.", axis: "IUE", dir: 1 },
   { text: "La diversidad cultural enriquece a la sociedad y el Estado debería fomentarla activamente.", axis: "IUE", dir: -1 },
   { text: "Los recursos y beneficios sociales deberían destinarse prioritariamente a los ciudadanos del propio país.", axis: "IUE", dir: 1 },
   { text: "Los derechos humanos son universales y aplican por igual en todas las culturas, sin excepción.", axis: "IUE", dir: -1 },
@@ -348,239 +181,164 @@ const QUESTIONS = [
 
 const LABELS = ["Muy en desacuerdo", "En desacuerdo", "Neutral", "De acuerdo", "Muy de acuerdo"];
 
+// Sincronizados con CASOS main.js V3.3 [iae, iue, label, color]
 const REGIMES = [
-  [92, -95, "URSS stalinista",        "#555"],
-  [98, -88, "Camboya / Pol Pot",      "#444"],
-  [77, -80, "Cuba 1970s–80s",         "#666"],
-  [83,  95, "Alemania Nazi",          "#8B1A1A"],
-  [73,  88, "Irán post-revolución",   "#A0522D"],
-  [63,  75, "Arabia Saudita",         "#CD853F"],
-  [63,  20, "Turquía 2024",           "#4682B4"],
-  [58,  25, "Hungría 2020",           "#5B9BD5"],
-  [53, -22, "Argentina 2015",         "#4169E1"],
-  [45,  -8, "Singapur 2024",          "#2E75B6"],
-  [42, -10, "Alemania 2024",          "#1A5276"],
-  [29,  -8, "Suiza (actual)",         "#27AE60"],
-  [22, -10, "Hong Kong pre-1997",     "#1E8449"],
+  [72, -90, "URSS stalinista",    "#7A0000"],
+  [62,  85, "Alemania Nazi",      "#4A1A1A"],
+  [51,  80, "Irán actual",        "#8B1A1A"],
+  [52, -65, "Venezuela 2010s",    "#E07B20"],
+  [52, -15, "China actual",       "#C0392B"],
+  [43,  55, "Hungría 2022",       "#7B3F00"],
+  [43, -55, "Suecia 1980s",       "#0F6E5A"],
+  [39, -40, "Noruega",            "#1B5C9E"],
+  [35,  20, "EE.UU. 2000s",       "#2874A6"],
+  [35,  15, "Singapur 2020",      "#8B6914"],
+  [32,   8, "Suiza",              "#2874A6"],
+  [ 9,   0, "Somalia 1990s",      "#888"   ],
 ];
 
-// Triangle geometry (SVG 260×260)
-const W = 260, H = 260;
-const APEX = {x:130, y:14};
-const BL   = {x:12,  y:244};
-const BR   = {x:248, y:244};
+const TRI = { A: {x:130, y:14}, C: {x:12, y:244}, F: {x:248, y:244} };
 
 function toXY(iae, iue) {
-  const t  = iae / 100;
-  const u  = iue / 100;
-  const y  = APEX.y + t * (BL.y - APEX.y);
-  const cx = APEX.x + t * ((BL.x + BR.x) / 2 - APEX.x);
-  const hw = t * ((BR.x - BL.x) / 2);
-  return { x: cx + u * hw, y };
+  const iaeN = Math.max(0, Math.min(100, iae)) / 100;
+  const iueN = (Math.max(-100, Math.min(100, iue)) + 100) / 200;
+  const wA = 1 - iaeN, wC = iaeN * (1 - iueN), wF = iaeN * iueN;
+  return { x: wA*TRI.A.x + wC*TRI.C.x + wF*TRI.F.x, y: wA*TRI.A.y + wC*TRI.C.y + wF*TRI.F.y };
 }
 
-// App state
-let step    = 0;
-let answers = Array(QUESTIONS.length).fill(null);
-let phase   = "quiz";
+function calcIAE(iaec, iaee) {
+  if (iaee < 10) return Math.max(iaec, iaee); // IAE_político §2.2.0
+  return Math.round((iaec * 0.60) + (iaee * 0.40));
+}
 
-/* ── SCORE ── */
+let step = 0, answers = Array(QUESTIONS.length).fill(null), phase = "quiz";
+
 function calcScores() {
-  let iaeSum = 0, iaeN = 0, iueSum = 0, iueN = 0;
+  let iueSum = 0, iueN = 0, iaecSum = 0, iaecN = 0, iaeeSum = 0, iaeeN = 0;
   QUESTIONS.forEach((q, i) => {
     if (answers[i] === null) return;
-    const norm  = (answers[i] - 3);
-    const score = norm * q.dir * 25;
-    if (q.axis === "IAE") { iaeSum += score; iaeN++; }
-    else                  { iueSum += score; iueN++; }
+    const score = (answers[i] - 3) * q.dir * 25;
+    if (q.axis === "IAE") {
+      if (q.subaxis === "IAEc") { iaecSum += score; iaecN++; }
+      else                      { iaeeSum += score; iaeeN++; }
+    } else { iueSum += score; iueN++; }
   });
-  const iae  = Math.max(0,    Math.min(100, Math.round(50 + (iaeN ? iaeSum / iaeN : 0))));
+  const iaec = iaecN ? Math.max(0, Math.min(100, Math.round(50 + iaecSum / iaecN))) : 50;
+  const iaee = iaeeN ? Math.max(0, Math.min(100, Math.round(50 + iaeeSum / iaeeN))) : 50;
+  const iae  = calcIAE(iaec, iaee);
   const iue  = Math.max(-100, Math.min(100, Math.round(iueN ? iueSum / iueN * 2 : 0)));
   const iuee = Math.round((iue / 100) * iae);
-  return {iae, iue, iuee};
+  return { iae, iue, iuee, iaec, iaee };
 }
 
 function getZone(iae, iue) {
-  const iuee = (iue/100)*iae;
-  if (iae < 20)                           return {name:"Zona semi-libertaria",      desc:"Alcance estatal muy reducido. Predomina la autonomía individual, la descentralización y la limitación del poder coercitivo."};
-  if (iae > 80 && iue < -50)              return {name:"Polo comunista",             desc:"Estado de alcance máximo orientado a homogeneizar la vida económica. Imposición forzosa de igualdad material mediante coerción extrema."};
-  if (iae > 80 && iue > 50)               return {name:"Polo fascista / teocrático", desc:"Estado de alcance máximo orientado a imponer una identidad cultural o religiosa dominante. Coerción extrema al servicio de la homogeneidad."};
-  if (iae > 60 && Math.abs(iue) < 30)     return {name:"Autocracia pragmática",      desc:"Alto alcance estatal sin proyecto ideológico fuerte. Predomina la lógica de control y mantenimiento del poder."};
-  if (iae > 55 && iue > 20)               return {name:"Autoritarismo electoral",    desc:"Instituciones formalmente democráticas con erosión de libertades civiles y proyecto identitario-nacionalista."};
-  if (iae > 55 && iue < -20)              return {name:"Intervencionismo de izquierda", desc:"Estado de alcance alto con orientación redistributiva e igualitarista. Fuerte intervención económica."};
-  if (iae > 25 && iae < 55 && Math.abs(iuee) < 20) return {name:"Zona democrática",  desc:"Interior del triángulo: coexistencia de proyectos políticos distintos con poder distribuido. Alta heterogeneidad interna."};
-  if (iae > 25 && iae < 55 && iue > 15)   return {name:"Derecha democrática",        desc:"Estado moderado con orientación conservadora-particularista. Énfasis en identidad, tradición y valores comunitarios."};
-  if (iae > 25 && iae < 55 && iue < -15)  return {name:"Izquierda democrática",      desc:"Estado moderado con orientación universalista-igualitarista. Énfasis en derechos universales y redistribución."};
-  if (iae <= 35 && iue > 15)              return {name:"Liberalismo conservador",     desc:"Estado pequeño con orientación cultural particularista. Libertad económica combinada con énfasis en identidad y tradición."};
-  if (iae <= 35 && iue < -15)             return {name:"Liberalismo progresista",     desc:"Estado pequeño con orientación universalista. Libertad económica combinada con énfasis en derechos individuales."};
-  return {name:"Zona central", desc:"Posición central del espectro: alcance moderado y orientación pragmática. Combina elementos de diferentes tradiciones."};
+  const e = (iue / 100) * iae;
+  if (iae < 20)                                    return { name: "Zona semi-libertaria",        desc: "Alcance estatal muy reducido. Predomina la autonomía individual y la limitación del poder coercitivo." };
+  if (iae > 80 && iue < -50)                       return { name: "Polo comunista",               desc: "Estado de alcance máximo orientado a homogeneizar la vida económica mediante coerción extrema." };
+  if (iae > 80 && iue > 50)                        return { name: "Polo fascista / teocrático",   desc: "Estado de alcance máximo orientado a imponer una identidad cultural o religiosa dominante." };
+  if (iae > 60 && Math.abs(iue) < 30)              return { name: "Autocracia pragmática",        desc: "Alto alcance estatal sin proyecto ideológico fuerte. Predomina la lógica de control." };
+  if (iae > 55 && iue > 20)                        return { name: "Autoritarismo electoral",      desc: "Instituciones formalmente democráticas con erosión de libertades civiles." };
+  if (iae > 55 && iue < -20)                       return { name: "Intervencionismo de izquierda", desc: "Estado de alcance alto con orientación redistributiva e igualitarista." };
+  if (iae >= 20 && iae <= 55 && Math.abs(e) < 20)  return { name: "Zona democrática",             desc: "Interior del triángulo: coexistencia de proyectos políticos distintos con poder distribuido.", hetero: true };
+  if (iae >= 20 && iae <= 55 && iue > 15)          return { name: "Derecha democrática",          desc: "Estado moderado con orientación conservadora-particularista." };
+  if (iae >= 20 && iae <= 55 && iue < -15)         return { name: "Izquierda democrática",        desc: "Estado moderado con orientación universalista-igualitarista." };
+  if (iae < 35 && iue > 15)                        return { name: "Liberalismo conservador",      desc: "Estado pequeño con orientación cultural particularista y libertad económica." };
+  if (iae < 35 && iue < -15)                       return { name: "Liberalismo progresista",      desc: "Estado pequeño con orientación universalista y énfasis en derechos individuales." };
+  return { name: "Zona central", desc: "Posición central: alcance moderado y orientación pragmática." };
 }
 
-function nearest(iae, iue, n=3) {
-  return REGIMES
-    .map(([ri, ru, name, color]) => ({name, color, d: Math.round(Math.sqrt((iae-ri)**2 + ((iue-ru)*0.7)**2))}))
-    .sort((a,b) => a.d - b.d).slice(0,n);
+function nearest(iae, iue, n = 3) {
+  return REGIMES.map(([ri,ru,name,color]) => ({ name, color, d: Math.round(Math.sqrt((iae-ri)**2+((iue-ru)*0.7)**2)) }))
+    .sort((a,b) => a.d - b.d).slice(0, n);
 }
 
-/* ── SVG TRIANGLE ── */
 function triSVG(iae, iue) {
-  const pt   = toXY(iae, iue);
-  const dots = REGIMES.map(([ri,ru,,color]) => {
-    const p = toXY(ri, ru);
-    return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="${color}" opacity="0.5"/>`;
-  }).join("");
-
-  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-    <polygon points="${APEX.x},${APEX.y} ${BL.x},${BL.y} ${BR.x},${BR.y}"
-      fill="rgba(24,95,165,0.07)" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
-    <line x1="${APEX.x}" y1="${APEX.y}" x2="${(BL.x+BR.x)/2}" y2="${BL.y}"
-      stroke="currentColor" stroke-width="0.4" stroke-dasharray="3 3" opacity="0.25"/>
-    <text x="${APEX.x}" y="10" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.45" font-family="system-ui,sans-serif">Anarquía</text>
-    <text x="${BL.x}"   y="${BL.y+13}" text-anchor="start"  font-size="7.5" fill="currentColor" opacity="0.45" font-family="system-ui,sans-serif">Comunismo</text>
-    <text x="${BR.x}"   y="${BR.y+13}" text-anchor="end"    font-size="7.5" fill="currentColor" opacity="0.45" font-family="system-ui,sans-serif">Fascismo</text>
+  const pt = toXY(iae, iue);
+  const dots = REGIMES.map(([ri,ru,,c]) => { const p=toXY(ri,ru); return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="${c}" opacity="0.5"/>`; }).join("");
+  return `<svg width="260" height="260" viewBox="0 0 260 260">
+    <polygon points="130,14 12,244 248,244" fill="rgba(24,95,165,0.07)" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+    <text x="130" y="10" text-anchor="middle" font-size="8" fill="currentColor" opacity="0.45" font-family="system-ui,sans-serif">Anarquía</text>
+    <text x="12"  y="257" text-anchor="start" font-size="7.5" fill="currentColor" opacity="0.45" font-family="system-ui,sans-serif">Comunismo</text>
+    <text x="248" y="257" text-anchor="end"   font-size="7.5" fill="currentColor" opacity="0.45" font-family="system-ui,sans-serif">Fascismo</text>
     ${dots}
-    <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="8"  fill="#185fa5" opacity="0.18"/>
-    <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="5"  fill="#185fa5"/>
-    <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="2"  fill="white"/>
+    <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="8" fill="#1B5C9E" opacity="0.18"/>
+    <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="5" fill="#1B5C9E"/>
+    <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="2" fill="white"/>
   </svg>`;
 }
 
-/* ── RENDER QUIZ ── */
 function renderQuiz() {
-  const q   = QUESTIONS[step];
+  const q = QUESTIONS[step], ans = answers[step], hasAns = ans !== null;
   const pct = Math.round((step / QUESTIONS.length) * 100);
-  const ans = answers[step];
-  const hasAns = ans !== null;
-
   return `
-    <div class="progress-track"><div class="progress-fill" id="pf" style="width:${pct}%"></div></div>
+    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
     <div class="q-meta">
       <span class="q-counter">Pregunta ${step+1} de ${QUESTIONS.length}</span>
       <span class="badge badge-${q.axis.toLowerCase()}">${q.axis}</span>
     </div>
     <p class="q-text">${q.text}</p>
     <div class="options">
-      ${LABELS.map((l,i) => {
-        const v = i+1;
-        return `<div class="option${ans===v?" selected":""}" onclick="pick(${v})">
-          <div class="radio"><div class="radio-dot"></div></div>
-          <span class="option-label">${l}</span>
-        </div>`;
-      }).join("")}
+      ${LABELS.map((l,i) => { const v=i+1; return `<div class="option${ans===v?' selected':''}" onclick="pick(${v})"><div class="radio"><div class="radio-dot"></div></div><span class="option-label">${l}</span></div>`; }).join("")}
     </div>
     <div class="nav">
       ${step > 0 ? `<button onclick="prev()">← Anterior</button>` : ""}
-      <button class="${hasAns?"primary":""}" onclick="next()" ${hasAns?"":"disabled"}>
+      <button class="${hasAns?'primary':''}" onclick="next()" ${hasAns?'':'disabled'}>
         ${step === QUESTIONS.length-1 ? "Ver resultado →" : "Siguiente →"}
       </button>
     </div>`;
 }
 
-/* ── RENDER RESULT ── */
 function renderResult() {
-  const {iae, iue, iuee} = calcScores();
-  const zone  = getZone(iae, iue);
-  const near  = nearest(iae, iue);
+  const { iae, iue, iuee, iaec, iaee } = calcScores();
+  const zone = getZone(iae, iue), near = nearest(iae, iue);
   const iueLbl = iue < -60 ? "Muy universalista" : iue < -20 ? "Universalista" : iue < 20 ? "Centro pragmático" : iue < 60 ? "Particularista" : "Muy particularista";
-  const iaeLbl = iae < 20  ? "Muy reducido"      : iae < 40  ? "Limitado"      : iae < 60 ? "Moderado"           : iae < 80 ? "Alto"            : "Máximo";
+  const iaeLbl = iae < 20 ? "Muy reducido" : iae < 40 ? "Limitado" : iae < 60 ? "Moderado" : iae < 80 ? "Alto" : "Máximo";
+  const asymNote = Math.abs(iaec - iaee) >= 10
+    ? `<div class="asym-note">Tus respuestas sugieren asimetría: IAEc ≈ ${iaec} vs IAEe ≈ ${iaee}. ${iaec > iaee ? 'Preferís más regulación sobre comportamientos que sobre la economía.' : 'Preferís más intervención económica que control sobre libertades civiles.'}</div>` : '';
+  const heteroNote = zone.hetero
+    ? `<div class="hetero-note"><strong>Zona de alta heterogeneidad:</strong> Esta región concentra regímenes muy distintos. La posición describe tu orientación declarada, no un tipo de régimen único.</div>` : '';
 
   return `
     <div class="result">
       <div class="result-title">Tu posición en el triángulo</div>
-      <div class="result-sub">Basada en ${QUESTIONS.length} respuestas. Aproximación orientativa.</div>
-
+      <div class="result-sub">Basada en ${QUESTIONS.length} respuestas · Codebook V3.3 · Aproximación orientativa.</div>
       <div class="scores">
-        <div class="score-card">
-          <div class="score-label">IAE — Alcance</div>
-          <div class="score-val c-blue">${iae}</div>
-          <div class="score-desc">${iaeLbl}</div>
-        </div>
-        <div class="score-card">
-          <div class="score-label">IUE — Orientación</div>
-          <div class="score-val c-amber">${iue>0?"+":""}${iue}</div>
-          <div class="score-desc">${iueLbl}</div>
-        </div>
-        <div class="score-card">
-          <div class="score-label">IUEe — Imposición</div>
-          <div class="score-val c-green">${iuee>0?"+":""}${iuee}</div>
-          <div class="score-desc">IUE × IAE / 100</div>
-        </div>
+        <div class="score-card"><div class="score-label">IAE — Alcance</div><div class="score-val c-blue">${iae}</div><div class="score-desc">${iaeLbl}</div></div>
+        <div class="score-card"><div class="score-label">IUE — Orientación</div><div class="score-val c-amber">${iue>0?'+':''}${iue}</div><div class="score-desc">${iueLbl}</div></div>
+        <div class="score-card"><div class="score-label">IUEe — Imposición</div><div class="score-val c-teal">${iuee>0?'+':''}${iuee}</div><div class="score-desc">IUE × IAE / 100</div></div>
       </div>
-
+      <div class="breakdown">
+        <div class="breakdown-title">Desglose IAE (V3.3 — ponderación 60/40)</div>
+        <div class="breakdown-row"><span class="breakdown-label">IAEc · civil (×0.60)</span><div class="breakdown-bar-wrap"><div class="breakdown-bar breakdown-bar-c" style="width:${iaec}%"></div></div><span class="breakdown-val">${iaec}</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">IAEe · económico (×0.40)</span><div class="breakdown-bar-wrap"><div class="breakdown-bar breakdown-bar-e" style="width:${iaee}%"></div></div><span class="breakdown-val">${iaee}</span></div>
+        <div class="breakdown-caption">IAE = (IAEc × 0.60) + (IAEe × 0.40) = ${iae}</div>
+        ${asymNote}
+      </div>
       <div class="viz-row">
-        <div>
-          ${triSVG(iae, iue)}
-          <div class="legend">
-            <div class="legend-item"><div class="legend-swatch" style="background:#185fa5"></div>Tu posición</div>
-            <div class="legend-item"><div class="legend-swatch" style="background:#888"></div>Casos históricos</div>
-          </div>
-        </div>
+        <div>${triSVG(iae, iue)}<div class="legend"><div class="legend-item"><div class="legend-swatch" style="background:#1B5C9E"></div>Tu posición</div><div class="legend-item"><div class="legend-swatch" style="background:#888"></div>Casos históricos</div></div></div>
         <div class="viz-info">
-          <div class="zone-card">
-            <div class="zone-tag">Zona identificada</div>
-            <div class="zone-name">${zone.name}</div>
-            <div class="zone-desc">${zone.desc}</div>
-          </div>
+          <div class="zone-card"><div class="zone-tag">Zona identificada</div><div class="zone-name">${zone.name}</div><div class="zone-desc">${zone.desc}</div>${heteroNote}</div>
           <div class="comp-title">Regímenes más cercanos:</div>
-          <div class="comp-list">
-            ${near.map(c=>`
-              <div class="comp-item">
-                <div class="comp-dot" style="background:${c.color}"></div>
-                <div class="comp-name">${c.name}</div>
-                <div class="comp-dist">~${c.d} pts</div>
-              </div>`).join("")}
-          </div>
+          <div class="comp-list">${near.map(c=>`<div class="comp-item"><div class="comp-dot" style="background:${c.color}"></div><div class="comp-name">${c.name}</div><div class="comp-dist">~${c.d} pts</div></div>`).join("")}</div>
         </div>
       </div>
-
-      <div class="note">
-        <strong>Nota:</strong> Este cuestionario es orientativo y no reemplaza el cálculo riguroso del modelo,
-        que usa fuentes verificables (Freedom House, Fraser Institute, FMI). Un mismo resultado puede
-        corresponder a regímenes muy distintos en sus consecuencias humanas.
-      </div>
-
+      <div class="note"><strong>Nota:</strong> Este cuestionario es orientativo. El cálculo riguroso usa Freedom House, WJP, Fraser Institute, FMI y V-Dem. La fórmula IAE aplica ponderación 60/40 según Codebook V3.3. Un mismo resultado puede corresponder a regímenes muy distintos en sus consecuencias humanas.</div>
       <div class="result-actions">
-        <button onclick="goToTriangle()">Ver en el triángulo →</button>
+        <button class="primary" onclick="goToTriangle()">Ver en el triángulo →</button>
         <button onclick="restart()">Reiniciar</button>
       </div>
     </div>`;
 }
 
-/* ── ACTIONS ── */
-function pick(v) {
-  answers[step] = v;
-  render();
-  if (step < QUESTIONS.length - 1) {
-    setTimeout(() => { step++; render(); }, 300);
-  }
-}
-function next() {
-  if (answers[step] === null) return;
-  if (step === QUESTIONS.length - 1) { phase = "result"; }
-  else { step++; }
-  render();
-}
-function prev() {
-  if (step > 0) { step--; render(); }
-}
-function goToTriangle() {
-  const {iae, iue} = calcScores();
-  if (window.parent !== window) {
-    window.parent.postMessage({ type: 'quiz-result', iae, iue }, '*');
-  }
-}
-function restart() {
-  step = 0; answers = Array(QUESTIONS.length).fill(null); phase = "quiz"; render();
-}
-
+function pick(v) { answers[step]=v; render(); if (step < QUESTIONS.length-1) setTimeout(()=>{step++;render();},300); }
+function next() { if (!answers[step]) return; if (step===QUESTIONS.length-1){phase="result";}else{step++;} render(); }
+function prev() { if (step>0){step--;render();} }
+function goToTriangle() { const {iae,iue}=calcScores(); if (window.parent!==window) window.parent.postMessage({type:'quiz-result',iae,iue},'*'); }
+function restart() { step=0; answers=Array(QUESTIONS.length).fill(null); phase="quiz"; render(); }
 function render() {
-  document.getElementById("app").innerHTML = phase === "quiz" ? renderQuiz() : renderResult();
-  // Notify parent of new height for iframe auto-resize
-  if (window.parent !== window) {
-    window.parent.postMessage({ type: "quiz-height", height: document.body.scrollHeight }, "*");
-  }
+  document.getElementById("app").innerHTML = phase==="quiz" ? renderQuiz() : renderResult();
+  if (window.parent!==window) window.parent.postMessage({type:"quiz-height",height:document.body.scrollHeight},"*");
 }
-
 render();
 </script>
 </body>

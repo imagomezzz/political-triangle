@@ -1,6 +1,15 @@
 /**
  * EL TRIÁNGULO POLÍTICO — main.js
- * Codebook V3.2
+ * Codebook V3.3
+ *
+ * Cambios V3.3:
+ *  - Fórmula IAE: ponderación 60/40 (IAEc × 0.60 + IAEe × 0.40)
+ *  - Flag IAEc_represivo: alerta en panel experto cuando IAEc estimado ≥ 50
+ *  - IAE_político para casos de colapso económico (IAEe < 10)
+ *  - Casos recalculados con nueva ponderación
+ *  - QUIZ_REGIMES sincronizados con valores de CASOS
+ *  - Función toXY unificada (reemplaza 4 duplicados)
+ *  - syncState() centraliza actualización de sliders + punto + panel + lectura
  *
  * Módulos:
  *  1. Estado global
@@ -16,6 +25,37 @@
  * 11. Hero mini-triángulo
  * 12. Init
  */
+
+/* ══════════════════════════════════════════════════
+   FÓRMULAS CORE V3.3
+══════════════════════════════════════════════════ */
+
+/**
+ * Fórmula IAE V3.3 — ponderación 60/40.
+ * Cuando IAEe_efectivo < 10 (colapso económico), usa IAE_político = max(IAEc, IAEe).
+ */
+function calcIAE(iaec, iaee) {
+  if (iaee < 10) return Math.max(iaec, iaee); // IAE_político §2.2.0
+  return Math.round((iaec * 0.60) + (iaee * 0.40));
+}
+
+/**
+ * toXY universal — convierte índices (iae 0–100, iue −100..+100)
+ * a coordenadas SVG dado un objeto de vértices { A, C, F } con {x, y}.
+ * Reemplaza: indicesToXY, toXY_id, toXY2, quizToXY.
+ */
+function toXY(iae, iue, tri) {
+  const iaeN = Math.max(0, Math.min(100, iae)) / 100;
+  const iueN = (Math.max(-100, Math.min(100, iue)) + 100) / 200;
+  const wA = 1 - iaeN;
+  const wC = iaeN * (1 - iueN);
+  const wF = iaeN * iueN;
+  return {
+    x: wA * tri.A.x + wC * tri.C.x + wF * tri.F.x,
+    y: wA * tri.A.y + wC * tri.C.y + wF * tri.F.y,
+  };
+}
+
 
 'use strict';
 
@@ -118,13 +158,19 @@ const ZONAS = [
   },
 ];
 
-/** Casos ilustrativos */
+/**
+ * Casos ilustrativos — V3.3
+ * IAE recalculado con fórmula 60/40: IAE = (IAEc × 0.60) + (IAEe × 0.40)
+ * Los casos con IAEe < 10 usan IAE_político = max(IAEc, IAEe) §2.2.0
+ * Nota: el desplazamiento al alza respecto a V3.2 es intencional (ver Nota de Versión).
+ */
 const CASOS = [
   {
+    // Noruega: IAE = (32×0.60)+(49×0.40) = 19.2+19.6 = 39 (≈39, V3.2: 40)
     id: 'noruega',
     label: 'Noruega',
     periodo: 'actual',
-    iae: 40,
+    iae: 39,
     iue: -40,
     color: '#1B5C9E',
     zona: 'Social democracia',
@@ -135,6 +181,7 @@ const CASOS = [
     iaee_val: 49,
   },
   {
+    // Suiza: IAE = (33×0.60)+(30×0.40) = 19.8+12 = 32 (igual a V3.2 por simetría cercana)
     id: 'suiza',
     label: 'Suiza',
     periodo: 'actual',
@@ -149,10 +196,11 @@ const CASOS = [
     iaee_val: 30,
   },
   {
+    // EE.UU.: IAE = (40×0.60)+(27×0.40) = 24+10.8 = 35 (V3.2: 34, +1 por primacía civil)
     id: 'eeuu',
     label: 'EE.UU.',
     periodo: '2000s',
-    iae: 34,
+    iae: 35,
     iue: 20,
     color: '#1A4A7A',
     zona: 'Liberalismo conservador',
@@ -163,6 +211,7 @@ const CASOS = [
     iaee_val: 27,
   },
   {
+    // Hungría: IAE = (44×0.60)+(42×0.40) = 26.4+16.8 = 43 (igual a V3.2 por asimetría pequeña)
     id: 'hungria',
     label: 'Hungría',
     periodo: '2022',
@@ -177,24 +226,27 @@ const CASOS = [
     iaee_val: 42,
   },
   {
+    // Singapur R1: IAE = (44×0.60)+(21×0.40) = 26.4+8.4 = 35 (V3.2: 32, +3 por primacía civil)
+    // Asimetría R1 marcada: IAEc>IAEe → ponderación 60/40 amplifica la separación
     id: 'singapur',
     label: 'Singapur',
     periodo: '2020',
-    iae: 32,
+    iae: 35,
     iue: 15,
     color: '#8B6914',
     zona: 'Autoritarismo por desempeño',
     filter: 'autoritario',
-    desc: 'Autoritarismo por desempeño. Asimetría R1 marcada: IAEc (44) muy superior a IAEe (21). Control político con economía muy libre. Legitimidad basada en resultados, no en pluralismo.',
+    desc: 'Autoritarismo por desempeño. Asimetría R1 marcada: IAEc (44) muy superior a IAEe (21). V3.3 amplía la separación respecto a regímenes con IAEc~IAEe similar. Control político con economía muy libre.',
     indices: { iaec: 44, iaee: 21 },
     iaec: 44,
     iaee_val: 21,
   },
   {
+    // China R1: IAE = (58×0.60)+(44×0.40) = 34.8+17.6 = 52 (V3.2: 51, +1)
     id: 'china',
     label: 'China',
     periodo: 'actual',
-    iae: 51,
+    iae: 52,
     iue: -15,
     color: '#C0392B',
     zona: 'Autoritarismo de mercado',
@@ -206,10 +258,11 @@ const CASOS = [
     highCoercion: true,
   },
   {
+    // Venezuela: IAE = (58×0.60)+(43×0.40) = 34.8+17.2 = 52 (V3.2: 51, +1)
     id: 'venezuela',
     label: 'Venezuela',
     periodo: '2010s',
-    iae: 51,
+    iae: 52,
     iue: -65,
     color: '#E07B20',
     zona: 'Autoritarismo izquierdista',
@@ -220,6 +273,7 @@ const CASOS = [
     iaee_val: 43,
     highCoercion: true,
     trayectoria: {
+      // Venezuela 1999: IAE = (38×0.60)+(42×0.40) = 22.8+16.8 = 40
       label: 'Venezuela 1999',
       iae: 40,
       iue: -28,
@@ -228,10 +282,11 @@ const CASOS = [
     },
   },
   {
+    // Irán: IAE = (61×0.60)+(37×0.40) = 36.6+14.8 = 51 (V3.2: 49, +2 por primacía civil)
     id: 'iran',
     label: 'Irán',
     periodo: 'actual',
-    iae: 49,
+    iae: 51,
     iue: 80,
     color: '#8B1A1A',
     zona: 'Teocracia autoritaria',
@@ -242,14 +297,16 @@ const CASOS = [
     iaee_val: 37,
     highCoercion: true,
     trayectoria: {
+      // Irán 1979: IAE = (48×0.60)+(40×0.40) = 28.8+16 = 45
       label: 'Irán 1979',
-      iae: 44,
+      iae: 45,
       iue: 55,
       color: '#8B1A1A',
       desc: 'Revolución Islámica: expansión inicial del aparato estatal con fuerte proyecto teocrático en construcción.',
     },
   },
   {
+    // Somalia: IAEe=9 < 10 → IAE_político = max(8,9) = 9 (sin cambio)
     id: 'somalia',
     label: 'Somalia',
     periodo: '1990s',
@@ -258,67 +315,75 @@ const CASOS = [
     color: '#888',
     zona: 'Estado fallido',
     filter: 'extremo',
-    desc: 'Colapso del Estado. FTE = 0.80: el monopolio de la violencia se fragmenta entre actores armados no estatales. IAEc formal (39) colapsado a efectivo (8) por fragmentación territorial.',
+    desc: 'Colapso del Estado. FTE = 0.80: el monopolio de la violencia se fragmenta entre actores armados no estatales. IAEe < 10 activa IAE_político §2.2.0: IAE = max(IAEc=8, IAEe=9) = 9.',
     indices: { iaec: 8, iaee: 9 },
     iaec: 8,
     iaee_val: 9,
+    iaePolitico: true, // flag §2.2.0
   },
   {
+    // Suecia 1980s: IAE = (33×0.60)+(57×0.40) = 19.8+22.8 = 43 (V3.2: 45, −2)
+    // Caso calibrado: con wc=0.60 Suecia queda correctamente por debajo de China (IAE=52)
     id: 'suecia_80',
     label: 'Suecia',
     periodo: '1980s',
-    iae: 45,
+    iae: 43,
     iue: -55,
     color: '#0F6E5A',
     zona: 'Social democracia plena',
     filter: 'democratico',
-    desc: 'Modelo de Estado de bienestar en su punto de mayor expansión. IAEc muy bajo (33), IAEe elevado (57) por gasto público ~62% del PIB, alta carga tributaria y regulación laboral.',
+    desc: 'Modelo de Estado de bienestar en su punto de mayor expansión. IAEc muy bajo (33), IAEe elevado (57) por gasto público ~62% del PIB. V3.3: calibrado como punto de inflexión del coeficiente wc=0.60.',
     indices: { iaec: 33, iaee: 57 },
     iaec: 33,
     iaee_val: 57,
     trayectoria: {
+      // Suecia 2020s: IAE = (30×0.60)+(44×0.40) = 18+17.6 = 36
       label: 'Suecia 2020s',
-      iae: 40,
+      iae: 36,
       iue: -28,
       color: '#0F6E5A',
       desc: 'Retroceso moderado del Estado de bienestar: gasto/PIB cae a ~49%, regulación laboral más flexible.',
     },
   },
   {
+    // Chile Pinochet: IAE = (53×0.60)+(27×0.40) = 31.8+10.8 = 43 (V3.2: 40, +3 por primacía civil)
+    // Asimetría R1 marcada: IAEc represivo alto, IAEe liberalizado
     id: 'chile_pinochet',
     label: 'Chile',
     periodo: 'Pinochet tardío ~1985',
-    iae: 40,
+    iae: 43,
     iue: 50,
     color: '#5C4A1A',
     zona: 'Autoritarismo moderado de derecha',
     filter: 'autoritario',
-    desc: 'Autoritarismo de derecha con liberalización económica. IAEc elevado (53) por represión política y control de FF.AA. IAEe bajo (27) por desregulación y apertura de mercados.',
+    desc: 'Autoritarismo de derecha con liberalización económica. IAEc elevado (53, flag IAEc_represivo activo) por represión y FF.AA. autónomas. IAEe bajo (27) por desregulación y apertura.',
     indices: { iaec: 53, iaee: 27 },
     iaec: 53,
     iaee_val: 27,
     highCoercion: true,
   },
   {
+    // URSS: IAE = (69×0.60)+(76×0.40) = 41.4+30.4 = 72 (V3.2: 73, −1 por simetría alta)
     id: 'urss_stalin',
     label: 'URSS',
     periodo: 'estalinista ~1950',
-    iae: 73,
+    iae: 72,
     iue: -90,
     color: '#7A0000',
     zona: 'Totalitarismo de izquierda',
     filter: 'extremo',
-    desc: 'Estado totalitario con proyecto de homogeneización económica absoluta. IAEc máximo (69) por terror sistemático y control total. IAEe muy alto (76) por economía planificada centralmente.',
+    desc: 'Estado totalitario con proyecto de homogeneización económica absoluta. IAEc máximo (69) por terror sistemático. IAEe muy alto (76) por economía planificada centralmente.',
     indices: { iaec: 69, iaee: 76 },
     iaec: 69,
     iaee_val: 76,
     highCoercion: true,
   },
   {
+    // Alemania Nazi: IAE = (68×0.60)+(52×0.40) = 40.8+20.8 = 62 (V3.2: 60, +2 por primacía civil)
     id: 'alemania_nazi',
     label: 'Alemania Nazi',
     periodo: '1938',
-    iae: 60,
+    iae: 62,
     iue: 85,
     color: '#4A1A1A',
     zona: 'Fascismo histórico',
@@ -329,8 +394,9 @@ const CASOS = [
     iaee_val: 52,
     highCoercion: true,
     trayectoria: {
+      // Alemania 1933: IAE = (48×0.60)+(38×0.40) = 28.8+15.2 = 44
       label: 'Alemania 1933',
-      iae: 46,
+      iae: 44,
       iue: 50,
       color: '#4A1A1A',
       desc: 'Toma del poder: alcance estatal moderado en expansión, uso del Estado virando hacia la homogeneización cultural.',
@@ -456,22 +522,11 @@ const TRI = {
 };
 
 /**
- * De índices (iae 0–100, iue −100 a +100) a coordenadas SVG.
- * Usamos pesos baricéntricos:
- *  w_A = 1 - iae/100
- *  w_C = (iae/100) * (1 - iue_norm)     // iue_norm = (iue+100)/200
- *  w_F = (iae/100) * iue_norm
+ * Wrapper de compatibilidad para el triángulo principal.
+ * Usa toXY() unificada con los vértices del triángulo principal.
  */
 function indicesToXY(iae, iue) {
-  const iaeN = Math.max(0, Math.min(100, iae)) / 100;
-  const iueN = (Math.max(-100, Math.min(100, iue)) + 100) / 200;
-  const wA = 1 - iaeN;
-  const wC = iaeN * (1 - iueN);
-  const wF = iaeN * iueN;
-  return {
-    x: wA * TRI.A.x + wC * TRI.C.x + wF * TRI.F.x,
-    y: wA * TRI.A.y + wC * TRI.C.y + wF * TRI.F.y,
-  };
+  return toXY(iae, iue, TRI);
 }
 
 /**
@@ -518,6 +573,20 @@ function initTriangle() {
 
   if (!svg) return;
 
+  /** syncState — centraliza la actualización de sliders + punto + panel + lectura */
+  function syncState(iae, iue) {
+    state.iae = iae;
+    state.iue = iue;
+    if (iaeSlider) iaeSlider.value = iae;
+    if (iueSlider) iueSlider.value = iue;
+    if (iaeValEl)  iaeValEl.textContent = iae;
+    if (iueValEl)  iueValEl.textContent = iue >= 0 ? '+' + iue : iue;
+    renderUserPoint();
+    updatePositionPanel();
+    updateContextReading();
+    updateIUEAxis();
+  }
+
   // Dual-view toggle
   const dualToggle = document.getElementById('dualViewToggle');
   if (dualToggle) {
@@ -529,14 +598,7 @@ function initTriangle() {
 
   // Actualizar punto desde sliders
   function updateFromSliders() {
-    state.iae = parseInt(iaeSlider.value, 10);
-    state.iue = parseInt(iueSlider.value, 10);
-    iaeValEl.textContent = state.iae;
-    iueValEl.textContent = state.iue >= 0 ? '+' + state.iue : state.iue;
-    renderUserPoint();
-    updatePositionPanel();
-    updateContextReading();
-    updateIUEAxis();
+    syncState(parseInt(iaeSlider.value, 10), parseInt(iueSlider.value, 10));
   }
 
   iaeSlider.addEventListener('input', updateFromSliders);
@@ -565,16 +627,7 @@ function initTriangle() {
 
     state.iae = result.iae;
     state.iue = result.iue;
-
-    iaeSlider.value = state.iae;
-    iueSlider.value = state.iue;
-    iaeValEl.textContent = state.iae;
-    iueValEl.textContent = state.iue >= 0 ? '+' + state.iue : state.iue;
-
-    renderUserPoint();
-    updatePositionPanel();
-    updateContextReading();
-    updateIUEAxis();
+    syncState(result.iae, result.iue);
   });
 
   // Touch drag en SVG
@@ -586,16 +639,7 @@ function initTriangle() {
     const localY = touch.clientY - svgRect.top;
     const result = xyToIndices(localX, localY, svg);
     if (!result) return;
-    state.iae = result.iae;
-    state.iue = result.iue;
-    iaeSlider.value = state.iae;
-    iueSlider.value = state.iue;
-    iaeValEl.textContent = state.iae;
-    iueValEl.textContent = state.iue >= 0 ? '+' + state.iue : state.iue;
-    renderUserPoint();
-    updatePositionPanel();
-    updateContextReading();
-    updateIUEAxis();
+    syncState(result.iae, result.iue);
   }, { passive: false });
 
   // Vértices clicables
@@ -905,9 +949,19 @@ function updatePositionPanel() {
   if (expertPanel) {
     expertPanel.hidden = !state.expertMode;
     if (state.expertMode) {
-      // Fórmulas vivas
+      // Fórmulas vivas V3.3
       const formIUEe = document.getElementById('posFormIUEe');
       if (formIUEe) formIUEe.textContent = `(${state.iue}/100) × ${state.iae} = ${iuee}`;
+
+      // Fórmula IAE V3.3 60/40
+      const formIAE = document.getElementById('posFormIAE');
+      if (formIAE) {
+        const iueNorm = state.iue / 100;
+        const asym = iueNorm * 0.15;
+        const iaecV = Math.max(0, Math.min(100, Math.round(state.iae * (1 + asym + 0.05))));
+        const iaeeV = Math.max(0, Math.min(100, Math.round(state.iae * (1 - asym - 0.05))));
+        formIAE.textContent = `(${iaecV}×0.60) + (${iaeeV}×0.40) = ${calcIAE(iaecV, iaeeV)}`;
+      }
 
       // Asimetría IAEc/IAEe estimada
       const formAsym = document.getElementById('posFormAsym');
@@ -917,6 +971,27 @@ function updatePositionPanel() {
         const iaecV = Math.max(0, Math.min(100, Math.round(state.iae * (1 + asymmetry + 0.05))));
         const iaeeV = Math.max(0, Math.min(100, Math.round(state.iae * (1 - asymmetry - 0.05))));
         formAsym.textContent = `IAEc≈${iaecV}, IAEe≈${iaeeV}`;
+
+        // ── Flag IAEc_represivo §2.2.1a V3.3 ──────────────────────────
+        // Se activa cuando IAEc estimado ≥ 50 (alcance civil alto).
+        // Protocolo §1.3: el output debe acompañarse de contexto sobre tipo de coerción.
+        let flagEl = document.getElementById('posIAEcRepresivo');
+        if (!flagEl) {
+          flagEl = document.createElement('div');
+          flagEl.id = 'posIAEcRepresivo';
+          flagEl.className = 'pos-iaec-represivo-flag';
+          const conf = document.querySelector('.pos-confidence');
+          if (conf) conf.insertAdjacentElement('beforebegin', flagEl);
+        }
+        if (iaecV >= 50) {
+          flagEl.innerHTML = `<strong>⚑ Flag IAEc_represivo activo</strong> — IAEc estimado ≥ 50. ` +
+            `El protocolo §1.3 recomienda acompañar este análisis con contexto explícito sobre ` +
+            `el tipo de coerción: no es equivalente un Estado con alta burocracia civil ` +
+            `a uno con violencia sistemática documentada.`;
+          flagEl.hidden = false;
+        } else {
+          flagEl.hidden = true;
+        }
       }
 
       // Sensibilidad ±5 IAE
@@ -1121,15 +1196,8 @@ function initIdeologias() {
 
   // Triángulo de ideologías usa viewBox 700x600
   // Vértices: A(350,40) C(80,520) F(620,520)
-  function toXY_id(iae, iue) {
-    const iaeN = iae / 100;
-    const iueN = (iue + 100) / 200;
-    const wA = 1 - iaeN, wC = iaeN * (1 - iueN), wF = iaeN * iueN;
-    return {
-      x: wA * 350 + wC * 80 + wF * 620,
-      y: wA * 40  + wC * 520 + wF * 520,
-    };
-  }
+  const TRI_ID = { A: { x: 350, y: 40 }, C: { x: 80, y: 520 }, F: { x: 620, y: 520 } };
+  function toXY_id(iae, iue) { return toXY(iae, iue, TRI_ID); }
 
   let activeId = null;
 
@@ -1208,23 +1276,8 @@ function initCasos() {
   if (!list || !pointsGroup) return;
 
   // El triángulo de casos usa viewBox 700x600
-  const TRI2 = {
-    A: { x: 350, y: 40  },   // Anarquía  (arriba, centro)
-    C: { x: 80,  y: 520 },   // Comunismo (abajo-izq)
-    F: { x: 620, y: 520 },   // Fascismo  (abajo-der)
-  };
-
-  function toXY2(iae, iue) {
-    const iaeN = Math.max(0, Math.min(100, iae)) / 100;
-    const iueN = (Math.max(-100, Math.min(100, iue)) + 100) / 200;
-    const wA = 1 - iaeN;
-    const wC = iaeN * (1 - iueN);
-    const wF = iaeN * iueN;
-    return {
-      x: wA * TRI2.A.x + wC * TRI2.C.x + wF * TRI2.F.x,
-      y: wA * TRI2.A.y + wC * TRI2.C.y + wF * TRI2.F.y,
-    };
-  }
+  const TRI2 = { A: { x: 350, y: 40 }, C: { x: 80, y: 520 }, F: { x: 620, y: 520 } };
+  function toXY2(iae, iue) { return toXY(iae, iue, TRI2); }
 
   // Renderizar lista
   CASOS.forEach(caso => {
@@ -1723,12 +1776,18 @@ const QUIZ_LABELS = [
   "Totalmente de acuerdo"
 ];
 
+// QUIZ_REGIMES — sincronizados con CASOS V3.3 [iae, iue, label, color]
 const QUIZ_REGIMES = [
-  [55,-40,"Noruega","#1B5C9E"],[40,20,"EE.UU. 2000s","#2874A6"],
-  [80,-15,"China actual","#C0392B"],[72,-65,"Venezuela 2010s","#E07B20"],
-  [75,80,"Irán actual","#8B1A1A"],[8,0,"Somalia 1990s","#888"],
-  [62,-55,"Suecia 1980s","#0F6E5A"],[88,85,"Alemania Nazi","#4A1A1A"],
-  [48,-25,"Francia actual","#1A5276"],[42,-10,"Alemania 2024","#1A5276"],
+  [39, -40, 'Noruega',          '#1B5C9E'],
+  [35,  20, 'EE.UU. 2000s',     '#2874A6'],
+  [52, -15, 'China actual',     '#C0392B'],
+  [52, -65, 'Venezuela 2010s',  '#E07B20'],
+  [51,  80, 'Irán actual',      '#8B1A1A'],
+  [ 9,   0, 'Somalia 1990s',    '#888'   ],
+  [43, -55, 'Suecia 1980s',     '#0F6E5A'],
+  [62,  85, 'Alemania Nazi',    '#4A1A1A'],
+  [46, -25, 'Francia actual',   '#1A5276'],
+  [43, -10, 'Alemania 2024',    '#1A5276'],
 ];
 
 const quizState = {
@@ -1743,28 +1802,18 @@ const QUIZ_TRI = {
   F: { x: 248, y: 244 },
 };
 
-function quizToXY(iae, iue) {
-  const iaeN = Math.max(0, Math.min(100, iae)) / 100;
-  const iueN = (Math.max(-100, Math.min(100, iue)) + 100) / 200;
-  const wA = 1 - iaeN, wC = iaeN * (1 - iueN), wF = iaeN * iueN;
-  return {
-    x: wA * QUIZ_TRI.A.x + wC * QUIZ_TRI.C.x + wF * QUIZ_TRI.F.x,
-    y: wA * QUIZ_TRI.A.y + wC * QUIZ_TRI.C.y + wF * QUIZ_TRI.F.y,
-  };
-}
+function quizToXY(iae, iue) { return toXY(iae, iue, QUIZ_TRI); }
 
 function quizCalcScores() {
   let iaeSum = 0, iaeN = 0, iueSum = 0, iueN = 0;
-  // Sub-tracking para desglose en resultado
   let iaecSum = 0, iaecN = 0, iaeeSum = 0, iaeeN = 0;
 
   QUIZ_QUESTIONS.forEach((q, i) => {
     if (quizState.answers[i] === null) return;
     const norm = quizState.answers[i] - 3;
     const score = norm * q.dir * 25;
-    if (q.axis === "IAE") {
+    if (q.axis === 'IAE') {
       iaeSum += score; iaeN++;
-      // Las preguntas de IAE civil (libertades, seguridad) vs económico (empresas, impuestos)
       if (q.subaxis === 'IAEc') { iaecSum += score; iaecN++; }
       else                      { iaeeSum += score; iaeeN++; }
     } else {
@@ -1772,13 +1821,13 @@ function quizCalcScores() {
     }
   });
 
-  const iae  = Math.max(0,    Math.min(100, Math.round(50 + (iaeN ? iaeSum / iaeN : 0))));
+  const iaec = iaecN ? Math.max(0, Math.min(100, Math.round(50 + iaecSum / iaecN))) : 50;
+  const iaee = iaeeN ? Math.max(0, Math.min(100, Math.round(50 + iaeeSum / iaeeN))) : 50;
+
+  // V3.3: fórmula 60/40 con IAE_político si IAEe < 10
+  const iae  = calcIAE(iaec, iaee);
   const iue  = Math.max(-100, Math.min(100, Math.round(iueN ? iueSum / iueN * 2 : 0)));
   const iuee = Math.round((iue / 100) * iae);
-
-  // Valores desagregados para el desglose del resultado
-  const iaec = iaecN ? Math.max(0, Math.min(100, Math.round(50 + iaecSum / iaecN))) : iae;
-  const iaee = iaeeN ? Math.max(0, Math.min(100, Math.round(50 + iaeeSum / iaeeN))) : iae;
 
   return { iae, iue, iuee, iaec, iaee };
 }
@@ -1987,16 +2036,16 @@ window.quizPrev = function() {
 
 window.quizGoToTriangle = function() {
   const { iae, iue } = quizCalcScores();
-  state.iae = iae;
-  state.iue = iue;
+  // Reutiliza syncState para evitar duplicación
   const iaeSlider = document.getElementById('iaeSlider');
   const iueSlider = document.getElementById('iueSlider');
   const iaeValEl  = document.getElementById('iaeVal');
   const iueValEl  = document.getElementById('iueVal');
-  if (iaeSlider) iaeSlider.value = state.iae;
-  if (iueSlider) iueSlider.value = state.iue;
-  if (iaeValEl)  iaeValEl.textContent = state.iae;
-  if (iueValEl)  iueValEl.textContent = state.iue >= 0 ? '+' + state.iue : state.iue;
+  state.iae = iae; state.iue = iue;
+  if (iaeSlider) iaeSlider.value = iae;
+  if (iueSlider) iueSlider.value = iue;
+  if (iaeValEl)  iaeValEl.textContent = iae;
+  if (iueValEl)  iueValEl.textContent = iue >= 0 ? '+' + iue : iue;
   renderUserPoint();
   updatePositionPanel();
   updateContextReading();

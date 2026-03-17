@@ -94,6 +94,19 @@
     --bg-triangle:  #252420;
     --border-main:  #3C3B37;
     --border-axis:  #3C3B37;
+    /* Colores semánticos del triángulo en dark mode */
+    --c-anarquia:   #6aaee8;
+    --c-comunismo:  #e05a50;
+    --c-fascismo:   #c45050;
+    --c-liberal:    #6aaee8;
+    --c-user:       #f0a050;
+    --c-ivr:        #9b7fd4;
+    /* Índices */
+    --c-iae-bg:     #3a7ecf;
+    --c-iaec-bg:    #2a9e7a;
+    --c-iaee-bg:    #8a67c8;
+    --c-iue-bg:     #d4803a;
+    --c-iuee-bg:    #e05a50;
   }
 }
 
@@ -733,11 +746,6 @@ body.expert-mode .card-toggle { display: none; }
 }
 
 .caso-item {
-  flex: unset;
-  max-width: unset;
-}
-
-.caso-item {
   display: flex;
   align-items: center;
   gap: var(--gap-md);
@@ -747,6 +755,8 @@ body.expert-mode .card-toggle { display: none; }
   cursor: pointer;
   transition: all var(--t-fast);
   background: var(--white);
+  flex: unset;
+  max-width: unset;
 }
 
 .caso-item:hover,
@@ -2070,7 +2080,6 @@ body.student-mode .nav-toggle {
 .compare-result .compare-delta-iue  { color: var(--amber); }
 
 /* Caso item clickeable para comparar */
-.caso-item { cursor: pointer; }
 .caso-item.compare-selected {
   border-color: var(--amber);
   background: var(--amber-light);
@@ -2124,7 +2133,7 @@ body.student-mode .nav-toggle {
 .quiz-breakdown {
   margin: 16px 0;
   padding: 14px 16px;
-  background: var(--bg-2);
+  background: var(--surface);
   border-radius: 8px;
   border: 1px solid var(--border-main);
 }
@@ -2218,7 +2227,7 @@ em.iue-bias-note {
   display: block;
   margin-top: 8px;
   padding: 7px 10px;
-  background: var(--bg-2);
+  background: var(--surface);
   border-left: 3px solid var(--amber, #B5600A);
   border-radius: 0 4px 4px 0;
   font-style: normal;
@@ -2235,5 +2244,64 @@ em.iue-bias-note {
 @media (max-width: 480px) {
   .quiz-breakdown-row {
     grid-template-columns: 120px 1fr 32px;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   NUEVOS COMPONENTES V3.3
+══════════════════════════════════════════════════ */
+
+/* ─── FLAG IAEc_REPRESIVO §2.2.1a ─────────────────── */
+.pos-iaec-represivo-flag {
+  margin: var(--gap-sm) 0 var(--gap-md);
+  padding: var(--gap-sm) var(--gap-md);
+  background: var(--amber-light);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.78rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+.pos-iaec-represivo-flag strong { color: var(--amber); }
+
+/* ─── BADGE IAE_POLÍTICO §2.2.0 ───────────────────── */
+.caso-iae-politico-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--blue);
+  background: var(--blue-light);
+  padding: 2px 8px;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ─── NOTA RECALIBRACIÓN V3.3 ─────────────────────── */
+/* Indica en modo especialista cuando un caso usa
+   valores desplazados respecto a V3.2 */
+.caso-v33-delta {
+  font-size: 0.68rem;
+  color: var(--ink-4);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  margin-left: 4px;
+}
+
+/* ─── DARK MODE: nav transparencia ───────────────── */
+@media (prefers-color-scheme: dark) {
+  #nav { background: rgba(28,27,24,0.92); }
+
+  /* Tooltip con fondo oscuro */
+  .tri-tooltip {
+    background: var(--surface-2);
+    color: var(--ink);
+    border: 1px solid var(--border-main);
+  }
+  .tt-desc { color: var(--ink-3); }
+
+  /* Triángulo en dark mode */
+  #mainTriangle polygon[fill="var(--bg-triangle)"],
+  #casosTriangle polygon,
+  #ideologiasTriangle polygon {
+    fill: var(--bg-triangle);
   }
 }
