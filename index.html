@@ -1,929 +1,534 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>El Triángulo Político</title>
-  <meta name="description" content="Un modelo analítico para describir, comparar y proyectar la trayectoria de regímenes políticos." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Triángulo Político — Modelo V4.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════ NAV ═══════════════════════════════════ -->
-  <nav id="nav">
-    <a href="#inicio" class="nav-logo">El Triángulo Político</a>
-    <div class="nav-links">
-      <a href="#triangulo">Explorar</a>
-      <a href="#indices">Índices</a>
-      <a href="#fuerzas">Fuerzas</a>
-      <a href="#ideologias">Ideologías</a>
-      <a href="#casos">Casos</a>
-      <a href="#cuestionario">Test</a>
-      <a href="#metodologia">Metodología</a>
-    </div>
-    <button class="nav-toggle" id="modeToggle" aria-label="Cambiar nivel de detalle">
-      <span class="mode-indicator" id="modeIndicator" aria-hidden="true">●</span>
-      <span id="modeLabel">Público</span>
-    </button>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menú">☰</button>
-  </nav>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#inicio" class="nav-logo">El Triángulo Político</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#triangulo">Triángulo</a>
+    <a href="#indices">Índices</a>
+    <a href="#modulos">Módulos V4</a>
+    <a href="#casos">Trayectorias</a>
+    <a href="#metodologia">Metodología</a>
+  </div>
+  <button id="modeToggle" class="mode-toggle" title="Cambiar modo de visualización">
+    <span id="modeLabel">Explorador</span>
+  </button>
+  <button id="hamburger" class="hamburger" aria-label="Menú">☰</button>
+</nav>
 
-  <!-- ══════════════════════════════════ HERO ═══════════════════════════════════ -->
-  <section id="inicio" class="hero">
-    <div class="hero-text">
-      <p class="hero-eyebrow">Codebook V3.3</p>
-      <h1>¿Dónde está<br /><em>realmente</em> un<br />régimen político?</h1>
-      <p class="hero-sub">
-        El eje izquierda–derecha captura solo una dimensión del poder.
-        Este modelo usa un triángulo para mostrar el alcance del Estado
-        y la dirección en que lo utiliza.
-      </p>
-      <div class="hero-ctas">
-        <a href="#triangulo" class="btn btn-primary">Explorar el modelo</a>
-        <a href="#metodologia" class="btn btn-ghost">Ver metodología →</a>
-      </div>
-    </div>
-    <div class="hero-visual" id="heroVisual" aria-hidden="true">
-      <!-- SVG del triángulo mini renderizado por JS -->
-    </div>
-  </section>
-
-  <!-- ══════════════════ EXPLAINER ANIMADO: de 1D a 2D ════════════════════ -->
-  <div class="hero-explainer">
-    <div class="hero-exp-inner">
-      <div class="hero-exp-anim" id="heroExpAnim" aria-hidden="true"></div>
-      <div class="hero-exp-text">
-        <p class="hero-exp-step active" data-step="0">El eje izquierda–derecha mide <em>hacia dónde</em> orienta el Estado su poder. Pero ignora una pregunta igual de importante: <strong>¿cuánto poder tiene para actuar?</strong></p>
-        <p class="hero-exp-step" data-step="1">El <strong>IAE</strong> (Índice de Alcance Estatal) responde eso: va de 0 (anarquía — sin Estado) a 100 (control absoluto). El <strong>IUE</strong> (Índice de Uso Estatal) mide la dirección: −100 hacia lo universalista-igualitario, +100 hacia lo particularista-conservador.</p>
-        <p class="hero-exp-step" data-step="2">Al combinar IAE e IUE, el espacio lineal se convierte en un <strong>triángulo</strong>. Los vértices son extremos conceptuales: anarquía (IAE=0), comunismo (IAE=100, IUE=−100) y fascismo (IAE=100, IUE=+100). Ningún régimen real los habita — pero todos se ubican en algún punto entre ellos.</p>
-      </div>
-      <div class="hero-exp-controls">
-        <button class="hero-exp-btn" id="expPrev" disabled>← Anterior</button>
-        <div class="hero-exp-dots">
-          <span class="exp-dot active" data-step="0"></span>
-          <span class="exp-dot" data-step="1"></span>
-          <span class="exp-dot" data-step="2"></span>
-        </div>
-        <button class="hero-exp-btn" id="expNext">Siguiente →</button>
-      </div>
+<!-- HERO -->
+<section id="inicio" class="hero">
+  <div class="hero-bg-grid" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Modelo de análisis político · V4.0</div>
+    <h1 class="hero-title">¿Dónde está<br><em>realmente</em> un régimen?</h1>
+    <p class="hero-lead">El eje izquierda‑derecha captura solo una dimensión del poder. Este modelo usa un triángulo para medir cuánto alcanza el Estado y en qué dirección orienta ese alcance.</p>
+    <div class="hero-ctas">
+      <a href="#triangulo" class="btn btn-primary">Explorar el modelo</a>
+      <a href="#metodologia" class="btn btn-ghost">Metodología →</a>
     </div>
   </div>
+  <div class="hero-visual" id="heroVisual" aria-hidden="true">
+    <svg id="heroTri" viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="heroGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <polygon points="140,12 20,220 260,220" fill="url(#heroGrad)" stroke="var(--border-strong)" stroke-width="1.2"/>
+      <!-- Zone dots -->
+      <circle cx="140" cy="80" r="3" fill="var(--accent)" opacity="0.5"/>
+      <circle cx="90" cy="170" r="3" fill="var(--c-left)" opacity="0.6"/>
+      <circle cx="190" cy="170" r="3" fill="var(--c-right)" opacity="0.6"/>
+      <circle cx="140" cy="155" r="3" fill="var(--ink-4)" opacity="0.4"/>
+      <!-- Animated point -->
+      <circle id="heroDot" cx="140" cy="105" r="5" fill="var(--accent)" opacity="0.9"/>
+      <circle id="heroPulse" cx="140" cy="105" r="10" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0"/>
+      <!-- Labels -->
+      <text x="140" y="6" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="var(--ink-3)" letter-spacing="0.05em">ANARQUÍA</text>
+      <text x="14" y="232" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="var(--c-left)" letter-spacing="0.05em">IGUALITARIO</text>
+      <text x="268" y="232" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="var(--c-right)" letter-spacing="0.05em">IDENTITARIO</text>
+    </svg>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">↓</div>
+</section>
 
-  <!-- ══════════════════════════════ EL TRIÁNGULO ═══════════════════════════════ -->
-  <section id="triangulo" class="section">
-    <div class="section-header">
-      <p class="section-tag">El espacio político</p>
-      <h2>El triángulo de los regímenes</h2>
-      <p class="section-desc">
-        Cada punto dentro del triángulo representa una combinación de
-        <strong>alcance estatal</strong> (IAE) y <strong>uso del Estado</strong> (IUE).
-        Los vértices son los extremos conceptuales; ningún régimen real los habita exactamente.
-      </p>
-    </div>
+<!-- TRIÁNGULO INTERACTIVO -->
+<section id="triangulo" class="section section-main">
+  <div class="section-header">
+    <div class="section-tag">El espacio político</div>
+    <h2>El triángulo de los regímenes</h2>
+    <p>Cada punto representa una combinación de <strong>alcance estatal</strong> (IAE) y <strong>orientación</strong> (IUE). Los vértices son extremos conceptuales; ningún régimen real los habita.</p>
+  </div>
 
-    <!-- Controles del triángulo -->
+  <div class="triangle-layout">
     <div class="triangle-controls">
-      <div class="control-group">
-        <label for="iaeSlider">Alcance estatal (IAE)</label>
-        <input type="range" id="iaeSlider" min="0" max="100" value="50" step="1"
-          aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"
-          aria-valuetext="IAE 50 — alcance moderado" />
-        <span class="control-val" id="iaeVal" aria-hidden="true">50</span>
+      <div class="control-row">
+        <label class="control-label" for="iaeSlider">
+          <span class="ctrl-name">IAE</span>
+          <span class="ctrl-desc">Alcance estatal</span>
+          <span id="iaeVal" class="ctrl-val">50</span>
+        </label>
+        <input type="range" id="iaeSlider" min="0" max="100" value="50" class="slider slider-iae">
       </div>
-      <div class="control-group">
-        <label for="iueSlider">Uso del Estado (IUE)</label>
-        <input type="range" id="iueSlider" min="-100" max="100" value="0" step="1"
-          aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0"
-          aria-valuetext="IUE 0 — centro pragmático" />
-        <span class="control-val" id="iueVal" aria-hidden="true">0</span>
+      <div class="control-row">
+        <label class="control-label" for="iueSlider">
+          <span class="ctrl-name">IUE</span>
+          <span class="ctrl-desc">Orientación</span>
+          <span id="iueVal" class="ctrl-val">0</span>
+        </label>
+        <input type="range" id="iueSlider" min="-100" max="100" value="0" class="slider slider-iue">
       </div>
-    </div>
-
-    <!-- Toggle vista dual IAEc / IAEe -->
-    <div class="dual-view-toggle">
-      <label class="dual-toggle-label">
-        <input type="checkbox" id="dualViewToggle" />
-        <span class="dual-toggle-track"></span>
-        <span>Mostrar asimetría IAEc / IAEe</span>
+      <label class="dual-toggle">
+        <input type="checkbox" id="dualViewToggle">
+        <span class="dual-track"></span>
+        <span class="dual-label">Asimetría IAEc / IAEe</span>
       </label>
-      <span class="dual-view-hint">Visualiza cómo difiere el alcance civil del económico</span>
     </div>
-    <p id="dualViewHint" class="dual-view-context-hint" hidden></p>
 
-    <!-- Triángulo SVG principal -->
-    <div class="triangle-container">
-      <svg id="mainTriangle" viewBox="0 0 620 530" xmlns="http://www.w3.org/2000/svg">
+    <div class="triangle-wrap">
+      <svg id="mainTriangle" viewBox="0 0 620 530" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Triángulo político interactivo">
         <defs>
-          <radialGradient id="gLiberal" cx="52%" cy="28%" r="50%">
-            <stop offset="0%" stop-color="var(--c-liberal)" stop-opacity="0.22"/>
-            <stop offset="100%" stop-color="var(--c-liberal)" stop-opacity="0"/>
+          <radialGradient id="gLeft" cx="30%" cy="80%" r="50%">
+            <stop offset="0%" stop-color="var(--c-left)" stop-opacity="0.10"/>
+            <stop offset="100%" stop-color="var(--c-left)" stop-opacity="0"/>
           </radialGradient>
-          <radialGradient id="gInterv" cx="52%" cy="68%" r="55%">
-            <stop offset="0%" stop-color="var(--c-interv)" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="var(--c-interv)" stop-opacity="0"/>
+          <radialGradient id="gRight" cx="70%" cy="80%" r="50%">
+            <stop offset="0%" stop-color="var(--c-right)" stop-opacity="0.10"/>
+            <stop offset="100%" stop-color="var(--c-right)" stop-opacity="0"/>
           </radialGradient>
-          <marker id="arrowIVR" viewBox="0 0 10 10" refX="8" refY="5"
-                  markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M2 1L8 5L2 9" fill="none" stroke="var(--c-ivr)" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
+          <radialGradient id="gTop" cx="50%" cy="10%" r="45%">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.07"/>
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+          </radialGradient>
+          <marker id="arrowIVR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </marker>
         </defs>
 
-        <!-- Escala IAE (lado izquierdo) -->
-        <line x1="52" y1="36" x2="52" y2="466" stroke="var(--border-axis)" stroke-width="0.8"/>
-        <text x="29" y="40" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-3)">0</text>
-        <line x1="48" y1="36" x2="56" y2="36" stroke="var(--border-axis)" stroke-width="0.8"/>
-        <text x="29" y="153" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-3)">25</text>
-        <line x1="48" y1="143" x2="56" y2="143" stroke="var(--border-axis)" stroke-width="0.8"/>
-        <text x="29" y="258" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-3)">50</text>
-        <line x1="48" y1="251" x2="56" y2="251" stroke="var(--border-axis)" stroke-width="0.8"/>
-        <text x="29" y="362" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-3)">75</text>
-        <line x1="48" y1="359" x2="56" y2="359" stroke="var(--border-axis)" stroke-width="0.8"/>
-        <text x="29" y="470" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-3)">100</text>
-        <text x="15" y="253" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-4)" transform="rotate(-90,15,253)">IAE</text>
+        <!-- Escala IAE izquierda -->
+        <line x1="52" y1="36" x2="52" y2="466" stroke="var(--border-axis)" stroke-width="0.7"/>
+        <text x="30" y="40" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">0</text>
+        <line x1="48" y1="36" x2="56" y2="36" stroke="var(--border-axis)" stroke-width="0.7"/>
+        <text x="30" y="153" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">25</text>
+        <line x1="48" y1="143" x2="56" y2="143" stroke="var(--border-axis)" stroke-width="0.7"/>
+        <text x="30" y="258" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">50</text>
+        <line x1="48" y1="251" x2="56" y2="251" stroke="var(--border-axis)" stroke-width="0.7"/>
+        <text x="30" y="362" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">75</text>
+        <line x1="48" y1="359" x2="56" y2="359" stroke="var(--border-axis)" stroke-width="0.7"/>
+        <text x="30" y="470" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">100</text>
+        <text x="15" y="253" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-3)" transform="rotate(-90,15,253)">IAE</text>
 
         <!-- Triángulo principal -->
-        <polygon id="triPolygon"
-          points="320,36 100,466 540,466"
-          fill="var(--bg-triangle)"
-          stroke="var(--border-main)"
-          stroke-width="1.5"/>
-        <polygon points="320,36 100,466 540,466" fill="url(#gLiberal)"/>
-        <polygon points="320,36 100,466 540,466" fill="url(#gInterv)"/>
+        <polygon id="triPolygon" points="320,36 100,466 540,466" fill="var(--bg-triangle)" stroke="var(--border-main)" stroke-width="1.5"/>
+        <polygon points="320,36 100,466 540,466" fill="url(#gLeft)"/>
+        <polygon points="320,36 100,466 540,466" fill="url(#gRight)"/>
+        <polygon points="320,36 100,466 540,466" fill="url(#gTop)"/>
 
-        <!-- Zona democrática IAE 20-55 (V3.3 — recalibrada con ponderación 60/40) -->
-        <polygon
-          points="320,122 254,195 320,272 386,195"
-          fill="rgba(74,144,217,0.06)" stroke="rgba(74,144,217,0.30)"
-          stroke-width="1" stroke-dasharray="5 4"/>
-        <text x="320" y="250" text-anchor="middle"
-              font-family="DM Sans,sans-serif" font-size="9"
-              fill="rgba(74,144,217,0.55)" letter-spacing="0.04em">Zona de estados democráticos</text>
-
-        <!-- Etiquetas de zona -->
-        <text class="zone-label" x="320" y="145" text-anchor="middle">Liberalismo</text>
-        <text class="zone-label" x="320" y="360" text-anchor="middle">Intervencionismo</text>
+        <!-- Zona democrática (rombo IAE 20-55) -->
+        <polygon points="320,122 254,195 320,272 386,195" fill="rgba(100,160,220,0.04)" stroke="rgba(100,160,220,0.22)" stroke-width="0.8" stroke-dasharray="5 4"/>
+        <text x="320" y="248" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="rgba(100,160,220,0.45)" letter-spacing="0.06em">ZONA DEMOCRÁTICA</text>
 
         <!-- Etiquetas laterales -->
-        <text x="165" y="262" text-anchor="middle" class="side-label" transform="rotate(-60,165,262)">Extrema izquierda</text>
-        <text x="475" y="262" text-anchor="middle" class="side-label" transform="rotate(60,475,262)">Extrema derecha</text>
+        <text x="168" y="262" text-anchor="middle" class="side-label" transform="rotate(-60,168,262)">Igualitario</text>
+        <text x="472" y="262" text-anchor="middle" class="side-label" transform="rotate(60,472,262)">Identitario</text>
 
-        <!-- Eje IUE con valores -->
+        <!-- Eje IUE base -->
         <line x1="100" y1="466" x2="540" y2="466" stroke="var(--border-axis)" stroke-width="0.5" stroke-dasharray="4 4"/>
-        <text x="100" y="483" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-4)">IUE=−100</text>
-        <text x="320" y="483" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-4)">IUE=0</text>
-        <text x="540" y="483" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="var(--ink-4)">IUE=+100</text>
+        <text x="100" y="483" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">IUE=−100</text>
+        <text x="320" y="483" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">IUE=0</text>
+        <text x="540" y="483" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)">IUE=+100</text>
 
-        <!-- Vértices clicables -->
+        <!-- Vértices -->
         <g class="vertex" id="v-anarquia" data-key="anarquia" tabindex="0" role="button" aria-label="Vértice Anarquía">
-          <circle cx="320" cy="36" r="14" fill="var(--c-anarquia)" opacity="0.15"/>
-          <circle cx="320" cy="36" r="6" fill="var(--c-anarquia)"/>
-          <text x="320" y="20" text-anchor="middle" class="vertex-label">Anarquía</text>
-          <text x="320" y="9" text-anchor="middle" class="vertex-sub">IAE=0 · IUEe=0</text>
+          <circle cx="320" cy="36" r="14" fill="var(--accent)" opacity="0.10"/>
+          <circle cx="320" cy="36" r="5" fill="var(--accent)"/>
+          <text x="320" y="22" text-anchor="middle" class="vertex-label">Anarquía</text>
+          <text x="320" y="11" text-anchor="middle" class="vertex-sub">IAE=0</text>
         </g>
-        <g class="vertex" id="v-comunismo" data-key="comunismo" tabindex="0" role="button" aria-label="Vértice Comunismo">
-          <circle cx="100" cy="466" r="14" fill="var(--c-comunismo)" opacity="0.15"/>
-          <circle cx="100" cy="466" r="6" fill="var(--c-comunismo)"/>
-          <text x="46" y="482" text-anchor="middle" class="vertex-label">Comunismo</text>
-          <text x="46" y="494" text-anchor="middle" class="vertex-sub">IUEe=−100 IAE=100</text>
+        <g class="vertex" id="v-comunismo" data-key="comunismo" tabindex="0" role="button" aria-label="Vértice polo igualitario">
+          <circle cx="100" cy="466" r="14" fill="var(--c-left)" opacity="0.12"/>
+          <circle cx="100" cy="466" r="5" fill="var(--c-left)"/>
+          <text x="50" y="482" text-anchor="middle" class="vertex-label">Homogeneidad<tspan x="50" dy="11">económica</tspan></text>
+          <text x="50" y="502" text-anchor="middle" class="vertex-sub">IAE=100 · IUE=−100</text>
         </g>
-        <g class="vertex" id="v-fascismo" data-key="fascismo" tabindex="0" role="button" aria-label="Vértice Fascismo / Teocracia">
-          <circle cx="540" cy="466" r="14" fill="var(--c-fascismo)" opacity="0.15"/>
-          <circle cx="540" cy="466" r="6" fill="var(--c-fascismo)"/>
-          <text x="594" y="482" text-anchor="middle" class="vertex-label">Fascismo</text>
-          <text x="594" y="494" text-anchor="middle" class="vertex-sub">IUEe=+100 IAE=100</text>
+        <g class="vertex" id="v-fascismo" data-key="fascismo" tabindex="0" role="button" aria-label="Vértice polo identitario">
+          <circle cx="540" cy="466" r="14" fill="var(--c-right)" opacity="0.12"/>
+          <circle cx="540" cy="466" r="5" fill="var(--c-right)"/>
+          <text x="590" y="482" text-anchor="middle" class="vertex-label">Homogeneidad<tspan x="590" dy="11">cultural</tspan></text>
+          <text x="590" y="502" text-anchor="middle" class="vertex-sub">IAE=100 · IUE=+100</text>
         </g>
 
-        <!-- Punto de usuario -->
+        <!-- Punto usuario -->
         <g id="userPoint">
-          <circle id="userDot" cx="320" cy="251" r="10" fill="var(--c-user)" stroke="white" stroke-width="2" opacity="0"/>
-          <circle id="userPulse" cx="320" cy="251" r="18" fill="none" stroke="var(--c-user)" stroke-width="1" opacity="0"/>
+          <circle id="userDot" cx="320" cy="251" r="9" fill="var(--accent)" stroke="var(--bg-triangle)" stroke-width="2" opacity="0"/>
+          <circle id="userPulse" cx="320" cy="251" r="18" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0"/>
         </g>
+
         <!-- Vista dual -->
         <g id="dualPointC" opacity="0">
-          <circle id="dualDotC" cx="320" cy="251" r="8" fill="var(--c-iaec-bg)" stroke="white" stroke-width="1.5"/>
-          <text id="dualLabelC" x="320" y="236" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" fill="var(--c-iaec-bg)">IAEc</text>
+          <circle id="dualDotC" cx="320" cy="251" r="7" fill="var(--c-iaec)" stroke="var(--bg-triangle)" stroke-width="1.5"/>
+          <text id="dualLabelC" x="320" y="236" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="var(--c-iaec)">IAEc</text>
         </g>
-        <line id="dualLine" x1="320" y1="251" x2="320" y2="251" stroke="var(--c-iaec-bg)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0"/>
-        <!-- Vector IVR -->
-        <line id="ivrVector" x1="320" y1="251" x2="320" y2="186" stroke="var(--c-ivr)" stroke-width="2.5" stroke-dasharray="6 3" marker-end="url(#arrowIVR)" opacity="0"/>
-      </svg>
+        <line id="dualLine" x1="320" y1="251" x2="320" y2="251" stroke="var(--c-iaec)" stroke-width="1.5" stroke-dasharray="4 3" opacity="0"/>
 
-      <!-- Tooltip flotante -->
-      <div id="triangleTooltip" class="tri-tooltip" role="tooltip" hidden>
-        <p class="tt-name"></p>
-        <p class="tt-desc"></p>
-        <div class="tt-indices"></div>
-      </div>
+        <!-- Vector IVR -->
+        <line id="ivrVector" x1="320" y1="251" x2="320" y2="186" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 3" marker-end="url(#arrowIVR)" opacity="0"/>
+
+        <!-- Tooltip overlay -->
+        <g id="triangleTooltip" opacity="0" pointer-events="none">
+          <rect id="ttBg" x="200" y="100" width="200" height="80" rx="6" fill="var(--surface-2)" stroke="var(--border-main)" stroke-width="1"/>
+          <text id="ttTitle" x="300" y="122" text-anchor="middle" font-family="IBM Plex Sans" font-size="11" font-weight="500" fill="var(--ink)"></text>
+          <text id="ttSub" x="300" y="138" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="var(--ink-3)"></text>
+          <text id="ttDesc" x="300" y="158" text-anchor="middle" font-family="IBM Plex Sans" font-size="9" fill="var(--ink-2)" class="tt-desc-text"></text>
+        </g>
+      </svg>
+      <div id="triClickHint" class="tri-hint" aria-hidden="true">↑ Hacé clic en el triángulo para posicionar</div>
     </div>
 
-    <!-- Lectura contextual viva -->
-    <div class="context-reading" id="contextReading">
-      <div class="context-reading-inner">
-        <span class="context-reading-tag">Lectura del modelo</span>
-        <p id="contextText">Mueve los sliders o haz clic en el triángulo para ver la interpretación de esta posición.</p>
-        <div class="context-reading-student student-only" id="contextStudent" hidden>
-          <span class="context-student-label">Lógica del modelo</span>
-          <p id="contextStudentText"></p>
+    <div class="triangle-panel">
+      <div class="pos-panel" id="positionPanel" aria-live="polite">
+        <div class="pos-row">
+          <span class="pos-badge" style="background:var(--c-iae-bg)">IAE</span>
+          <span id="posIAE" class="pos-num">—</span>
+          <span class="pos-unit">Alcance estatal</span>
         </div>
-        <div class="context-reading-expert expert-only" id="contextExpert" hidden>
-          <span class="context-expert-label">Nota técnica</span>
+        <div class="pos-row">
+          <span class="pos-badge" style="background:var(--c-iue-bg)">IUE</span>
+          <span id="posIUE" class="pos-num">—</span>
+          <span class="pos-unit">Orientación</span>
+        </div>
+        <div class="pos-row">
+          <span class="pos-badge" style="background:var(--c-iuee-bg)">IUEe</span>
+          <span id="posIUEe" class="pos-num">—</span>
+          <span class="pos-unit">Uso efectivo</span>
+        </div>
+        <div class="pos-zone-row">
+          <span class="pos-zone-label">Zona</span>
+          <span id="posZone" class="pos-zone-val">—</span>
+        </div>
+      </div>
+
+      <div class="context-panel" id="contextPanel">
+        <div class="context-tag">Lectura del modelo</div>
+        <p id="contextText">Mové los sliders o hacé clic en el triángulo.</p>
+        <div id="contextExpert" class="context-expert expert-only" hidden>
+          <div class="context-expert-tag">Nota técnica</div>
           <p id="contextExpertText"></p>
         </div>
       </div>
-    </div>
 
-    <!-- Panel de posición calculada -->
-    <div class="position-panel" id="positionPanel" aria-live="polite" aria-label="Posición calculada en el triángulo">
-      <div class="pos-item">
-        <span class="pos-label">IAE</span>
-        <span class="pos-value" id="posIAE">—</span>
-        <span class="pos-desc">Alcance estatal</span>
-      </div>
-      <div class="pos-item">
-        <span class="pos-label">IUE</span>
-        <span class="pos-value" id="posIUE">—</span>
-        <span class="pos-desc">Uso del Estado</span>
-      </div>
-      <div class="pos-item">
-        <span class="pos-label">IUEe</span>
-        <span class="pos-value" id="posIUEe">—</span>
-        <span class="pos-desc">Uso efectivo</span>
-      </div>
-      <div class="pos-item">
-        <span class="pos-label">Zona</span>
-        <span class="pos-value pos-zone" id="posZone">—</span>
-        <span class="pos-desc">Clasificación</span>
-      </div>
-      <!-- Modo especialista: fórmulas y sensibilidad -->
-      <div class="pos-expert-panel expert-only" id="posExpertPanel" hidden>
-        <div class="pos-expert-title">Modo especialista — V3.3</div>
-        <div class="pos-formulas">
-          <code>IAE (V3.3) = (IAEc×0.60) + (IAEe×0.40) = <span id="posFormIAE">—</span></code>
-          <code>IUEe = (IUE / 100) × IAE = <span id="posFormIUEe">—</span></code>
-          <code>Asimetría IAEc/IAEe: <span id="posFormAsym">—</span></code>
-        </div>
-        <div id="posIAEcRepresivo" class="pos-iaec-represivo-flag" hidden></div>
-        <div class="pos-sensitivity">
-          <span class="pos-sens-label">Sensibilidad ±5 IAE</span>
-          <div class="pos-sens-row">
-            <span class="pos-sens-minus" id="posSensZoneMinus">—</span>
-            <span class="pos-sens-center">→ <strong id="posZoneSens">—</strong> →</span>
-            <span class="pos-sens-plus" id="posSensZonePlus">—</span>
-          </div>
-        </div>
-        <div class="pos-confidence">
-          <span class="pos-conf-label">Confianza metodológica</span>
-          <div class="pos-conf-bar-wrap">
-            <div class="pos-conf-bar" id="posConfBar"></div>
-          </div>
-          <span class="pos-conf-text" id="posConfText">—</span>
-        </div>
+      <!-- IVR hint (modo experto) -->
+      <div id="ivrPanel" class="ivr-panel expert-only" hidden>
+        <div class="ivr-title">Vector resultante (IVR)</div>
+        <p class="ivr-desc">El IVR indica la <em>dirección y velocidad</em> de movimiento desde la posición actual. Depende de las fuerzas activas (IF1, IF2, IF3) y los catalizadores/inhibidores del contexto.</p>
+        <div id="ivrValue" class="ivr-value">—</div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- Hint de primer uso: clic en el triángulo -->
-    <div class="triangle-click-hint" id="triClickHint" aria-hidden="true">
-      <span>↑ Hacé clic en el triángulo para posicionar</span>
-    </div>
-  </section>
+<!-- ÍNDICES -->
+<section id="indices" class="section section-alt">
+  <div class="section-header">
+    <div class="section-tag">Los instrumentos</div>
+    <h2>¿Qué mide el modelo?</h2>
+  </div>
 
-  <!-- ════════════════════════════════ ÍNDICES ═════════════════════════════════ -->
-  <section id="indices" class="section section-alt">
-    <div class="section-header">
-      <p class="section-tag">Los instrumentos</p>
-      <h2>¿Qué mide el modelo?</h2>
-    </div>
-
-    <div class="indices-grid">
-
-      <article class="index-card" data-index="iae">
-        <div class="card-icon" style="background:var(--c-iae-bg)">IAE</div>
+  <div class="indices-grid">
+    <div class="index-card" id="card-iae">
+      <div class="ic-header">
+        <span class="ic-badge" style="background:var(--c-iae-bg)">IAE</span>
         <h3>Índice de Alcance Estatal</h3>
-        <p class="card-plain">
-          ¿Cuánto interviene el Estado en la vida de las personas y en la economía?
-          Es el eje <em>vertical</em> del triángulo: cuanto más alto, más presente es el Estado.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">La trampa del IAE bajo</span>
-          <p>Somalia en los años 90 tenía IAE cercano a cero, pero no era un paraíso liberal: era un Estado fallido. El IAE mide la <em>capacidad coercitiva del Estado</em>, no la libertad real de sus habitantes. Un IAE bajo por colapso es diferente a uno bajo por diseño institucional.</p>
+      </div>
+      <p>¿Cuánto interviene el Estado en la vida de las personas y en la economía? Es el eje <em>vertical</em> del triángulo: cuanto más alto, más presente es el Estado.</p>
+      <div class="ic-detail">
+        <div class="ic-sub-row">
+          <span class="ic-sub-badge" style="background:var(--c-iaec)">IAEc</span>
+          <span>Alcance civil — libertades, instituciones, control informacional</span>
         </div>
-        <div class="card-technical" hidden>
-          <code>IAE = (IAEc × 0.60) + (IAEe × 0.40)</code>
-          <p>V3.3: pondera con primacía del alcance civil (60%). Justificación: el control físico e informacional es condición del control económico, no a la inversa. Cuando IAEe &lt; 10 (colapso económico) se usa IAE_político = max(IAEc, IAEe) §2.2.0. Sensibilidad del coeficiente wc en rango 0.55–0.65 pendiente de validación.</p>
+        <div class="ic-sub-row">
+          <span class="ic-sub-badge" style="background:var(--c-iaee)">IAEe</span>
+          <span>Alcance económico — gasto público, regulación, sector estatal</span>
         </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
+        <p class="ic-formula expert-only">IAE = (IAEc × 0.60) + (IAEe × 0.40)</p>
+      </div>
+      <button class="ic-toggle" data-target="card-iae">Ver más ↓</button>
+      <div class="ic-expand" hidden>
+        <p>Un IAE bajo no equivale a libertad: puede indicar colapso institucional donde la coerción la ejercen actores no estatales. Un IAE alto puede combinar con libertades civiles plenas (Estado de bienestar nórdico) o con represión sistemática (totalitarismo).</p>
+        <p class="expert-only">Cuando IAEe_efectivo &lt; 10, se activa IAE_político = max(IAEc, IAEe), evitando que el colapso económico distorsione el índice compuesto.</p>
+      </div>
+    </div>
 
-      <article class="index-card" data-index="iaec">
-        <div class="card-icon" style="background:var(--c-iaec-bg)">IAEc</div>
-        <h3>Alcance Estatal Civil</h3>
-        <p class="card-plain">
-          ¿Puede el Estado controlar lo que las personas dicen, piensan o hacen en su vida cotidiana?
-          Incluye libertad de prensa, control de fuerzas de seguridad e integridad personal.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">La asimetría civil–económica</span>
-          <p>China muestra un IAEc muy alto (control político total) con un IAEe moderado (economía parcialmente liberalizada). Esto produce una asimetría estructural que el modelo capta y que los ejes tradicionales no pueden representar.</p>
+    <div class="index-card" id="card-iue">
+      <div class="ic-header">
+        <span class="ic-badge" style="background:var(--c-iue-bg)">IUE</span>
+        <h3>Índice de Orientación del Estado</h3>
+      </div>
+      <p>¿Hacia dónde orienta el Estado su poder? Escala de −100 (polo igualitario‑universalista) a +100 (polo identitario‑particularista).</p>
+      <div class="ic-detail">
+        <div class="ic-sub-row">
+          <span class="ic-sub-badge" style="background:var(--c-left)">−100</span>
+          <span>Homogeneización económica: eliminar diferencias de clase</span>
         </div>
-        <div class="card-technical" hidden>
-          <code>IAEc_efectivo = IAEc_formal × (1 − FTE)</code>
-          <p>IAEc_formal = Freedom House Civil Liberties (30%, escala invertida) + WJP Rule of Law Index (25%, invertido) + Ecosistema informacional (30%: RSF×0.5 + captura indirecta×0.3 + manipulación digital×0.2) + control FF.AA. con criterios observables (15%). FTE máximo = 0.80.</p>
+        <div class="ic-sub-row">
+          <span class="ic-sub-badge" style="background:var(--c-right)">+100</span>
+          <span>Homogeneización cultural: imponer identidad particular</span>
         </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
+        <p class="ic-formula expert-only">IUE_gobierno sujeto a corrector de brecha retórica cuando |IUE_discurso − IUE_efectivo| &gt; 15</p>
+      </div>
+      <button class="ic-toggle" data-target="card-iue">Ver más ↓</button>
+      <div class="ic-expand" hidden>
+        <p>El cero no implica neutralidad política: es la zona donde el Estado actúa sin proyecto ideológico claro, o donde fuerzas opuestas se equilibran. La <em>brecha IUE</em> entre gobierno y sociedad alimenta la presión de alternancia.</p>
+      </div>
+    </div>
 
-      <article class="index-card" data-index="iaee">
-        <div class="card-icon" style="background:var(--c-iaee-bg)">IAEe</div>
-        <h3>Alcance Estatal Económico</h3>
-        <p class="card-plain">
-          ¿Controla el Estado la propiedad, las empresas, el mercado?
-          Un Estado puede ser muy liberal en lo civil pero muy intervencionista en lo económico.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">El corrector de captura</span>
-          <p>Si las élites privadas capturan al Estado, el control <em>formal</em> y el <em>efectivo</em> divergen: el Estado proclama intervenir pero en la práctica beneficia a actores privados. La fórmula ajusta el IAEe formal por ese factor de captura.</p>
-        </div>
-        <div class="card-technical" hidden>
-          <code>IAEe_efectivo = IAEe_formal × (1 − CE × 0.30)</code>
-          <p>IAEe_formal = FMI WEO Gasto/PIB (35%) + Fraser EFW Tax Burden invertido (25%) + Fraser EFW Labor Market invertido (20%) + sector público empresarial con criterios observables (20%). CE = Corrector de Captura por Élites (puerta giratoria, contratos sin licitación, HHI sectorial, financiamiento electoral). Hiperinflación &gt;100% anual aplica corrector adicional: <code>IAEe_ef = IAEe_formal × (1 − min(inflación/800, 0.95))</code>.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="iue">
-        <div class="card-icon" style="background:var(--c-iue-bg)">IUE</div>
-        <h3>Índice de Uso Estatal</h3>
-        <p class="card-plain">
-          ¿Para qué usa el Estado su poder? No mide <em>cuánto</em> interviene, sino <em>hacia dónde</em>:
-          hacia lo universal e igualitario (izquierda) o hacia lo particular y conservador (derecha).
-        </p>
-        <!-- Eje IUE interactivo -->
-        <div class="iue-axis-wrap">
-          <div class="iue-axis-labels">
-            <span>IUE = −100</span>
-            <span>IUE = 0</span>
-            <span>IUE = +100</span>
-          </div>
-          <div class="iue-axis-bar">
-            <div class="iue-axis-track">
-              <div class="iue-axis-fill-left"></div>
-              <div class="iue-axis-fill-right"></div>
-            </div>
-            <div class="iue-axis-marker" id="iueAxisMarker"></div>
-          </div>
-          <div class="iue-axis-poles">
-            <div class="iue-pole iue-pole-left">
-              <strong>Polo universalista-progresista</strong>
-              <ul>
-                <li>Redistribución de riqueza</li>
-                <li>Derechos civiles homogéneos</li>
-                <li>Laicismo activo</li>
-                <li>Colectivización económica</li>
-              </ul>
-            </div>
-            <div class="iue-pole iue-pole-right">
-              <strong>Polo particularista-conservador</strong>
-              <ul>
-                <li>Privilegios de grupos identitarios</li>
-                <li>Instituciones religiosas como fuente de ley</li>
-                <li>Propiedad concentrada en élites</li>
-                <li>Nacionalismo cultural</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">¿Por qué no es solo izquierda/derecha convencional?</span>
-          <p>La distinción izquierda/derecha clásica mezcla dirección con alcance. Un Estado puede ser muy intervencionista (alto IAE) y orientado hacia derechos universales (IUE negativo), como Suecia, o igualmente intervencionista pero orientado a privilegiar una identidad nacional particular (IUE positivo), como la Alemania nazi. El IUE separa esa dimensión.</p>
-        </div>
-        <div class="card-technical" hidden>
-          <code>IUE = Σ (componente_i × peso_i); IUE_comp = (estimación_0–100 − 50) × 2</code>
-          <p>5 componentes: retórica oficial (15%), política redistributiva vs. identitaria (20%), marco legal de identidad colectiva (20%), composición de coalición gobernante (25%), política exterior y alianzas (20%). Fuentes: análisis de discurso con tabla de calibración 2.3a, OCDE/BM, V-Dem, CEPII. Mide uso efectivo observable, no retórica de campaña. <em class="iue-bias-note">Nota metodológica: el eje embebe un sesgo liberal-ilustrado en la distinción universalista/particularista. No es filosóficamente neutro, pero captura una variación empíricamente observable y políticamente relevante. El modelo lo declara explícitamente.</em></p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="iuee">
-        <div class="card-icon" style="background:var(--c-iuee-bg)">IUEe</div>
+    <div class="index-card" id="card-iuee">
+      <div class="ic-header">
+        <span class="ic-badge" style="background:var(--c-iuee-bg)">IUEe</span>
         <h3>Uso Estatal Efectivo</h3>
-        <p class="card-plain">
-          Combina la dirección del uso con la capacidad real del Estado.
-          Un Estado muy ideológico pero muy débil tiene bajo impacto efectivo.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Por qué el IUEe importa más que el IUE solo</span>
-          <p>Dos regímenes pueden tener el mismo IUE (misma orientación ideológica), pero si uno tiene IAE=30 y el otro IAE=90, su impacto real es radicalmente diferente. El IUEe captura esa diferencia: la intensidad ideológica <em>ponderada por el poder real para aplicarla</em>.</p>
-        </div>
-        <div class="card-technical" hidden>
-          <code>IUEe = (IUE / 100) × IAE</code>
-          <p>Producto del vector de uso por el alcance real. Permite comparar regímenes con similares IUE pero distinto poder.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="ivr">
-        <div class="card-icon" style="background:var(--c-ivr-bg)">IVR</div>
-        <h3>Índice de Vector Resultante</h3>
-        <p class="card-plain">
-          Si el IAE y el IUE son las coordenadas de un régimen en el mapa,
-          el IVR es la flecha que indica su <strong>rumbo y velocidad</strong>.
-          No describe dónde está un régimen hoy, sino hacia dónde se dirige.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Tres horizontes temporales</span>
-          <p><strong>IVR₁ (1–3 años):</strong> dominan el liderazgo personal (IC1), las crisis o bonanzas (IC2) y la ventana de reforma (IC3) — el período justo tras un cambio de gobierno donde las transformaciones estructurales son posibles.</p>
-          <p><strong>IVR₅ (5–10 años):</strong> las crisis puntuales pesan menos. La deriva cultural comienza a acumularse. Las instituciones muestran si pueden resistir o colapsan.</p>
-          <p><strong>IVR₂₀ (15–30 años):</strong> los líderes son irrelevantes — son mortales. Lo que define el futuro es la cultura política acumulada y la fragmentación sociológica del poder (II2b), el predictor estructural más robusto a este horizonte.</p>
-          <p style="margin-top:10px"><strong>Qué puede predecir el modelo:</strong> dada una crisis, en qué dirección es más probable que se mueva el sistema; dado el equilibrio actual de fuerzas, cuál es la trayectoria más probable; dado un cambio de gobierno, cuán grande es la ventana de reforma.</p>
-          <p><strong>Qué no puede predecir:</strong> cuándo ocurrirá una crisis, quién ganará una elección específica, si un líder será derrocado, la velocidad exacta del cambio, ni shocks geopolíticos imprevisibles.</p>
-        </div>
-        <div class="card-technical" hidden>
-          <p>Las fuerzas que componen el IVR son: IF1 (presión expansiva del IAE), IF2 (entropía liberal, presión contractiva), IF3 (deriva cultural sobre el IUE). Los catalizadores IC1 (liderazgo personal) e IC2 (crisis/bonanza) aceleran o invierten las fuerzas. Los inhibidores II1 (legitimidad institucional) e II2 (fragmentación del poder) frenan el cambio. El IVR₁ combina todas estas fuerzas a plena velocidad; el IVR₅ descuenta IC2; el IVR₂₀ privilegia IF3_base e II2b.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════ FUERZAS, CATALIZADORES E INHIBIDORES ══════════════ -->
-  <section id="fuerzas" class="section">
-    <div class="section-header">
-      <p class="section-tag">La dinámica del sistema</p>
-      <h2>¿Qué mueve a los regímenes?</h2>
-      <p class="section-desc">
-        El triángulo muestra dónde está un régimen en un momento dado.
-        Estas fuerzas explican por qué se mueve — y hacia dónde.
-      </p>
-    </div>
-
-    <div class="indices-grid">
-
-      <!-- ── Fuerzas estructurales ── -->
-      <div class="fuerzas-subsection-header">
-        <h3 class="fuerzas-subheading">Fuerzas estructurales</h3>
-        <p class="fuerzas-subtext">
-          Son presiones de fondo que operan <em>independientemente</em> del gobierno de turno.
-          Definen la dirección natural de desplazamiento del régimen en el triángulo, con o sin intervención de liderazgos o crisis puntuales.
-        </p>
       </div>
-
-      <article class="index-card" data-index="if1">
-        <div class="card-icon" style="background:var(--c-iae-bg)">IF1</div>
-        <h3>Expansión Estatal</h3>
-        <p class="card-plain">
-          Presión estructural hacia el <strong>aumento del IAE</strong>. Incluye demandas políticas
-          de nuevos servicios, inercia burocrática y deterioro institucional que expande
-          el aparato coercitivo por defecto. Se mide por separado en lo civil (IF1c) y lo económico (IF1e).
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Por qué el Estado tiende a crecer</span>
-          <p>Los burócratas tienen incentivos para expandir sus agencias. Las crisis crean demandas de intervención. Los grupos de interés presionan por regulaciones que los benefician. Todo esto genera una presión estructural de fondo hacia el aumento del IAE, independientemente de la ideología del gobierno. Contener IF1 requiere esfuerzo activo; crecer es el estado por defecto.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="if2">
-        <div class="card-icon" style="background:var(--c-teal)">IF2</div>
-        <h3>Entropía Liberal</h3>
-        <p class="card-plain">
-          Presión activa hacia la <strong>contracción del IAE</strong>. No es mera inercia: requiere
-          movilización real — partidos pro-desregulación, presión de mercados internacionales,
-          movimientos por libertades civiles, organismos multilaterales. Es una fuerza con dirección definida.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Por qué la liberalización es difícil</span>
-          <p>Reducir el IAE requiere vencer resistencias concretas: sindicatos, empresas que se benefician de la regulación, burócratas que perderían sus puestos. La IF2 solo opera cuando hay actores con suficiente poder para empujar en esa dirección. Nueva Zelanda 1984–93 y Chile 1975–85 son casos históricos donde IF2 fue dominante. En la mayoría de los regímenes, IF2 pierde contra IF1 en el largo plazo.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="if3">
-        <div class="card-icon" style="background:var(--c-iue-bg)">IF3</div>
-        <h3>Deriva Cultural</h3>
-        <p class="card-plain">
-          Presión sobre el <strong>eje horizontal (IUE)</strong>. Tiene dos componentes:
-          una tendencia lenta y generacional (IF3_base) que refleja cambios en valores sociales,
-          y polarización por shocks (IF3_shock) que es intensa pero volátil.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Dos velocidades del cambio cultural</span>
-          <p>IF3_base es lo que cambia en décadas: secularización, urbanización, cambios generacionales en identidades. Actúa lento pero es casi imparable. IF3_shock es lo que ocurre cuando un evento polarizante (atentado, crisis migratoria, pandemia) desplaza rápidamente el IUE de un régimen. La diferencia importa para las proyecciones: IF3_base define la dirección de largo plazo; IF3_shock puede invertir temporalmente esa tendencia.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <!-- ── Catalizadores ── -->
-      <div class="fuerzas-subsection-header fuerzas-subsection-border">
-        <h3 class="fuerzas-subheading">Catalizadores</h3>
-        <p class="fuerzas-subtext">
-          Aceleran o invierten las fuerzas en marcha, pero no crean dirección por sí solos.
-          Un catalizador en un sistema sin fuerzas estructurales activas no produce cambio estructural duradero.
-        </p>
-      </div>
-
-      <article class="index-card" data-index="ic1">
-        <div class="card-icon" style="background:var(--c-ivr-bg)">IC1</div>
-        <h3>Liderazgo Personalizado</h3>
-        <p class="card-plain">
-          <strong>Cataliza</strong> sin determinar dirección. Amplifica cualquier fuerza en marcha:
-          un liderazgo carismático acelera el movimiento del régimen — sea hacia la expansión
-          estatal o hacia la liberalización, según qué fuerzas dominen.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">El líder no decide el destino, acelera el viaje</span>
-          <p>Chávez no creó las condiciones para el autoritarismo venezolano, pero las aceleró enormemente. Thatcher no inventó la desregulación, pero la hizo posible en un tiempo récord. El IC1 es un multiplicador: en un sistema con fuerzas expansivas, un líder carismático produce expansión más rápida. En un sistema con fuerzas de contracción, produce contracción más rápida. Sin fuerzas de fondo, el liderazgo no produce cambio estructural duradero.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="ic2">
-        <div class="card-icon" style="background:var(--c-iuee-bg)">IC2</div>
-        <h3>Crisis o Bonanza</h3>
-        <p class="card-plain">
-          El catalizador más poderoso. Una <strong>crisis</strong> puede invertir completamente
-          la dirección del sistema; una <strong>bonanza</strong> puede amplificar la expansión
-          económica mientras frena la presión civil — con efectos diferenciados en IAEc e IAEe.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Por qué la bonanza no siempre estabiliza</span>
-          <p>La intuición dice que la bonanza económica debería frenar los cambios autoritarios. Pero el modelo detecta un efecto diferenciado: la bonanza amplifica IF1e (más recursos para expandir el Estado económico) mientras frena la presión civil. Venezuela 2005–2013 es el caso calibrado: la renta petrolera financió la expansión estatal económica (IAEe subió) sin generar resistencia civil (IAEc también subió). El resultado fue que la bonanza aceleró el autoritarismo.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="ic3">
-        <div class="card-icon" style="background:var(--c-iaec-bg)">IC3</div>
-        <h3>Ventana de Reforma</h3>
-        <p class="card-plain">
-          Acelerador temporal de <strong>1 a 3 años</strong> que se abre cuando coinciden:
-          cambio de gobierno, consenso entre élites y mayoría legislativa.
-          Cuando se cierra, las reformas estructurales se vuelven mucho más difíciles.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">El momento que no vuelve</span>
-          <p>Los primeros dos años de un nuevo gobierno concentran la mayor capacidad de transformación estructural. Las élites aún no organizaron resistencia, el capital político está intacto, y la mayoría legislativa suele ser más dócil. Pasada esa ventana, cada reforma requiere coaliciones más costosas. España 1977–82, Chile 1988–90 y Polonia 1989–91 son casos donde la ventana fue aprovechada. Argentina 2016–17 es un caso donde la ventana existió pero se cerró por fragmentación política interna.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <!-- ── Inhibidores ── -->
-      <div class="fuerzas-subsection-header fuerzas-subsection-border">
-        <h3 class="fuerzas-subheading">Inhibidores</h3>
-        <p class="fuerzas-subtext">
-          Frenan el cambio estructural al elevar el costo político de violar las normas establecidas.
-          A diferencia de los catalizadores, su función es <em>resistir</em> el desplazamiento — no acelerarlo.
-        </p>
-      </div>
-
-      <article class="index-card" data-index="ii1">
-        <div class="card-icon" style="background:var(--c-iaee-bg)">II1</div>
-        <h3>Legitimidad Institucional</h3>
-        <p class="card-plain">
-          El inhibidor más robusto en el <strong>corto plazo</strong>. Frena cambios drásticos
-          al generar costos políticos a quien viola las normas establecidas.
-          Se construye en décadas y puede destruirse en pocos años.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Por qué las instituciones frenan pero no bloquean</span>
-          <p>Una constitución, un tribunal independiente, una prensa libre: todos generan costos al gobierno que los viola. Pero esos costos no son infinitos. Si IC1 es muy alto y II1 está debilitado, la barrera puede saltarse. Hungría 2010–2024 es el caso de validación: el II1 inicial era moderado (democracia consolidada) pero el gobierno usó su mayoría legislativa para erosionar sistemáticamente cada institución de freno. El modelo rastrea esta erosión anualmente.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-      <article class="index-card" data-index="ii2">
-        <div class="card-icon" style="background:var(--c-liberal)">II2</div>
-        <h3>Fragmentación del Poder</h3>
-        <p class="card-plain">
-          El inhibidor más robusto en el <strong>largo plazo</strong>. Incluye diseño constitucional
-          (II2a), pluralismo sociológico y económico (II2b) y compromisos supranacionales (II2c).
-          A diferencia del II1, no es erosionable por fuerzas internas.
-        </p>
-        <div class="card-student student-only" hidden>
-          <span class="card-student-label">Por qué el pluralismo es más durable que las instituciones</span>
-          <p>Un gobierno puede cambiar la constitución si tiene mayoría. Puede capturar los tribunales si nombra a los jueces. Pero no puede hacer que desaparezca una clase media urbana, una oposición empresarial, o sindicatos independientes (II2b). Tampoco puede ignorar impunemente los tratados internacionales sin consecuencias económicas (II2c). Por eso II2b e II2c son los predictores más sólidos en el horizonte de 20 años: reflejan estructuras sociales que ningún gobierno puede desmantelar rápidamente.</p>
-        </div>
-        <button class="card-toggle">Ver más ↓</button>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════ IDEOLOGÍAS ════════════════════════════════ -->
-  <section id="ideologias" class="section section-alt">
-    <div class="section-header">
-      <p class="section-tag">El mapa de ideas</p>
-      <h2>¿Dónde se ubican las ideologías?</h2>
-      <p class="section-desc">
-        Las ideologías no son puntos fijos — son <strong>zonas</strong> del triángulo.
-        Una misma corriente puede tener expresiones con distinto alcance estatal
-        o distintos grados de orientación particularista. Hacé clic en cada zona para explorarla.
-      </p>
-    </div>
-
-    <div class="casos-layout">
-      <div class="casos-list" id="ideologiasList"></div>
-      <div class="casos-triangle-wrap">
-        <svg id="ideologiasTriangle" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
-          <!-- Triángulo base -->
-          <polygon points="350,40 80,520 620,520"
-            fill="var(--bg-triangle)" stroke="var(--border-main)" stroke-width="1.5"/>
-          <!-- Vértices -->
-          <circle cx="350" cy="40"  r="5" fill="var(--c-anarquia)"/>
-          <circle cx="80"  cy="520" r="5" fill="var(--c-comunismo)"/>
-          <circle cx="620" cy="520" r="5" fill="var(--c-fascismo)"/>
-          <text x="350" y="28"  text-anchor="middle" class="vertex-label">Anarquía</text>
-          <text x="80"  y="540" text-anchor="middle" class="vertex-label">Comunismo</text>
-          <text x="620" y="540" text-anchor="middle" class="vertex-label">Fascismo</text>
-          <!-- Zonas de ideologías (generadas por JS) -->
-          <g id="ideologiasZones"></g>
-        </svg>
+      <p>Combina orientación y capacidad real: un Estado con proyecto ideológico fuerte pero sin alcance tiene IUEe bajo en valor absoluto.</p>
+      <div class="ic-detail">
+        <p class="ic-formula">IUEe = IUE_gobierno × (IAE / 100)</p>
+        <p>Un Estado con IUE = −80 y IAE = 30 tiene IUEe = −24: quiere redistribuir, pero tiene poca capacidad para hacerlo.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ═════════════════════════════════ CASOS ══════════════════════════════════ -->
-  <section id="casos" class="section">
-    <div class="section-header">
-      <p class="section-tag">Ejemplos ilustrativos</p>
-      <h2>Regímenes en el triángulo</h2>
-      <p class="section-desc">
-        Estos casos son ilustrativos del modelo, no diagnósticos definitivos.
-        Los valores fueron estimados aplicando el Codebook V3.3 sobre Freedom House, WJP Rule of Law,
-        Fraser Economic Freedom of the World, FMI WEO y V-Dem. La fórmula IAE usa ponderación 60/40 (V3.3).
-        Para análisis riguroso,
-        cada caso requiere la ficha completa de cálculo con fuentes explícitas y nivel RSA.
-      </p>
+    <div class="index-card" id="card-ivr">
+      <div class="ic-header">
+        <span class="ic-badge" style="background:var(--c-ivr-bg)">IVR</span>
+        <h3>Vector Resultante</h3>
+      </div>
+      <p>No predice una posición futura sino la <em>dirección y velocidad</em> de movimiento desde la posición actual. Se calcula para tres horizontes: 1‑3 años, 5‑10 años, y 15‑30 años.</p>
+      <div class="ic-detail">
+        <p>Las <strong>fuerzas</strong> (IF1 expansión, IF2 liberalización, IF3 deriva cultural) empujan el punto. Los <strong>catalizadores e inhibidores</strong> modulan velocidad y resistencia.</p>
+      </div>
+      <button class="ic-toggle" data-target="card-ivr">Ver más ↓</button>
+      <div class="ic-expand" hidden>
+        <p>El IVR no predice golpes, autogolpes ni colapsos súbitos: modela velocidades continuas. Los eventos discontinuos están cubiertos por el módulo IRR (Riesgo de Ruptura Institucional), que activa alertas separadas.</p>
+        <p class="expert-only">Las cadenas de cálculo de velocidad (Vel₁_civil y Vel₁_econ) pasan por hasta 8 capas secuenciales en V4.0, incluyendo los nuevos módulos IC4 e ICAI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS V4.0 -->
+<section id="modulos" class="section">
+  <div class="section-header">
+    <div class="section-tag">Nuevas dimensiones · V4.0</div>
+    <h2>Módulos de contexto</h2>
+    <p>V4.0 incorpora cinco módulos que capturan dimensiones ignoradas por los índices políticos estándar. Todos operan como <em>modificadores</em> del vector resultante, no como fuerzas independientes.</p>
+  </div>
+
+  <div class="modules-grid">
+    <div class="module-card" data-module="icai">
+      <div class="mod-icon">⚔</div>
+      <div class="mod-body">
+        <h3>ICAI</h3>
+        <div class="mod-name">Conflicto Armado Interestatal</div>
+        <p>Cuantifica el impacto de conflictos con Estados soberanos externos. Modula diferencialmente el eje civil (expansión estatal legitimada por emergencia) y el económico (contracción o suspensión).</p>
+        <div class="mod-effect">
+          <span class="mod-tag">Eje civil</span> Descuenta la expansión situacional de la expansión estructural
+          <br>
+          <span class="mod-tag">Eje económico</span> Reduce velocidad de cambio; suspende el cálculo si ICAI &gt; 85
+        </div>
+      </div>
     </div>
 
-    <!-- Filtros de zona -->
+    <div class="module-card" data-module="mcti">
+      <div class="mod-icon">◈</div>
+      <div class="mod-body">
+        <h3>MCTI</h3>
+        <div class="mod-name">Commodities y Términos de Intercambio</div>
+        <p>Captura shocks de precios de commodities en economías con alta concentración exportadora (&gt;40%). Actúa sobre el equilibrio estructural y el margen político, no sobre la velocidad directa.</p>
+        <div class="mod-effect">
+          <span class="mod-tag">Boom</span> Infla el equilibrio estructural y amplía el margen para gastar
+          <br>
+          <span class="mod-tag">Colapso</span> Erosiona el margen más rápido que la dinámica base
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card" data-module="ic4">
+      <div class="mod-icon">◫</div>
+      <div class="mod-body">
+        <h3>IC4</h3>
+        <div class="mod-name">Fragmentación del Bloque Gobernante</div>
+        <p>Un gobierno con liderazgo fuerte pero con fractura interna ejecuta su agenda a velocidad significativamente menor. IC4 actúa como denominador en la cadena de velocidades.</p>
+        <div class="mod-effect">
+          <span class="mod-tag">Alto IC4</span> Reduce velocidad civil hasta un 50%, económica hasta un 33%
+          <br>
+          <span class="mod-tag">Caso ancla</span> URSS 1989–1991
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card" data-module="ige">
+      <div class="mod-icon">◎</div>
+      <div class="mod-body">
+        <h3>IGE</h3>
+        <div class="mod-name">Índice Geopolítico Externo</div>
+        <p>Captura dependencia estratégica, exposición a sanciones e integración supranacional. Modifica el techo efectivo del alcance estatal económico y la autonomía real del sector privado.</p>
+        <div class="mod-effect">
+          <span class="mod-tag">IGE &gt; 60</span> Eleva el techo del IAEe (patrocinio externo subsidia déficit)
+          <br>
+          <span class="mod-tag">IGE &gt; 70</span> Reduce la autonomía constitucional del sector privado
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card" data-module="ic5">
+      <div class="mod-icon">→</div>
+      <div class="mod-body">
+        <h3>IC5</h3>
+        <div class="mod-name">Presión de Flujos Migratorios</div>
+        <p>Descompuesto en IC5_emi (emigración) e IC5_inmi (inmigración), con efectos diferenciados sobre la sociedad civil, la orientación del electorado y la tensión cultural.</p>
+        <div class="mod-effect">
+          <span class="mod-tag">IC5_emi</span> Erosiona la sociedad civil y desplaza el electorado si hay selectividad ideológica
+          <br>
+          <span class="mod-tag">IC5_inmi</span> Amplifica la presión cultural si hay tensión identitaria preexistente
+        </div>
+      </div>
+    </div>
+
+    <div class="module-card module-irr" data-module="irr">
+      <div class="mod-icon">!</div>
+      <div class="mod-body">
+        <h3>IRR</h3>
+        <div class="mod-name">Riesgo de Ruptura Institucional</div>
+        <p>El IVR modela velocidades continuas; el IRR señala umbrales donde el modelo continuo puede colapsar. Cuatro alertas: golpe, autogolpe, colapso sistémico, ruptura externa.</p>
+        <div class="mod-effect">
+          <span class="mod-tag">IRR_externo</span> Nuevo en V4.0: activado cuando ICAI &gt; 60
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAYECTORIAS / CASOS -->
+<section id="casos" class="section section-alt">
+  <div class="section-header">
+    <div class="section-tag">Casos históricos</div>
+    <h2>Trayectorias en el triángulo</h2>
+    <p>Cómo el modelo ubica regímenes reales, y cómo se movieron en el tiempo. Seleccioná un caso para ver su posición.</p>
+  </div>
+
+  <div class="casos-layout">
     <div class="casos-filters">
-      <button class="caso-filter active" data-filter="all">Todos</button>
-      <button class="caso-filter" data-filter="democratico">Democráticos</button>
-      <button class="caso-filter" data-filter="autoritario">Autoritarismos</button>
-      <button class="caso-filter" data-filter="extremo">Extremos</button>
-      <label class="trayectoria-toggle">
-        <input type="checkbox" id="trayectoriaToggle" />
-        <span class="tray-toggle-track"></span>
-        Mostrar trayectorias
-      </label>
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="democratico">Democráticos</button>
+      <button class="filter-btn" data-filter="autoritario">Autoritarios</button>
+      <button class="filter-btn" data-filter="extremo">Extremos</button>
     </div>
 
-    <!-- Panel de comparación directa -->
-    <div class="casos-compare-bar" id="casosCompareBar" hidden>
-      <div class="compare-slots">
-        <div class="compare-slot" id="compareSlot1">
-          <span class="compare-slot-label">Caso A</span>
-          <span class="compare-slot-name" id="compareSlot1Name">—</span>
-          <button class="compare-slot-clear" data-slot="1" aria-label="Quitar caso A">✕</button>
-        </div>
-        <div class="compare-vs">vs</div>
-        <div class="compare-slot" id="compareSlot2">
-          <span class="compare-slot-label">Caso B</span>
-          <span class="compare-slot-name" id="compareSlot2Name">—</span>
-          <button class="compare-slot-clear" data-slot="2" aria-label="Quitar caso B">✕</button>
-        </div>
-      </div>
-      <div class="compare-result" id="compareResult" aria-live="polite"></div>
-    </div>
-    <p class="casos-compare-hint" id="casosCompareHint">Seleccioná dos casos para comparar sus posiciones</p>
-
-    <div class="casos-layout">
-      <div class="casos-list" id="casosList">
-        <!-- Generado por JS -->
-      </div>
+    <div class="casos-main">
+      <div class="casos-list" id="casosList"></div>
       <div class="casos-triangle-wrap">
         <svg id="casosTriangle" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <marker id="arrowTray2" viewBox="0 0 10 10" refX="8" refY="5"
-              markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"
-                stroke-linecap="round" stroke-linejoin="round"/>
+            <marker id="arrowTray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </marker>
           </defs>
+          <!-- Zona democrática -->
+          <polygon points="350,130 272,216 350,305 428,216" fill="rgba(100,160,220,0.05)" stroke="rgba(100,160,220,0.18)" stroke-width="0.8" stroke-dasharray="5 4"/>
           <!-- Triángulo principal -->
-          <polygon points="350,40 80,520 620,520"
-            fill="var(--bg-triangle)" stroke="var(--border-main)" stroke-width="1.5"/>
-          <!-- Zona de estados democráticos: V3.3 — IAE 20–55, IUEe ±30 -->
-          <polygon id="zonaDemocratica"
-            points="350,136 269,218 350,304 431,218"
-            fill="rgba(74,144,217,0.06)" stroke="rgba(74,144,217,0.25)"
-            stroke-width="1" stroke-dasharray="5 4"/>
-          <!-- Etiquetas de zona -->
-          <text class="zone-label" x="350" y="170" text-anchor="middle">Liberalismo</text>
-          <text class="zone-label" x="350" y="390" text-anchor="middle">Intervencionismo</text>
-          <text style="font-family:var(--font-body);font-size:10px;fill:rgba(74,144,217,0.6);letter-spacing:0.05em"
-            x="350" y="270" text-anchor="middle">— Zona democrática —</text>
-          <!-- Vértices -->
-          <circle cx="350" cy="40"  r="5" fill="var(--c-anarquia)"/>
-          <circle cx="80"  cy="520" r="5" fill="var(--c-comunismo)"/>
-          <circle cx="620" cy="520" r="5" fill="var(--c-fascismo)"/>
-          <text x="350" y="28"  text-anchor="middle" class="vertex-label">Anarquía</text>
-          <text x="80"  y="540" text-anchor="middle" class="vertex-label">Comunismo</text>
-          <text x="620" y="540" text-anchor="middle" class="vertex-label">Fascismo</text>
-          <!-- Puntos de casos generados por JS -->
+          <polygon points="350,30 100,545 600,545" fill="var(--bg-triangle)" stroke="var(--border-main)" stroke-width="1.5"/>
+          <!-- Etiquetas vértices -->
+          <text x="350" y="18" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="var(--ink-3)" letter-spacing="0.06em">ANARQUÍA</text>
+          <text x="55" y="562" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="var(--c-left)">IGUALITARIO</text>
+          <text x="645" y="562" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="var(--c-right)">IDENTITARIO</text>
+          <!-- Eje IAE -->
+          <text x="26" y="290" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="var(--ink-4)" transform="rotate(-90,26,290)">IAE</text>
+          <!-- Puntos de casos — se renderizan por JS -->
           <g id="casosPoints"></g>
         </svg>
+        <div id="casosTooltip" class="casos-tooltip" hidden></div>
       </div>
     </div>
-  </section>
-  <!-- ═══════════════════════════════ CUESTIONARIO ══════════════════════════════ -->
-  <section id="cuestionario" class="section">
-    <div class="section-header">
-      <p class="section-tag">Herramienta interactiva</p>
-      <h2>¿Dónde te ubicás?</h2>
-      <p class="section-desc">
-        Respondé 20 preguntas para obtener tu posición en el triángulo
-        según los índices IAE e IUE del modelo. El mapa se actualiza
-        en tiempo real mientras respondés.
-      </p>
+
+    <!-- Comparador -->
+    <div class="compare-bar" id="compareBar" hidden>
+      <div class="compare-slots">
+        <span class="compare-slot-label">Comparando:</span>
+        <span id="slot1Name" class="compare-slot">—</span>
+        <span class="compare-vs">vs</span>
+        <span id="slot2Name" class="compare-slot">—</span>
+      </div>
+      <div id="compareResult" class="compare-result"></div>
+    </div>
+    <div id="compareHint" class="compare-hint">Seleccioná dos casos para comparar sus posiciones</div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section id="metodologia" class="section">
+  <div class="section-header">
+    <div class="section-tag">Fundamentos</div>
+    <h2>Sobre el modelo</h2>
+  </div>
+
+  <div class="met-grid">
+    <div class="met-block">
+      <h3>Objeto de estudio</h3>
+      <p>El modelo mapea el <em>espacio de la política coercitiva</em>: las formas de organización social que dependen de coerción estatal legitimada. No mapea toda la vida social, sino específicamente la porción que requiere del monopolio estatal de la fuerza.</p>
+      <p>Las formas de cooperación voluntaria, acuerdo contractual y comunidad elegida libremente existen fuera del espacio del modelo — no como ausencia, sino como alteridad respecto al objeto de estudio.</p>
     </div>
 
-    <div class="quiz-layout" id="quizLayout">
-
-      <!-- Panel izquierdo: preguntas -->
-      <div class="quiz-panel" id="quizPanel" aria-live="polite" aria-atomic="false">
-        <!-- Renderizado por JS -->
-      </div>
-
-      <!-- Panel derecho: triángulo en tiempo real -->
-      <div class="quiz-triangle-wrap">
-        <p class="quiz-tri-label">Tu posición mientras respondés</p>
-        <svg id="quizTriangle" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg"
-             role="img" aria-label="Triángulo político con tu posición actual">
-          <!-- Triángulo base -->
-          <polygon points="130,14 12,244 248,244"
-            fill="var(--bg-triangle)" stroke="var(--border-main)" stroke-width="1"/>
-          <!-- Etiquetas vértices -->
-          <text x="130" y="10" text-anchor="middle" class="quiz-tri-vertex">Anarquía</text>
-          <text x="4"   y="255" text-anchor="start" class="quiz-tri-vertex">Comunismo</text>
-          <text x="256" y="255" text-anchor="end"   class="quiz-tri-vertex">Fascismo</text>
-          <!-- Punto de usuario (actualizado en tiempo real) -->
-          <circle id="quizDotPulse" cx="130" cy="130" r="14"
-            fill="none" stroke="var(--c-user)" stroke-width="1" opacity="0"/>
-          <circle id="quizDot" cx="130" cy="130" r="7"
-            fill="var(--c-user)" stroke="white" stroke-width="1.5" opacity="0"/>
-        </svg>
-        <!-- Índices en tiempo real -->
-        <div class="quiz-live-indices" id="quizLiveIndices" aria-live="polite">
-          <div class="quiz-live-pill quiz-live-iae">IAE <span id="quizLiveIAE">—</span></div>
-          <div class="quiz-live-pill quiz-live-iue">IUE <span id="quizLiveIUE">—</span></div>
-          <div class="quiz-live-progress">
-            <div id="quizProgressBar" class="quiz-live-bar" style="width:0%"></div>
-          </div>
-          <span id="quizProgressLabel" class="quiz-live-pct">0 / 20</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-  <!-- ═══════════════════════════════ METODOLOGÍA ══════════════════════════════ -->
-  <section id="metodologia" class="section section-alt">
-    <div class="section-header">
-      <p class="section-tag">Para especialistas</p>
-      <h2>Fundamentos metodológicos</h2>
+    <div class="met-block">
+      <h3>Definición de Estado</h3>
+      <p>El Estado se define como sistema de medios coercitivos legitimados — la tradición weberiana del monopolio de la violencia legítima. Definición minimalista y no normativa: el modelo no evalúa si el Estado es "bueno" o "malo", sino cuánto alcanza y hacia dónde orienta ese alcance.</p>
     </div>
 
-    <div class="metodologia-grid">
-
-      <div class="met-block">
-        <h3>Objeto de estudio</h3>
-        <p>
-          El modelo mapea el espacio de la <strong>política coercitiva</strong>: formas de organización
-          que involucran medios coercitivos legitimados. No mapea cooperación voluntaria
-          ni acuerdo contractual libre. Definición weberiana del Estado como Sistema de Medios
-          Coercitivos Legitimados.
-        </p>
-      </div>
-
-      <div class="met-block">
-        <h3>Advertencia metodológica</h3>
-        <p>
-          Es un instrumento heurístico, no un sistema determinista. Las predicciones son
-          hipótesis de trabajo sujetas a revisión empírica continua.
-          <strong>No prescribe cuánto Estado debería existir</strong> ni evalúa normativamente
-          posiciones en el triángulo.
-        </p>
-      </div>
-
-      <div class="met-block">
-        <h3>Sesgo declarado del eje IUE</h3>
-        <p>
-          El eje universalista/particularista <strong>no es filosóficamente neutro</strong>: embebe
-          una distinción de origen liberal-ilustrado. La defensa metodológica es que captura
-          una variación empíricamente observable y políticamente relevante, no que sea
-          aséptico. El modelo lo declara explícitamente para que el analista pueda ponderarlo.
-          El IUE mide uso efectivo observable del aparato estatal, no declaraciones retóricas ni
-          simpatías del analista.
-        </p>
-      </div>
-
-      <div class="met-block met-block-wide">
-        <h3>⚑ Protocolo para casos con violencia extrema</h3>
-        <p>
-          El modelo no distingue entre coerción como instrumento de control político y coerción
-          como instrumento de exterminio sistemático. Cuando exista evidencia documentada de
-          crímenes de lesa humanidad, genocidio o terror sistemático, el output del modelo
-          <strong>debe</strong> acompañarse de identificación explícita del tipo de coerción,
-          referencia a fuentes históricas o jurídicas, y nota al lector sobre los límites
-          de la descripción cuantitativa.
-        </p>
-      </div>
-
-      <div class="met-block">
-        <h3>Límites declarados</h3>
-        <ul class="met-list">
-          <li>Coerción no estatal sin respaldo formal</li>
-          <li>Colapsos por factores externos puros</li>
-          <li>Pobreza estructural o exclusión sin violencia directa</li>
-          <li>Eventos cisne negro y shocks geopolíticos</li>
-          <li>La distinción cualitativa entre tipos de coerción</li>
-        </ul>
-      </div>
-
-      <div class="met-block">
-        <h3>Lo que sí captura</h3>
-        <ul class="met-list met-list-ok">
-          <li>Trayectorias asimétricas IAEc/IAEe</li>
-          <li>Equilibrios estables autoritarios</li>
-          <li>Reformas frustradas por falta de consenso</li>
-          <li>Efecto diferenciado de bonanza/crisis</li>
-          <li>Captura informacional parcial</li>
-        </ul>
-      </div>
-
-      <div class="met-block">
-        <h3>Estado de calibración — V3.3</h3>
-        <p>El modelo central (IAE con ponderación 60/40, IUE, IUEe, fuerzas e inhibidores) está calibrado
-        empíricamente sobre más de diez casos históricos. V3.3 introduce nueve cambios respecto a V3.2:
-        la ponderación 60/40 del IAE, el flag IAEc_represivo, el IAE_político para colapsos económicos,
-        la recalibración del rombo democrático y el protocolo t=0 para validación retrospectiva.
-        El coeficiente wc (0.60) está fijado para validación — pendiente test de sensibilidad en rango 0.55–0.65.
-        La documentación técnica completa se encuentra en el Codebook V3.3.</p>
-      </div>
-
-      <div class="met-block">
-        <h3>Hoja de ruta</h3>
-        <ul class="met-list met-list-ok">
-          <li>Calibrar parámetros sobre muestra ampliada de 50–100 casos históricos</li>
-          <li>Evaluar incorporación de un Índice Tecnológico al modelo central</li>
-          <li>Desarrollar software de cálculo automatizado</li>
-          <li>Publicación académica con comparación entre versiones del modelo</li>
-        </ul>
-      </div>
-
-      <div class="met-block met-block-codebook">
-        <h3>Validación retrospectiva</h3>
-        <p>El modelo fue calibrado sobre los siguientes casos históricos:</p>
-        <div class="codebook-inline" id="codebookInline">
-          <div class="codebook-item">
-            <span class="codebook-item-label">Colapsos democráticos</span>
-            <p>Alemania 1928–33 ✓ · Chile 1970–73 ✓ · Venezuela 1998–2020 ✓</p>
-          </div>
-          <div class="codebook-item">
-            <span class="codebook-item-label">Transiciones y liberalizaciones</span>
-            <p>Polonia 1989 ✓ · Chile 1988–95 ✓ · Nueva Zelanda 1984–93 ✓ · India 1991–2000 ✓</p>
-          </div>
-          <div class="codebook-item">
-            <span class="codebook-item-label">Equilibrios estables y derivas</span>
-            <p>Suecia 1950–80 ✓ · Singapur 1965–2020 ✓ · Hungría 2010–24 ✓</p>
-          </div>
-          <div class="codebook-item">
-            <span class="codebook-item-label">Pendientes de validación</span>
-            <p>España 1931–39 · Sudáfrica 1990–94 · Estonia 1991–2000 · China 1978–2020</p>
-          </div>
-        </div>
-      </div>
-
+    <div class="met-block">
+      <h3>Qué no captura el modelo</h3>
+      <ul class="met-list">
+        <li>Coerción no estatal sin respaldo estatal formal</li>
+        <li>Colapsos por factores externos puros</li>
+        <li>Coerción estructural: pobreza, exclusión, dependencia económica sin violencia directa</li>
+        <li>Eventos discontinuos: golpes, autogolpes, colapsos súbitos (cubiertos por el módulo IRR)</li>
+        <li>Reversiones automáticas del vector: el IVR no invierte su dirección por sí solo</li>
+      </ul>
     </div>
-  </section>
 
-  <!-- ══════════════════════════════════ FOOTER ════════════════════════════════ -->
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>
-        <p class="footer-brand">El Triángulo Político</p>
-        <p class="footer-version">Basado en Codebook V3.3</p>
-      </div>
-      <div class="footer-links">
-        <a href="#metodologia">Cómo citar</a>
-        <a href="#metodologia">Limitaciones</a>
-        <a href="#triangulo">Explorar</a>
-      </div>
+    <div class="met-block">
+      <h3>Fuentes y calibración</h3>
+      <p>El modelo combina índices públicos (Freedom House, WJP Rule of Law, Fraser Institute, RSF, V-Dem) con estimación analítica para los componentes que no tienen fuente directa. Los módulos experimentales de V4.0 tienen calibración pendiente sobre baterías de casos históricos documentados.</p>
+      <p>V4.0 es una versión experimental. Los módulos ICAI, MCTI, IC4, IGE e IC5 tienen RSA Amplio automático hasta que completen su batería de validación.</p>
     </div>
-  </footer>
+  </div>
 
-  <noscript>
-    <div style="max-width:640px;margin:80px auto;padding:32px;font-family:system-ui,sans-serif;text-align:center;border:1px solid #e0ddd6;border-radius:12px;background:#f3f1ec;">
-      <p style="font-size:1.1rem;font-weight:500;margin-bottom:12px;">Este sitio requiere JavaScript</p>
-      <p style="color:#6b6a65;line-height:1.6;">El Triángulo Político es una herramienta interactiva que no puede funcionar con JavaScript deshabilitado. Activá JavaScript en tu navegador para acceder al modelo completo.</p>
+  <div class="met-protocol">
+    <div class="met-protocol-icon">⚠</div>
+    <div>
+      <strong>Protocolo para casos con coerción extrema</strong>
+      <p>Cuando existe evidencia documentada de crímenes de lesa humanidad, genocidio o terror sistemático, la descripción cuantitativa del modelo es insuficiente sin el contexto histórico y jurídico correspondiente. El modelo describe estructura de poder; no captura la distinción moral entre tipos de coerción.</p>
     </div>
-  </noscript>
+  </div>
+</section>
 
-  <script src="main.js"></script>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">El Triángulo Político</div>
+    <div class="footer-version">Codebook V4.0 · Modelo experimental</div>
+    <div class="footer-note">Los módulos V4.0 (ICAI, MCTI, IC4, IGE, IC5) tienen calibración pendiente. Los outputs deben leerse como sistematización analítica, no como predicción cuantitativa independiente del analista.</div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
 </body>
 </html>
