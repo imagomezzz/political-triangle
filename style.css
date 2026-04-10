@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════
-   EL TRIÁNGULO POLÍTICO — style.css
-   Fuente: DM Serif Display (títulos) + DM Sans (cuerpo)
+   VECTRA — IDA Insights — style.css
+   Fuente: Cormorant Garamond (títulos) + Syne (cuerpo)
    Sistema de tokens por variables CSS
    ═══════════════════════════════════════════════════ */
 
@@ -22,8 +22,8 @@
   --blue-light:   #D6E7F7;
   --teal:         #0F6E5A;
   --teal-light:   #D0EFE7;
-  --amber:        #B5600A;
-  --amber-light:  #FAE8CC;
+  --amber:        #C49A3C;
+  --amber-light:  #F5EDDA;
   --purple:       #5E3FA0;
   --purple-light: #EAE3F7;
 
@@ -48,8 +48,8 @@
   --c-ivr-bg:    #2C2C2A;
 
   /* Tipografía */
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Syne', system-ui, sans-serif;
 
   /* Espaciados */
   --gap-xs:   4px;
