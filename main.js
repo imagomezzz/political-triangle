@@ -1584,7 +1584,7 @@ function initHeroTriangle() {
     <polygon points="270,34 80,388 460,388" fill="url(#hGradLeft)"/>
     <polygon points="270,34 80,388 460,388" fill="url(#hGradRight)"/>
 
-    <polygon points="270,87 243,167 270,246 297,167"
+    <polygon points="270,117 203,181 270,246 337,181"
      fill="rgba(74,144,217,0.07)"
      stroke="rgba(74,144,217,0.40)"
      stroke-width="1"
