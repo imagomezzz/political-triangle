@@ -1584,7 +1584,7 @@ function initHeroTriangle() {
     <polygon points="270,34 80,388 460,388" fill="url(#hGradLeft)"/>
     <polygon points="270,34 80,388 460,388" fill="url(#hGradRight)"/>
 
-    <polygon points="270,117 203,181 270,246 337,181"
+    <polygon points="270,117 180,196 270,276 360,196"
      fill="rgba(74,144,217,0.07)"
      stroke="rgba(74,144,217,0.40)"
      stroke-width="1"
@@ -1592,7 +1592,7 @@ function initHeroTriangle() {
 
     <!-- Labels internos -->
     <text x="270" y="114" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">LIBERALISMO</text>
-    <text x="270" y="326" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
+    <text x="270" y="306" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#A8A7A2" letter-spacing="0.07em">INTERVENCIONISMO</text>
     <text x="270" y="214" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="rgba(74,144,217,0.75)">Zona de Estados Democráticos</text>
 
     <!-- Izquierda / Derecha labels -->
