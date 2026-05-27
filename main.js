@@ -1111,17 +1111,8 @@ const IDEOLOGIAS = [
     label: 'Anarquismo',
     color: '#4A90D9',
     desc: 'Rechazo de toda autoridad estatal coercitiva. Ocupa la zona superior del triángulo (IAE bajo), abarcando desde el anarcocomunismo (IUE negativo) hasta el anarcocapitalismo (IUE positivo). Ningún régimen histórico real ha llegado a este extremo.',
-    zone: '350,40 285,112 350,112 415,112',
+    zone: '350,40 305,120 395,120',
     iaeRange: '0–15', iueRange: '−100 a +100',
-    filter: 'libertario',
-  },
-  {
-    id: 'libertarianismo',
-    label: 'Libertarianismo',
-    color: '#2874A6',
-    desc: 'Estado mínimo con orientación conservadora o neutral. Baja carga tributaria, libre mercado, libertades civiles amplias pero sin redistribución activa. Ejemplos: Hong Kong económico, propuestas del Partido Libertario de EE.UU.',
-    zone: '388,78 415,112 405,180 367,180',
-    iaeRange: '8–25', iueRange: '0 a +40',
     filter: 'libertario',
   },
   {
@@ -1129,16 +1120,25 @@ const IDEOLOGIAS = [
     label: 'Liberalismo clásico',
     color: '#1B5C9E',
     desc: 'Estado limitado como árbitro neutral. Protege derechos individuales sin imponer un proyecto cultural uniforme. Incluye democracias anglosajonas de bajo gasto estatal como Australia o Nueva Zelanda post-1984.',
-    zone: '350,112 285,112 310,180 390,180',
+    zone: '305,120 350,120 370,220 249,220',
     iaeRange: '15–30', iueRange: '−25 a +25',
     filter: 'democratico',
+  },
+  {
+    id: 'libertarianismo',
+    label: 'Libertarianismo',
+    color: '#2874A6',
+    desc: 'Estado mínimo con orientación conservadora o neutral. Baja carga tributaria, libre mercado, libertades civiles amplias pero sin redistribución activa. Ejemplos: Hong Kong económico, propuestas del Partido Libertario de EE.UU.',
+    zone: '350,120 395,120 451,220 370,220',
+    iaeRange: '8–25', iueRange: '0 a +40',
+    filter: 'libertario',
   },
   {
     id: 'socialdemocracia',
     label: 'Socialdemocracia',
     color: '#0F6E5A',
     desc: 'Estado de bienestar con orientación redistributiva. Interviene activamente para reducir desigualdades y garantizar derechos sociales universales. Ejemplos: países nórdicos, Alemania occidental post-guerra.',
-    zone: '285,112 216,248 282,248 350,112',
+    zone: '249,220 370,220 290,340 181,340',
     iaeRange: '30–50', iueRange: '−55 a −15',
     filter: 'democratico',
   },
@@ -1147,7 +1147,7 @@ const IDEOLOGIAS = [
     label: 'Liberalismo social',
     color: '#3B6FA0',
     desc: 'Estado moderado con orientación progresista: protege libertades civiles y promueve derechos universales, con redistribución moderada. Ejemplos: Canadá, gran parte de Europa occidental.',
-    zone: '310,180 350,112 390,180 350,248',
+    zone: '370,220 410,340 290,340',
     iaeRange: '28–45', iueRange: '−20 a +20',
     filter: 'democratico',
   },
@@ -1156,7 +1156,7 @@ const IDEOLOGIAS = [
     label: 'Conservadurismo democrático',
     color: '#7B4F00',
     desc: 'Estado moderado con orientación hacia el orden cultural y social establecido. Tiene contrapesos democráticos reales. Ejemplos: democristianos europeos, conservadores británicos históricos.',
-    zone: '350,112 390,180 418,248 484,248',
+    zone: '370,220 451,220 519,340 410,340',
     iaeRange: '30–50', iueRange: '+15 a +55',
     filter: 'democratico',
   },
@@ -1165,7 +1165,7 @@ const IDEOLOGIAS = [
     label: 'Socialismo autoritario',
     color: '#C0392B',
     desc: 'Estado poderoso con proyecto redistributivo y homogeneizador económico. Incluye desde el socialismo real soviético hasta variantes latinoamericanas como Venezuela o Cuba. IAE alto, IUE negativo.',
-    zone: '216,248 134,400 254,400 282,248',
+    zone: '181,340 290,340 260,520 80,520',
     iaeRange: '55–90', iueRange: '−90 a −40',
     filter: 'autoritario',
   },
@@ -1174,7 +1174,7 @@ const IDEOLOGIAS = [
     label: 'Autoritarismo pragmático',
     color: '#5C5C5C',
     desc: 'Estado poderoso sin proyecto ideológico claro. El control como fin en sí mismo. Incluye regímenes militares latinoamericanos de los 70, Bielorrusia, Kazajistán.',
-    zone: '282,248 418,248 446,400 254,400',
+    zone: '290,340 410,340 440,520 260,520',
     iaeRange: '55–85', iueRange: '−35 a +35',
     filter: 'autoritario',
   },
@@ -1183,7 +1183,7 @@ const IDEOLOGIAS = [
     label: 'Nacionalismo autoritario',
     color: '#8B3A1A',
     desc: 'Estado poderoso con proyecto identitario-nacionalista. Incluye el fascismo histórico, teocracias, y variantes contemporáneas como Irán o la Rusia de Putin. IAE alto, IUE positivo.',
-    zone: '418,248 484,248 566,400 446,400',
+    zone: '410,340 519,340 620,520 440,520',
     iaeRange: '50–90', iueRange: '+35 a +90',
     filter: 'autoritario',
   },
@@ -1194,10 +1194,7 @@ function initIdeologias() {
   const zonesGroup = document.getElementById('ideologiasZones');
   if (!list || !zonesGroup) return;
 
-  // Triángulo de ideologías usa viewBox 700x600
-  // Vértices: A(350,40) C(80,520) F(620,520)
   const TRI_ID = { A: { x: 350, y: 40 }, C: { x: 80, y: 520 }, F: { x: 620, y: 520 } };
-  function toXY_id(iae, iue) { return toXY(iae, iue, TRI_ID); }
 
   let activeId = null;
 
