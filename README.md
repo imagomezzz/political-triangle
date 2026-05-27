@@ -2,7 +2,7 @@
 
 Sitio web interactivo para explorar el modelo analítico de posiciones y trayectorias de regímenes políticos, basado en el **Codebook V3.2**.
 
-🔗 **[Ver sitio](https://imagomezzz.github.io/political-triangle/)**
+🔗 **[Ver sitio](https://idainsights.github.io/VECTRA/)**
 
 ---
 
